@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <style id="my_styles"></style>
+    <title>Playground</title>
+  </head>
+  <body>
+    <article id="wrapper">
+      <nav id="main_nav_box">
+        <button type="button" class="btn btn-sm elements_opener">E</button>
+        <button type="button" class="btn btn-sm tools_opener">S</button>
+        <button type="button" class="btn btn-sm stacks_opener">T</button>
+        <button type="button" class="btn btn-sm editor_opener">E</button>
+      </nav>
+      <div class="create-element-form-wrapper">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <select class="elements-selection float-start">
+              <option value="button">Button</option>
+              <option value="link">Link</option>
+              <option value="heading">Heading</option>
+              <option value="block" selected>Block</option>
+              <option value="image">Image</option>
+              <option value="paragraph">Paragraph</option>
+              <option value="list">List</option>
+              <option value="table">Table</option>
+              <option value="selection">selection</option>
+              <option value="span">Span ( short text )</option>
+              <!-- <option value="input">Input</option> -->
+              <!-- under construction -->
+              <option value="figure">Figure</option>
+              <option value="br">Line Break</option>
+              <option value="hr">Horizontal line</option>
+            </select>
+            <h5>Target <span id="selected_ele_shower">#app</span></h5>
+          </div>
+          <button
+            class="btn btn-close close-create-elements-wrapper"
+            type="button"></button>
+        </div>
+        <div class="justify-content-center align-items-center element-form-box">
+          <div class="element-form w-100"></div>
+          <div class="d-flex align-items-center">
+            <label for="beforeOrAfter">check to add Before Target !</label>
+            <input
+              type="checkbox"
+              class="mx-2 form-check-input"
+              id="beforeOrAfter" />
+            <button type="button" class="btn btn-sm" id="add_element_btn">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="styler-tools-wrapper">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>Styling <span id="styling_ele_shower">#app</span></h5>
+          <div>
+            <select id="styles_box_chooser">
+              <option value="sizing" selected>Sizing</option>
+              <option value="position">Position</option>
+              <option value="typography">Typography</option>
+              <option value="background">Background</option>
+              <option value="border_n_outlines">Border and Outlines</option>
+              <option value="miscellaneous">Miscellaneous</option>
+              <option value="display">Display</option>
+              <option value="animation">Animation</option>
+            </select>
+            <select id="style_screen_chooser">
+              <option value="general">General</option>
+              <option value="medium">Medium Screen</option>
+              <option value="large">Large Screen</option>
+            </select>
+            <select id="style_pseudo_class_chooser">
+              <option value="standard">Standard</option>
+              <option value="hover">Hover</option>
+              <option value="focus">Focus</option>
+              <option value="active">Active</option>
+            </select>
+            <button class="inline-btn" id="save_media_styles">apply all</button>
+          </div>
+          <button
+            class="btn btn-close close-tools-wrapper"
+            type="button"></button>
+        </div>
+        <div class="d-flex stylers-and-info">
+          <div class="stylers"></div>
+          <div class="styled-info">
+            <div class="d-flex justify-content-between">
+              <h5 id="styles_header">Applied Styles</h5>
+              <button
+                type="button"
+                class="inline-btn"
+                id="switch_animations_n_styles">
+                Switch Mode
+              </button>
+            </div>
+            <div class="applied-styles">
+              <h6>General Screen Size</h6>
+              <div class="general-screen">
+                <div class="general-screen-standard">
+                  <div class="style-type-label">standard -</div>
+                  <div class="general-screen-standard-styles"></div>
+                </div>
+                <div class="general-screen-hover">
+                  <div class="style-type-label">hover -</div>
+                  <div class="general-screen-hover-styles"></div>
+                </div>
+                <div class="general-screen-focus">
+                  <div class="style-type-label">focus -</div>
+                  <div class="general-screen-focus-styles"></div>
+                </div>
+                <div class="general-screen-active">
+                  <div class="style-type-label">active -</div>
+                  <div class="general-screen-active-styles"></div>
+                </div>
+              </div>
+              <h6>Medium Screen Size</h6>
+              <div class="medium-screen">
+                <div class="medium-screen-standard">
+                  <div class="style-type-label">standard -</div>
+                  <div class="medium-screen-standard-styles"></div>
+                </div>
+                <div class="medium-screen-hover">
+                  <div class="style-type-label">hover -</div>
+                  <div class="medium-screen-hover-styles"></div>
+                </div>
+                <div class="medium-screen-focus">
+                  <div class="style-type-label">focus -</div>
+                  <div class="medium-screen-focus-styles"></div>
+                </div>
+                <div class="medium-screen-active">
+                  <div class="style-type-label">active -</div>
+                  <div class="medium-screen-active-styles"></div>
+                </div>
+              </div>
+              <h6>Large Screen Size</h6>
+              <div class="large-screen">
+                <div class="large-screen-standard">
+                  <div class="style-type-label">standard -</div>
+                  <div class="large-screen-standard-styles"></div>
+                </div>
+                <div class="large-screen-hover">
+                  <div class="style-type-label">hover -</div>
+                  <div class="large-screen-hover-styles"></div>
+                </div>
+                <div class="large-screen-focus">
+                  <div class="style-type-label">focus -</div>
+                  <div class="large-screen-focus-styles"></div>
+                </div>
+                <div class="large-screen-active">
+                  <div class="style-type-label">active -</div>
+                  <div class="large-screen-active-styles"></div>
+                </div>
+              </div>
+            </div>
+            <div class="animation-box">
+              <div class="animation-form"></div>
+              <div class="animation-info"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="element-stacks-wrapper">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <h5>Element Tree</h5>
+            <input
+              id="high_light_ele"
+              type="checkbox"
+              class="form-check-input" />
+            <label for="high_light_ele">HighLight</label>
+          </div>
+          <button
+            class="btn btn-close close-stacks-wrapper"
+            type="button"></button>
+        </div>
+        <div class="stacks">
+          <div class="root-node">
+            <button type="button" class="app-node stack-node selected-node">
+              App
+            </button>
+            <div id="children_c"></div>
+          </div>
+        </div>
+      </div>
+      <div class="editor-wrapper">
+        <div class="d-flex justify-content-between">
+          <h5>Edit <span id="edit_ele_shower">#app</span></h5>
+          <button
+            type="button"
+            class="btn btn-close close-editor-wrapper"></button>
+        </div>
+        <div class="editor-box">
+          <div class="edit-text">
+            <button
+              type="button"
+              class="btn btn-light btn-sm get-edit-form-btn">
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-light btn-sm float-end remove-edit-form-btn">
+              remove form
+            </button>
+          </div>
+          <div class="events-box d-flex justify-content-center">
+            <form class="add-events-form"></form>
+            <div class="events-info">
+              <h5>Applied Events</h5>
+              <div class="applied-events"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- clean view -->
+      <button type="button" class="clean-view"></button>
+      <!-- clean view -->
+    </article>
+    <main id="app_wrapper">
+      <div id="element_pointer"></div>
+      <div id="app"></div>
+    </main>
+    <script defer type="module" src="main.js"></script>
+    <script defer type="module" src="./modules/navs.js"></script>
+    <script defer type="module" src="./modules/createElements.js"></script>
+    <script defer type="module" src="./modules/stylers.js"></script>
+    <script defer type="module" src="./modules/editElements.js"></script>
+  </body>
+</html>
