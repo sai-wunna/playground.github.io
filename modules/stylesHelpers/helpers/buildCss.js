@@ -29,7 +29,7 @@ function convertToKeyFrames(animations) {
       const kfsData = animationData[kfs]
       let kf = `${kfs}% {`
       for (const key in kfsData) {
-        kf += `${key} : ${kfsData[key]}`
+        kf += `${key} : ${kfsData[key]};`
       }
       ani += `${kf}}`
     }

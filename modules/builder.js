@@ -12,7 +12,7 @@ import { stylesForMdScreen } from './stylesHelpers/appliedMdScreenStyles.js'
 import { buildCss } from './stylesHelpers/helpers/buildCss.js'
 
 function buildWeb(title, styles, app) {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${title}</title><style>#app {position: absolute !important;width: 100% !important;top: 0 !important;left: 0 !important;margin: 0 !important;z-index: 1 !important;box-sizing: border-box !important; scroll-behavior: smooth !important;}${styles}</style></head><body>${app}</body></html>`
 }
 
 function downloadFile(content, fileName) {
