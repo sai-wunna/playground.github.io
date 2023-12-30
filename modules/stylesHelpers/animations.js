@@ -9,7 +9,7 @@ import {
   createSelect,
   createSpan,
   getNode,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}
@@ -22,7 +22,7 @@ function addNewAnimation(name) {
 function saveAnimationsStyle(name, kfSelector, key, value) {
   if (animations[name][kfSelector]) {
     if (animations[name][kfSelector][key]) {
-      getNode(`#ani_${key}_value`).textContent = value
+      getNode(`#ani_${kfSelector}_${key}_value`).textContent = value
     } else {
       getNode(`.kfs-${kfSelector}`).appendChild(
         createAnimationInfo(name, kfSelector, key, value)
@@ -66,13 +66,28 @@ function createAnimationForm() {
           return
         }
         if (getNode('#cs_ani_name')) {
-          createOption(getNode('#cs_ani_name'), name, name)
+          createOption(getNode('#cs_ani_name'), name, name, name)
         }
-        createOption(getNode('#cs_animation_list'), name, name)
+        createOption(getNode('#cs_animation_list'), name, name, name)
         addNewAnimation(name)
       }),
     ]
   )
+  const animationsSelect = createSelect(
+    ['cs-select'],
+    '',
+    [],
+    'cs_animation_list',
+    function (e) {
+      const animation = animations[e.target.value]
+      const infoBox = getNode('.animation-info')
+      infoBox.innerHTML = ''
+      infoBox.appendChild(animationInfoShower(e.target.value, animation))
+    }
+  )
+  for (let name in animations) {
+    createOption(animationsSelect, name, name, name)
+  }
   const keyFrameSelectorBox = createElement(
     'div',
     '',
@@ -84,49 +99,50 @@ function createAnimationForm() {
       createInput('number', ['cs-num-input'], 'cs_add_animation_kf_selector', {
         value: 50,
       }),
-      createSelect(['cs-select'], '', [], 'cs_animation_list', function () {
-        const animation = animations[e.targe.value]
-        const infoBox = getNode('.animation-info')
-        infoBox.innerHTML = ''
-        infoBox.appendChild(animationInfoShower(e.target.value, animation))
-      }),
+      animationsSelect,
       createButton('Del', ['inline-btn', 'text-danger'], '', function (e) {
         e.preventDefault()
         const name = getNode('#cs_animation_list').value
+        if (!name) return
         getNode(`#${name}`).remove()
         deleteAnimation(name)
         getNode(`.animation-info`).innerHTML = ''
+        for (const key in animations) {
+          getNode('.animation-info').appendChild(animationInfoShower(key))
+          break
+        }
       }),
     ]
   )
   return createFragment([addNewAnimationBox, keyFrameSelectorBox])
 }
 
-function animationInfoShower(name, animation) {
-  if (Object.keys(animation).length === 0) return
+function animationInfoShower(name) {
+  const animation = animations[name]
   const fragment = createFragment()
-  for (const key in animation) {
-    const kfsStyles = animation[key]
+  if (Object.keys(animation).length === 0) return fragment
+  for (const keyFrame in animation) {
+    const kfStyles = animation[keyFrame]
     const kfsBox = createElement(
       'div',
       '',
-      ['animation-kfs-box', `kfs-${kfs}`],
+      ['animation-kfs-box', `kfs-${keyFrame}`],
       [
-        createSpan(`At ${kfs}%`, '', ['cs-kfs-label']),
+        createSpan(`At ${keyFrame}%`, '', ['cs-kfs-label']),
         createButton(
           'Del',
           ['inline-btn', 'float-end', 'text-danger'],
           '',
           function (e) {
             e.target.parentElement.remove()
-            removeAnimationKFS(name, kfs)
+            removeAnimationKFS(name, keyFrame)
           }
         ),
       ]
     )
-    for (const styleKey in kfsStyles) {
+    for (const key in kfStyles) {
       kfsBox.appendChild(
-        createAnimationInfo(name, key, styleKey, kfsStyles[styleKey])
+        createAnimationInfo(name, keyFrame, key, kfStyles[key])
       )
     }
     fragment.appendChild(kfsBox)
@@ -140,8 +156,12 @@ function createAnimationInfo(name, kfs, key, value) {
     '',
     ['my-1', 'style-info'],
     [
-      createSpan(`${key.trim()} : `, ['text-muted', 'mx-1', 'css-key']),
-      createSpan(value, ['mx-1', 'css-value'], `ani_${key.trim()}_value`),
+      createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
+      createSpan(
+        value,
+        ['mx-1', 'css-value'],
+        `ani_${kfs}_${key.trim()}_value`
+      ),
       createButton(
         'Del',
         ['inline-btn', 'text-danger', 'float-end'],
@@ -178,7 +198,6 @@ function createAnimationKFSBox(name, kfs, key, value) {
 
 export {
   animations,
-  deleteAnimation,
   saveAnimationsStyle,
   addNewAnimation,
   removeAnimationKFS,
@@ -186,4 +205,5 @@ export {
   createAnimationForm,
   createAnimationInfo,
   createAnimationKFSBox,
+  animationInfoShower,
 }

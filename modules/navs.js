@@ -1,4 +1,4 @@
-import { appendChild, getNode, on } from './dom/dom.js'
+import { appendChild, getNode, on } from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { downloadForm } from './builder.js'

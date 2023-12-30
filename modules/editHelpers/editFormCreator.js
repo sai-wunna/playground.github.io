@@ -5,7 +5,7 @@ import {
   createLabel,
   createSelect,
   getNode,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 
 function editImageForm(node) {
   const target = getNode(node)

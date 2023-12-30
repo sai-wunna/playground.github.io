@@ -6,7 +6,7 @@ import {
   addListStack,
   addSelectionStack,
   addFigureStack,
-} from '../../main.js'
+} from '../stackTree.js'
 import {
   appendChildrenTo,
   createAnchor,
@@ -24,7 +24,7 @@ import {
   createTFoot,
   createTHead,
   insertBefore,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 
 function deployBlock(text, addBeforeOrAfter) {
   const time = elementsCounter.block + 1

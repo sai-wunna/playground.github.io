@@ -10,10 +10,10 @@
   <body>
     <article id="wrapper">
       <nav id="main_nav_box">
-        <button type="button" class="btn btn-sm elements_opener">E</button>
-        <button type="button" class="btn btn-sm tools_opener">S</button>
-        <button type="button" class="btn btn-sm stacks_opener">T</button>
-        <button type="button" class="btn btn-sm editor_opener">E</button>
+        <button type="button" class="btn elements_opener">E</button>
+        <button type="button" class="btn tools_opener">S</button>
+        <button type="button" class="btn stacks_opener">T</button>
+        <button type="button" class="btn editor_opener">E</button>
       </nav>
       <div class="create-element-form-wrapper">
         <div class="d-flex justify-content-between">
@@ -57,7 +57,7 @@
       </div>
       <div class="styler-tools-wrapper">
         <div class="d-flex justify-content-between align-items-center">
-          <h5>Styling <span id="styling_ele_shower">#app</span></h5>
+          <h5>Target node : <span id="styling_ele_shower">#app</span></h5>
           <div>
             <select id="styles_box_chooser">
               <option value="sizing" selected>Sizing</option>
@@ -89,77 +89,14 @@
         <div class="d-flex stylers-and-info">
           <div class="stylers"></div>
           <div class="styled-info">
-            <div class="d-flex justify-content-between">
-              <h5 id="styles_header">Applied Styles</h5>
-              <button
-                type="button"
-                class="inline-btn"
-                id="switch_animations_n_styles">
-                Switch Mode
-              </button>
-            </div>
-            <div class="applied-styles">
-              <h6>General Screen Size</h6>
-              <div class="general-screen">
-                <div class="general-screen-standard">
-                  <div class="style-type-label">standard -</div>
-                  <div class="general-screen-standard-styles"></div>
-                </div>
-                <div class="general-screen-hover">
-                  <div class="style-type-label">hover -</div>
-                  <div class="general-screen-hover-styles"></div>
-                </div>
-                <div class="general-screen-focus">
-                  <div class="style-type-label">focus -</div>
-                  <div class="general-screen-focus-styles"></div>
-                </div>
-                <div class="general-screen-active">
-                  <div class="style-type-label">active -</div>
-                  <div class="general-screen-active-styles"></div>
-                </div>
-              </div>
-              <h6>Medium Screen Size</h6>
-              <div class="medium-screen">
-                <div class="medium-screen-standard">
-                  <div class="style-type-label">standard -</div>
-                  <div class="medium-screen-standard-styles"></div>
-                </div>
-                <div class="medium-screen-hover">
-                  <div class="style-type-label">hover -</div>
-                  <div class="medium-screen-hover-styles"></div>
-                </div>
-                <div class="medium-screen-focus">
-                  <div class="style-type-label">focus -</div>
-                  <div class="medium-screen-focus-styles"></div>
-                </div>
-                <div class="medium-screen-active">
-                  <div class="style-type-label">active -</div>
-                  <div class="medium-screen-active-styles"></div>
-                </div>
-              </div>
-              <h6>Large Screen Size</h6>
-              <div class="large-screen">
-                <div class="large-screen-standard">
-                  <div class="style-type-label">standard -</div>
-                  <div class="large-screen-standard-styles"></div>
-                </div>
-                <div class="large-screen-hover">
-                  <div class="style-type-label">hover -</div>
-                  <div class="large-screen-hover-styles"></div>
-                </div>
-                <div class="large-screen-focus">
-                  <div class="style-type-label">focus -</div>
-                  <div class="large-screen-focus-styles"></div>
-                </div>
-                <div class="large-screen-active">
-                  <div class="style-type-label">active -</div>
-                  <div class="large-screen-active-styles"></div>
-                </div>
-              </div>
-            </div>
-            <div class="animation-box">
-              <div class="animation-form"></div>
-              <div class="animation-info"></div>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5>Styling Mode</h5>
+              <select id="switch_css_mode">
+                <option value="normal">Target</option>
+                <option value="predefined">Pre-defined</option>
+                <option value="animation">Animations</option>
+                <option value="className">Classnames</option>
+              </select>
             </div>
           </div>
         </div>

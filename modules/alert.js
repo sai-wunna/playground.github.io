@@ -1,7 +1,8 @@
-import { createElement, getAllNodes, getNode } from './dom/dom.js'
+import { createElement, getAllNodes, getNode } from './dom/index.js'
 const alertMessages = {
   invalid: 'Invalid Action',
   noSelectedAnimation: 'Please create new animation or select from List.',
+  noSelectedCN: 'Please create new className or select from list',
   invalidInput: 'Invalid Input',
   unAppendAble: 'Cannot append to the target element',
   hidden: 'This element is currently out of sight',

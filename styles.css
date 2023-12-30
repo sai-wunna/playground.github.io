@@ -281,6 +281,7 @@
 .styler-tools-wrapper h5 {
   margin: 5px 10px;
   font-size: 1.1rem;
+  color: rgb(114, 78, 78);
 }
 .styler-tools-wrapper h6 {
   margin: 4px 0;
@@ -369,7 +370,7 @@
 }
 
 .css-key {
-  font-weight: 600;
+  color: rgb(66, 87, 91);
 }
 
 .cs-num-input:hover,
@@ -391,7 +392,8 @@
   border-left: 2px solid rgb(105, 105, 105);
 }
 .applied-styles,
-.animation-box {
+.animation-box,
+.predefined-styles-box {
   overflow-y: auto;
   width: 100%;
   height: 90%;
@@ -401,15 +403,16 @@
 .applied-styles h6,
 .style-type-label {
   text-transform: capitalize;
-  color: tomato;
+  color: rgb(231, 84, 58);
 }
 .style-info {
   padding: 5px 0;
   word-break: break-all;
   border-bottom: 1px solid rgb(178, 178, 178);
 }
-.animation-box {
-  display: none;
+.available-class-list {
+  padding: 5px;
+  background-color: rgb(232, 222, 222);
 }
 .animation-form {
   padding: 5px;
@@ -419,6 +422,23 @@
   padding: 5px;
   margin-bottom: 3px;
   background-color: rgb(209, 209, 209);
+}
+
+/* predefined styles start */
+.predefined-elements-box {
+  padding: 5px;
+}
+/* predefined styles end */
+.class-names-box {
+  width: 100%;
+  height: 90%;
+  background: white;
+  box-sizing: border-box;
+}
+.class-names-form {
+  padding: 5px;
+  gap: 5px;
+  background-color: rgb(233, 233, 233);
 }
 /* styler end ---------------------- */
 

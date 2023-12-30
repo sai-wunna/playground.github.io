@@ -7,12 +7,9 @@ import {
   createSelect,
   getAllNodes,
   getNode,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 import { changeAppliedStyes } from '../stylers.js'
-import {
-  createUnitSelector,
-  removeParentBtn,
-} from './styleFormHelpers/creator.js'
+import { createUnitSelector, removeParentBtn } from './helper/creator.js'
 import {
   manageBOO,
   calBoxShadowValue,
@@ -22,7 +19,8 @@ import {
   calTransitionValues,
   calTextShadowValue,
   calTransformValue,
-} from './styleFormHelpers/keyValueExtractor.js'
+  hexToRgb,
+} from './helper/keyValueExtractor.js'
 
 // sizing --------------
 // width / max-width / min-width / width-auto / width in px-% /
@@ -34,7 +32,7 @@ import {
 
 let spamBlocker
 
-function createSizingBox() {
+function createSizingForm() {
   const widthBox = createElement(
     'div',
     '',
@@ -259,10 +257,31 @@ function createSizingBox() {
       ),
     ]
   )
+  const objectFitBox = createElement(
+    '',
+    '',
+    ['cs-ip-gp'],
+    [
+      createLabel('Object-fit', 'cs_obj_fit', ['cs-label']),
+      createSelect(
+        ['cs-select'],
+        '',
+        [
+          { value: 'fill', text: 'Fill' },
+          { value: 'contain', text: 'Contain' },
+          { value: 'cover', text: 'Cover' },
+          { value: 'none', text: 'None' },
+          { value: 'scale-down', text: 'Scale-down' },
+        ],
+        'cs_obj_fit',
+        (e) => changeStyle('object-fit', e.target.value)
+      ),
+    ]
+  )
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       widthBox,
       minWidthBox,
       maxWidthBox,
@@ -275,6 +294,7 @@ function createSizingBox() {
       gapBox,
       marginBox,
       paddingBox,
+      objectFitBox,
     ]
   )
 }
@@ -285,7 +305,7 @@ function createSizingBox() {
 // z-index ( number , inherit , auto , revert-layer , revert )
 // overflow (visible, hidden,  auto , scroll ) / overflow-x / overflow-y
 
-function createPositionBox() {
+function createPositionForm() {
   const positionBox = createElement(
     'div',
     '',
@@ -603,7 +623,7 @@ function createPositionBox() {
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       positionBox,
       distanceBox,
       floatBox,
@@ -618,7 +638,7 @@ function createPositionBox() {
 // typography
 // font-family / font-size / font-style / font-weight
 // line-height / letter-spacing / color / text-decoration / text-align / text-shadow
-function createTypographyBox() {
+function createTypographyForm() {
   const fsBox = createElement(
     'div',
     '',
@@ -931,7 +951,7 @@ function createTypographyBox() {
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       fsBox,
       ffBox,
       fStyleBox,
@@ -954,7 +974,7 @@ function createTypographyBox() {
 // background ( liner gradient )
 // background-image / background-position / background-repeat / background-size / background-clip
 // background-attachment
-function createBackgroundBox() {
+function createBackgroundForm() {
   const bgBox = createElement(
     'div',
     '',
@@ -967,7 +987,30 @@ function createBackgroundBox() {
         'cs_background',
         { value: '#000000' },
         '',
-        (e) => changeStyle('background', e.target.value)
+        function (e) {
+          let opacity = Math.min(
+            Math.max(parseInt(getNode('#cs_bg_opacity').value), 1),
+            10
+          )
+          changeStyle(
+            'background-color',
+            `rgba(${hexToRgb(e.target.value)},${opacity / 10})`
+          )
+        }
+      ),
+      createInput(
+        'number',
+        ['cs-num-input'],
+        'cs_bg_opacity',
+        { value: 10 },
+        '',
+        function (e) {
+          let opacity = Math.min(Math.max(parseInt(e.target.value), 1), 10)
+          changeStyle(
+            'background-color',
+            `rgba(${hexToRgb(getNode('#cs_background').value)},${opacity / 10})`
+          )
+        }
       ),
     ]
   )
@@ -1187,7 +1230,7 @@ function createBackgroundBox() {
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       bgBox,
       bgGradientBox,
       bgImgBox,
@@ -1210,7 +1253,7 @@ function createBackgroundBox() {
 // outline ( dash/dotted/solid ?color , ?thick double  ?color , width-px ridge color)
 // outline-offset
 
-function createBorderAndOutlinesBox() {
+function createBorderAndOutlinesForm() {
   //  here boo is border or outline
   const bOOBox = createElement(
     'div',
@@ -1435,7 +1478,7 @@ function createBorderAndOutlinesBox() {
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       bOOBox,
       bOOWidthBox,
       bOOSideBox,
@@ -1455,7 +1498,7 @@ function createBorderAndOutlinesBox() {
 // filter ( blur , brightness , contrast , drop-shadow , gray-scale, hue-rotate , invert , opacity, saturate ,sepia)
 // backdrop-filter ( blur , invert , sepia )
 
-function createMiscellaneousBox() {
+function createMiscellaneousForm() {
   const opacityBox = createElement(
     'div',
     '',
@@ -1742,7 +1785,7 @@ function createMiscellaneousBox() {
   return createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh'),
+      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
       opacityBox,
       visibilityBox,
       cursorBox,
@@ -1760,7 +1803,7 @@ function createMiscellaneousBox() {
 // align-items ( stretch , center , start , end )
 // align-self ( stretch , center , start , end )
 // ---- grid ------------- update later ----------- //
-function createDisplayBox() {
+function createDisplayForm() {
   const displayBox = createElement(
     'div',
     '',
@@ -2335,7 +2378,7 @@ function createDisplayBox() {
   )
 }
 
-function createAnimationBox() {
+function createAnimationForm() {
   const aniNameBox = createElement(
     'div',
     '',
@@ -2472,7 +2515,7 @@ function createAnimationBox() {
           { value: 5, text: 'Play 5 times' },
           { value: 10, text: 'Play 10 times' },
           { value: 15, text: 'Play 15 times' },
-          { value: 'infinite', text: 'Infinite' },
+          { value: 'infinite', text: 'Infinite', selected: true },
         ],
         'cs_ani_itr_count',
         function (e) {
@@ -2597,12 +2640,12 @@ function changeSerialStyles(key, value) {
 }
 
 export {
-  createSizingBox,
-  createPositionBox,
-  createTypographyBox,
-  createBackgroundBox,
-  createBorderAndOutlinesBox,
-  createMiscellaneousBox,
-  createDisplayBox,
-  createAnimationBox,
+  createSizingForm,
+  createPositionForm,
+  createTypographyForm,
+  createBackgroundForm,
+  createBorderAndOutlinesForm,
+  createMiscellaneousForm,
+  createDisplayForm,
+  createAnimationForm,
 }

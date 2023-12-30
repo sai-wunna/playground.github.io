@@ -1,4 +1,4 @@
-import { getNode } from '../dom/dom.js'
+import { getNode } from '../dom/index.js'
 
 function openNav(wrapper, classList) {
   getNode('.priority-wrapper-box')?.classList.remove('priority-wrapper-box')

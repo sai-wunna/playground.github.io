@@ -1,4 +1,4 @@
-import { getAllNodes, getNode, on } from './dom/dom.js'
+import { getAllNodes, getNode, on } from './dom/index.js'
 import {
   createBlockForm,
   createImageForm,
@@ -29,7 +29,7 @@ import {
   deployTable,
   deployText,
 } from './cefHelpers/deployElement.js'
-import { selectedNode } from '../main.js'
+import { selectedNode } from './stackTree.js'
 import {
   manageListData,
   manageTData,

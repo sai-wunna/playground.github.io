@@ -1,46 +1,40 @@
-import { pointOutTheEle, selectedNode } from '../main.js'
+import { pointOutTheEle, selectedNode } from './stackTree.js'
 import { alertMe } from './alert.js'
-import { createOption, getNode, on } from './dom/dom.js'
+import { createOption, getNode, on } from './dom/index.js'
 import {
-  createBackgroundBox,
-  createBorderAndOutlinesBox,
-  createPositionBox,
-  createSizingBox,
-  createTypographyBox,
-  createDisplayBox,
-  createMiscellaneousBox,
-  createAnimationBox,
-} from './stylesHelpers/stylerBoxCreator.js'
-import {
-  changeGrlSAppliedStyles,
-  stylesForGrlScreen,
-} from './stylesHelpers/appliedGrlScreenStyles.js'
-import {
-  changeLgSAppliedStyles,
-  stylesForLgScreen,
-} from './stylesHelpers/appliedLgScreenStyles.js'
-import {
-  changeMdSAppliedStyles,
-  stylesForMdScreen,
-} from './stylesHelpers/appliedMdScreenStyles.js'
-import { toggleAnimationBox } from './helpers/aniNStyleNav.js'
-import {
-  saveAnimationsStyle,
+  createBackgroundForm,
+  createBorderAndOutlinesForm,
+  createPositionForm,
+  createSizingForm,
+  createTypographyForm,
+  createDisplayForm,
+  createMiscellaneousForm,
   createAnimationForm,
-  animations,
-} from './stylesHelpers/animationStore.js'
-import { buildCss } from './stylesHelpers/helpers/buildCss.js'
+} from './stylesHelpers/stylerBoxCreator.js'
+import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
+import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
+import { buildCss } from './stylesHelpers/buildCss.js'
+import {
+  createAnimationsBox,
+  createClassNamesBox,
+  createPredefinedStylesBox,
+  createTargetStyleInfoBox,
+} from './stylesHelpers/styleInfoBoxes.js'
+import {
+  changePredStyle,
+  predefinedStyles,
+} from './stylesHelpers/predefinedStyles.js'
+import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 
 const stylesBoxChooser = getNode('#styles_box_chooser')
 const stylesBoxHolder = getNode('.stylers')
-const choose_media_btn = getNode('#style_screen_chooser')
+const media_chooser = getNode('#style_screen_chooser')
 const pseudo_class_chooser = getNode('#style_pseudo_class_chooser')
-const switch_animations_n_styles_btn = getNode('#switch_animations_n_styles')
+const switch_css_mode_chooser = getNode('#switch_css_mode')
 const save_media_styles = getNode('#save_media_styles')
 
-let animating = false
 let isStyleChanged = false
-const sizingBox = createSizingBox()
+const sizingBox = createSizingForm()
 let positionBox
 let typographyBox
 let backgroundBox
@@ -48,7 +42,6 @@ let bNOBox
 let miscellaneousBox
 let displayBox
 let animationBox
-let animationInfoBox
 
 on('change', stylesBoxChooser, (e) => {
   const type = e.target.value
@@ -60,22 +53,22 @@ on('change', stylesBoxChooser, (e) => {
       box = sizingBox
       break
     case 'position':
-      box = positionBox || (positionBox = createPositionBox())
+      box = positionBox || (positionBox = createPositionForm())
       break
     case 'typography':
-      box = typographyBox || (typographyBox = createTypographyBox())
+      box = typographyBox || (typographyBox = createTypographyForm())
       break
     case 'background':
-      box = backgroundBox || (backgroundBox = createBackgroundBox())
+      box = backgroundBox || (backgroundBox = createBackgroundForm())
       break
     case 'border_n_outlines':
-      box = bNOBox || (bNOBox = createBorderAndOutlinesBox())
+      box = bNOBox || (bNOBox = createBorderAndOutlinesForm())
       break
     case 'display':
-      box = displayBox || (displayBox = createDisplayBox())
+      box = displayBox || (displayBox = createDisplayForm())
       break
     case 'animation':
-      animationBox ||= createAnimationBox()
+      animationBox ||= createAnimationForm()
       const select = animationBox.querySelector('#cs_ani_name')
       select.innerHTML = ''
       for (let animation in animations) {
@@ -84,7 +77,7 @@ on('change', stylesBoxChooser, (e) => {
       box = animationBox
       break
     default:
-      box = miscellaneousBox || (miscellaneousBox = createMiscellaneousBox())
+      box = miscellaneousBox || (miscellaneousBox = createMiscellaneousForm())
   }
 
   stylesBoxHolder.appendChild(box)
@@ -99,28 +92,31 @@ on('click', save_media_styles, (e) => {
   save_media_styles.disabled = true
   isStyleChanged = false
   save_media_styles.textContent = 'Applying .'
-  appliedLatestStyles(
-    animations,
-    stylesForGrlScreen,
-    stylesForMdScreen,
-    stylesForLgScreen
-  )
+  appliedLatestStyles(animations, predefinedStyles, classNames, customStyles)
 })
 
-// ----------- for animations
-on('click', switch_animations_n_styles_btn, (e) => {
+// ----------- for styling mode
+
+on('change', switch_css_mode_chooser, (e) => {
   e.preventDefault()
-  toggleAnimationBox(e)
-  if (!animating) {
-    getNode('.animation-form').appendChild(
-      animationInfoBox || (animationInfoBox = createAnimationForm())
-    )
+  const mode = e.target.value
+  if (mode === 'normal') {
+    createTargetStyleInfoBox(selectedNode)
+  } else if (mode === 'animation') {
+    createAnimationsBox()
+  } else if (mode === 'predefined') {
+    createPredefinedStylesBox('button')
+  } else {
+    createClassNamesBox()
   }
-  animating = !animating
 })
 
 function changeAppliedStyes(key, value) {
-  if (animating) {
+  const mode = switch_css_mode_chooser.value
+  const media = media_chooser.value
+  const condition = pseudo_class_chooser.value
+
+  if (mode === 'animation') {
     if (key === 'animation') {
       alertMe('invalidInput')
       return
@@ -139,22 +135,29 @@ function changeAppliedStyes(key, value) {
       key,
       value
     )
+  } else if (mode === 'normal') {
+    saveCusStyle(selectedNode, media, condition, key, value)
+  } else if (mode === 'predefined') {
+    const ele = getNode('#predefined_element').value
+    changePredStyle(ele, condition, key, value)
   } else {
-    const type = choose_media_btn.value
-    const group = pseudo_class_chooser.value
-    if (type === 'general') {
-      changeGrlSAppliedStyles(group, selectedNode, key, value)
-    } else if (type === 'medium') {
-      changeMdSAppliedStyles(group, selectedNode, key, value)
-    } else {
-      changeLgSAppliedStyles(group, selectedNode, key, value)
+    const name = getNode('#class_name_list').value
+    if (!name) {
+      alertMe('noSelectedCN')
+      return
     }
+    saveCNStyle(name, media, condition, key, value)
   }
   isStyleChanged = true
 }
 
-function appliedLatestStyles(animations, general, md, lg) {
-  getNode('#my_styles').textContent = buildCss(animations, general, md, lg)
+function appliedLatestStyles(animations, predefined, classNames, customStyles) {
+  getNode('#my_styles').textContent = buildCss(
+    animations,
+    predefined,
+    classNames,
+    customStyles
+  )
   save_media_styles.textContent = '. Done .'
   let timerId = setTimeout(() => {
     save_media_styles.textContent = 'apply all'
@@ -170,5 +173,6 @@ function setIsStyleChanged(boo) {
 
 // initial load to page ___________
 stylesBoxHolder.appendChild(sizingBox)
+createTargetStyleInfoBox('#app')
 
 export { changeAppliedStyes, setIsStyleChanged }

@@ -1,5 +1,5 @@
-import { getNode, on } from './dom/dom.js'
-import { selectedNode } from '../main.js'
+import { getNode, on } from './dom/index.js'
+import { selectedNode } from './stackTree.js'
 import { isInvalidTextInput } from './validators/isValidToWriteText.js'
 import { createTextNodes } from './editHelpers/createTextNodes.js'
 import { alertMe } from './alert.js'

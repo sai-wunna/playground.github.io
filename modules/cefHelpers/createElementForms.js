@@ -9,7 +9,7 @@ import {
   getAllNodes,
   getNode,
   insertBefore,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 
 function createBlockForm() {
   const label = createLabel('Content', 'new_block', ['form-label'])

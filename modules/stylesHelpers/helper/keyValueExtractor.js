@@ -1,4 +1,4 @@
-import { getAllNodes, getNode } from '../../dom/dom.js'
+import { getAllNodes, getNode } from '../../dom/index.js'
 
 function calMNPSideValue(side, baseKey, value) {
   // y-axis-a 0-auto-x-axis
@@ -175,4 +175,5 @@ export {
   calBoxShadowValue,
   calTextShadowValue,
   calTransformValue,
+  hexToRgb,
 }

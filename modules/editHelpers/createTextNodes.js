@@ -7,7 +7,7 @@ import {
   createTextArea,
   getNode,
   createTNode,
-} from '../dom/dom.js'
+} from '../dom/index.js'
 
 function createTextNodes(node) {
   const childNodes = getNode(node).childNodes

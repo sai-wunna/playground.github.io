@@ -276,7 +276,7 @@ function createImage(src, alt, classList = [], id) {
 }
 
 function createElement(type, text, classList = [], children = [], id) {
-  const div = createNode(type)
+  const div = createNode(type || 'div')
   if (text) {
     if (typeof text === 'object') {
       div.appendChild(text)
@@ -549,6 +549,9 @@ export {
   on,
   getAllNodes,
   getNode,
+  addCN,
+  removeCN,
+  cnContains,
   createNode,
   createTNode,
   createFragment,

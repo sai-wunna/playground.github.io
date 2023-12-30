@@ -3,7 +3,7 @@ import {
   createElement,
   createLabel,
   createSelect,
-} from '../../dom/dom.js'
+} from '../../dom/index.js'
 
 function createUnitSelector(...units) {
   const options = []
