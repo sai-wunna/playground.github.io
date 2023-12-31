@@ -20,18 +20,7 @@ import {
   createCNForm,
   createCNInfoShower,
 } from './classNameStyles .js'
-
-//    <div class="available-classlist">
-//      <select>
-//      </select>
-//      <button>add</button>
-//    </div>
-//    <div class="applied-classlist">
-//      <div class="style-info">
-//          <span class="class-name"></span>
-//          <button>Del</button>
-//      </div>
-//    </div>
+import { alertMe } from '../alert.js'
 
 function createTargetStyleInfoBox(selectedNode) {
   const styleInfoHolder = getNode('.styled-info')
@@ -85,6 +74,10 @@ function createTargetStyleInfoBox(selectedNode) {
           createCNSelect(),
           createButton('Add', ['inline-btn', 'text-primary'], '', function (e) {
             const name = getNode('#add_class_list_selector').value
+            if (!name) {
+              alertMe('noAvailableCN')
+              return
+            }
             const target = getNode(selectedNode)
             if (target.classList.contains(name)) return
             target.classList.add(name)

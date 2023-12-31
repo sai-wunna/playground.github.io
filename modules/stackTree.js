@@ -350,8 +350,6 @@ function removeNode(e, id) {
     pointOutTheEle(selectedNode)
   }
   removeCusStyle(id)
-  removeMdSStyleNode(id)
-  removeLgSStyleNode(id)
 }
 
 function setSelectedNodeStyle(node) {
@@ -400,8 +398,8 @@ function pointOutTheEle(ele) {
   const left = rect.left + scrollLeft
   const top = rect.top + scrollTop
 
-  element_pointer.style.width = rect.width - 4 + 'px'
-  element_pointer.style.height = rect.height - 4 + 'px'
+  element_pointer.style.width = rect.width + 'px'
+  element_pointer.style.height = rect.height + 'px'
   element_pointer.style.left = left + 'px'
   element_pointer.style.top = top + 'px'
   element_pointer.style.display = 'block'

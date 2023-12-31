@@ -231,7 +231,7 @@ function createProgress(text, classList = [], max, value, id) {
   return progress
 }
 
-function createAnchor(type, text, href, classList = [], id, title) {
+function createAnchor(type, text, href, classList = [], id, title, download) {
   const a = createNode('a')
 
   if (href) {
@@ -258,6 +258,9 @@ function createAnchor(type, text, href, classList = [], id, title) {
   }
   if (id) {
     a.id = id
+  }
+  if (download) {
+    a.download = download
   }
   return a
 }

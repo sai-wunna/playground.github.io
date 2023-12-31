@@ -3,6 +3,7 @@ const alertMessages = {
   invalid: 'Invalid Action',
   noSelectedAnimation: 'Please create new animation or select from List.',
   noSelectedCN: 'Please create new className or select from list',
+  noAvailableCN: 'No Class-name has been created',
   invalidInput: 'Invalid Input',
   unAppendAble: 'Cannot append to the target element',
   hidden: 'This element is currently out of sight',
@@ -11,20 +12,23 @@ const alertMessages = {
   noUpdate: 'Changes not found to update',
 }
 
+let countLimit = 0
+
 function alertMe(type = 'invalid', period = 3000) {
-  const shownAlerts = getAllNodes('.custom-alert-box').length
-  if (shownAlerts > 2) return
+  if (countLimit > 2) return
+  countLimit += 1
   const alertBox = createElement('div', alertMessages[type], [
     'custom-alert-box',
   ])
   getNode('#wrapper').appendChild(alertBox)
   let dropTimer = setTimeout(() => {
-    alertBox.style.top = `${shownAlerts * 40}px`
+    alertBox.style.top = `${(countLimit - 1) * 40}px`
   }, 10)
   let hideTimer = setTimeout(() => {
     alertBox.style.top = '-10%'
   }, period)
   let removeTimer = setTimeout(() => {
+    countLimit -= 1
     alertBox.remove()
   }, period + 500)
   return () => {

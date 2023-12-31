@@ -1,4 +1,5 @@
 import {
+  createAnchor,
   createButton,
   createElement,
   createInput,
@@ -17,9 +18,15 @@ function buildWeb(title, styles, app) {
 
 function downloadFile(content, fileName) {
   const blob = new Blob([content], { type: 'text/html' })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.download = fileName
+  const link = createAnchor(
+    'link',
+    '',
+    URL.createObjectURL(blob),
+    '',
+    '',
+    '',
+    fileName
+  )
 
   document.body.appendChild(link)
   link.click()
@@ -36,7 +43,9 @@ function downloadForm() {
         e.target.parentElement.remove()
       ),
       createLabel('Title Of The Website', 'title_of_web', ['form-label']),
-      createInput('', ['form-control', 'my-1'], 'title_of_web'),
+      createInput('', ['form-control', 'my-1'], 'title_of_web', {
+        value: 'Beautiful Day',
+      }),
       createButton('Download', ['btn', 'text-primary'], '', (e) => {
         const title = getNode('#title_of_web').value || 'Beautiful Day'
         const styles = buildProductionCss(
