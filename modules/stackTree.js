@@ -1,10 +1,4 @@
-import {
-  createButton,
-  createElement,
-  createFragment,
-  getNode,
-  on,
-} from './dom/index.js'
+import Document from './dom/index.js'
 import { generateRandomColor } from './helpers/generateRandColor.js'
 import { isInvalidEleToShow } from './validators/isValidEleToShow.js'
 import { alertMe } from './alert.js'
@@ -12,9 +6,11 @@ import { lockBtn } from './helpers/lockBtn.js'
 import { removeCusStyle } from './stylesHelpers/customStyles.js'
 import { createTargetStyleInfoBox } from './stylesHelpers/styleInfoBoxes.js'
 
-const high_light_ele = getNode('#high_light_ele')
-const element_pointer = getNode('#element_pointer')
-const appNode = getNode('.app-node')
+const _ = Document()
+
+const high_light_ele = _.getNode('#high_light_ele')
+const element_pointer = _.getNode('#element_pointer')
+const appNode = _.getNode('.app-node')
 
 let selectedNode = '#app'
 let selectedTreeNode = '#children'
@@ -34,14 +30,14 @@ let elementsCounter = {
   figure: 0,
 }
 
-on('click', appNode, (e) => {
+_.on('click', appNode, (e) => {
   e.preventDefault()
   lockBtn(e.target)
   setSelectedNodeStyle(appNode)
   selectAppNode()
 })
 
-on('change', high_light_ele, (e) => {
+_.on('change', high_light_ele, (e) => {
   e.preventDefault()
   if (high_light_ele.checked) {
     pointOutTheEle(selectedNode)
@@ -53,10 +49,10 @@ on('change', high_light_ele, (e) => {
 function addTableStack(tableId, thData, tbData, tfData) {
   elementsCounter.table = elementsCounter.table + 1
   function createTRNode(data, trId) {
-    const fragment = createFragment()
+    const fragment = _.createFragment()
     data.forEach((one) => {
       fragment.appendChild(
-        createButton(
+        _.createButton(
           one.text || one.heading || 'td',
           ['stack-node'],
           '',
@@ -67,12 +63,12 @@ function addTableStack(tableId, thData, tbData, tfData) {
         )
       )
     })
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['stack-node-box'],
       [
-        createButton(
+        _.createButton(
           'tr',
           ['stack-node'],
           '',
@@ -81,16 +77,16 @@ function addTableStack(tableId, thData, tbData, tfData) {
           },
           `#${trId}`
         ),
-        createElement('div', '', ['stack-node-box'], [fragment]),
+        _.createElement('div', '', ['stack-node-box'], [fragment]),
       ]
     )
   }
-  const tableHeader = createElement(
+  const tableHeader = _.createElement(
     'div',
     '',
     ['stack-node-box'],
     [
-      createButton(
+      _.createButton(
         'tHead',
         ['stack-node'],
         '',
@@ -102,12 +98,12 @@ function addTableStack(tableId, thData, tbData, tfData) {
       createTRNode(thData.data, thData.trId),
     ]
   )
-  const tableFooter = createElement(
+  const tableFooter = _.createElement(
     'div',
     '',
     ['stack-node-box'],
     [
-      createButton(
+      _.createButton(
         'tFoot',
         ['stack-node'],
         '',
@@ -119,16 +115,16 @@ function addTableStack(tableId, thData, tbData, tfData) {
       createTRNode(tfData.data, tfData.trId),
     ]
   )
-  const bodyDataFragment = createFragment()
+  const bodyDataFragment = _.createFragment()
   tbData.data.forEach((data) => {
     bodyDataFragment.appendChild(createTRNode(data.data, data.trId))
   })
-  const tableBody = createElement(
+  const tableBody = _.createElement(
     'div',
     '',
     ['stack-node-box'],
     [
-      createButton(
+      _.createButton(
         'tBody',
         ['stack-node'],
         '',
@@ -140,7 +136,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
       bodyDataFragment,
     ]
   )
-  const tableStacks = createElement(
+  const tableStacks = _.createElement(
     'div',
     '',
     ['stack-node-box'],
@@ -148,12 +144,12 @@ function addTableStack(tableId, thData, tbData, tfData) {
     `${tableId}_c`
   )
   tableStacks.style.backgroundColor = generateRandomColor()
-  const tableNode = createElement(
+  const tableNode = _.createElement(
     'div',
     '',
     ['stack-node-box'],
     [
-      createButton(
+      _.createButton(
         'table',
         ['stack-node'],
         '',
@@ -162,7 +158,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
         },
         `#${tableId}`
       ),
-      createButton(
+      _.createButton(
         'Del',
         ['stack-node-delete', 'text-danger'],
         '',
@@ -175,20 +171,20 @@ function addTableStack(tableId, thData, tbData, tfData) {
       tableStacks,
     ]
   )
-  if (getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
-    getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
+  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       tableNode,
-      getNode(`${selectedTreeNode}_c`).parentElement
+      _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    getNode(`${selectedTreeNode}_c`).appendChild(tableNode)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(tableNode)
   }
   pointOutTheEle(selectedNode)
 }
 
 function addListStack(type, id, lists) {
   elementsCounter.list = elementsCounter.list + 1
-  const listItemNode = createFragment()
+  const listItemNode = _.createFragment()
   lists.forEach((item) => {
     listItemNode.appendChild(createTreeNode(item.id, 'list item'))
   })
@@ -198,13 +194,13 @@ function addListStack(type, id, lists) {
     listItemNode
   )
 
-  if (getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
-    getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
+  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       listNode,
-      getNode(`${selectedTreeNode}_c`).parentElement
+      _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    getNode(`${selectedTreeNode}_c`).appendChild(listNode)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(listNode)
   }
   pointOutTheEle(selectedNode)
 }
@@ -212,12 +208,12 @@ function addListStack(type, id, lists) {
 function addSelectionStack(selectId, options) {
   elementsCounter.selection = elementsCounter.selection + 1
   function createOption(text, id) {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['stack-node-box'],
       [
-        createButton(
+        _.createButton(
           text,
           ['stack-node'],
           '',
@@ -226,13 +222,13 @@ function addSelectionStack(selectId, options) {
           },
           `#${id}`
         ),
-        createButton(
+        _.createButton(
           'Del',
           ['stack-node-delete', 'text-danger'],
           '',
           (e, id, selectId) => {
             e.preventDefault()
-            getNode(selectId).querySelector(id).remove()
+            _.getNode(selectId).querySelector(id).remove()
             e.target.parentElement.remove()
             if (id === selectedNode) {
               selectAppNode()
@@ -246,37 +242,37 @@ function addSelectionStack(selectId, options) {
       ]
     )
   }
-  const optionFragment = createFragment()
+  const optionFragment = _.createFragment()
   options.forEach((option) => {
     optionFragment.appendChild(createOption(option.text, option.id))
   })
   const selectionNode = createTreeNode(selectId, 'Select', optionFragment)
 
-  if (getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
-    getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
+  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       selectionNode,
-      getNode(`${selectedTreeNode}_c`).parentElement
+      _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    getNode(`${selectedTreeNode}_c`).appendChild(selectionNode)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(selectionNode)
   }
   pointOutTheEle(selectedNode)
 }
 
 function addFigureStack(stacksArr) {
   elementsCounter.figure = elementsCounter.figure + 1
-  const fragment = createFragment()
+  const fragment = _.createFragment()
   for (let i = 2; i < stacksArr.length; i += 2) {
     fragment.appendChild(createTreeNode(stacksArr[i], stacksArr[i + 1]))
   }
   const newStack = createTreeNode(stacksArr[0], stacksArr[1], fragment)
-  if (getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
-    getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
+  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       newStack,
-      getNode(`${selectedTreeNode}_c`).parentElement
+      _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    getNode(`${selectedTreeNode}_c`).appendChild(newStack)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(newStack)
   }
   pointOutTheEle(selectedNode)
 }
@@ -284,29 +280,29 @@ function addFigureStack(stacksArr) {
 function addNewStack(id, name) {
   elementsCounter[name.split(' ')[0]] = elementsCounter[name.split(' ')[0]] + 1
   const newStack = createTreeNode(id, name)
-  if (getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
-    getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
+  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       newStack,
-      getNode(`${selectedTreeNode}_c`).parentElement
+      _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    getNode(`${selectedTreeNode}_c`).appendChild(newStack)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(newStack)
   }
   pointOutTheEle(selectedNode)
 }
 
 function createTreeNode(id, name, children) {
-  const childrenBox = createElement('div', '', [], [], `${id}_c`)
+  const childrenBox = _.createElement('div', '', [], [], `${id}_c`)
   if (children) {
     childrenBox.appendChild(children)
   }
   childrenBox.style.backgroundColor = generateRandomColor()
-  return createElement(
+  return _.createElement(
     'div',
     '',
     ['stack-node-box'],
     [
-      createButton(
+      _.createButton(
         name,
         ['stack-node'],
         '',
@@ -315,7 +311,7 @@ function createTreeNode(id, name, children) {
         },
         `#${id}`
       ),
-      createButton(
+      _.createButton(
         'Del',
         ['stack-node-delete', 'text-danger'],
         '',
@@ -338,13 +334,13 @@ function selectNode(e, id) {
   createTargetStyleInfoBox(id)
   setSelectedNodeStyle(e.target)
 
-  getNode('#edit_form')?.remove()
+  _.getNode('#edit_form')?.remove()
 }
 
 function removeNode(e, id) {
-  getNode(id).remove()
+  _.getNode(id).remove()
   e.target.parentElement.remove()
-  if (id === selectedNode || !getNode(selectedNode)) {
+  if (id === selectedNode || !_.getNode(selectedNode)) {
     selectAppNode()
   } else {
     pointOutTheEle(selectedNode)
@@ -353,25 +349,25 @@ function removeNode(e, id) {
 }
 
 function setSelectedNodeStyle(node) {
-  getNode('.selected-node')?.classList.remove('selected-node')
+  _.getNode('.selected-node')?.classList.remove('selected-node')
   node.classList.add('selected-node')
 }
 
 function selectAppNode() {
   removePointOutTheEle()
   if ('#app' === selectedNode) return
-  getNode('.app-node').classList.add('selected-node')
+  _.getNode('.app-node').classList.add('selected-node')
   setTargetEleShowers('#app')
   selectedNode = '#app'
   selectedTreeNode = '#children'
   createTargetStyleInfoBox('#app')
-  getNode('#edit_form')?.remove()
+  _.getNode('#edit_form')?.remove()
 }
 
 function setTargetEleShowers(target) {
-  getNode('#selected_ele_shower').textContent = target
-  getNode('#styling_ele_shower').textContent = target
-  getNode('#edit_ele_shower').textContent = target
+  _.getNode('#selected_ele_shower').textContent = target
+  _.getNode('#styling_ele_shower').textContent = target
+  _.getNode('#edit_ele_shower').textContent = target
 }
 
 function pointOutTheEle(ele) {

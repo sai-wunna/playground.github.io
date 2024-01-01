@@ -1,13 +1,4 @@
-import {
-  createButton,
-  createElement,
-  createForm,
-  createInput,
-  createLabel,
-  createSelect,
-  getAllNodes,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
 import { changeAppliedStyes } from '../stylers.js'
 import { createUnitSelector, removeParentBtn } from './helper/creator.js'
 import {
@@ -29,123 +20,128 @@ import {
 // gap
 // margin / margin-top / margin-bottom / margin-right / margin-left / margin-auto / margin in px-%-em
 // padding / padding-top / padding-bottom / padding-right / padding-left / padding-auto / padding in px-%-em
-
+const _ = Document()
 let spamBlocker
 
 function createSizingForm() {
-  const widthBox = createElement(
+  const widthBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Width', 'cs_width', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_width', '', '', (e) =>
+      _.createLabel('Width', 'cs_width', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_width', '', '', (e) =>
         changeStyle(
           'width',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const minWidthBox = createElement(
+  const minWidthBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Min-Width', 'cs_min_width', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_min_width', '', '', (e) =>
+      _.createLabel('Min-Width', 'cs_min_width', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_min_width', '', '', (e) =>
         changeStyle(
           'min-width',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const maxWidthBox = createElement(
+  const maxWidthBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Max-Width', 'cs_max_width', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_max_width', '', '', (e) =>
+      _.createLabel('Max-Width', 'cs_max_width', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_max_width', '', '', (e) =>
         changeStyle(
           'max-width',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const autoWidthBox = createElement(
+  const autoWidthBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Width Auto !', 'cs_auto_width', ['cs-label']),
-      createInput('checkbox', ['cs-checkbox'], 'cs_auto_width', '', '', (e) =>
+      _.createLabel('Width Auto !', 'cs_auto_width', ['cs-label']),
+      _.createInput('checkbox', ['cs-checkbox'], 'cs_auto_width', '', '', (e) =>
         changeStyle('width', e.target.checked ? 'auto' : 'inherit')
       ),
     ]
   )
-  const heightBox = createElement(
+  const heightBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Height', 'cs_height', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_height', '', '', (e) =>
+      _.createLabel('Height', 'cs_height', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_height', '', '', (e) =>
         changeStyle(
           'height',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const minHeightBox = createElement(
+  const minHeightBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Min-Height', 'cs_min_height', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_min_height', '', '', (e) =>
+      _.createLabel('Min-Height', 'cs_min_height', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_min_height', '', '', (e) =>
         changeStyle(
           'min-height',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const maxHeightBox = createElement(
+  const maxHeightBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Max-Height', 'cs_max_height', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_max_height', '', '', (e) =>
+      _.createLabel('Max-Height', 'cs_max_height', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_max_height', '', '', (e) =>
         changeStyle(
           'max-height',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const autoHeightBox = createElement(
+  const autoHeightBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Height Auto !', 'cs_auto_height', ['cs-label']),
-      createInput('checkbox', ['cs-checkbox'], 'cs_auto_height', '', '', (e) =>
-        changeStyle('height', e.target.checked ? 'auto' : 'inherit')
+      _.createLabel('Height Auto !', 'cs_auto_height', ['cs-label']),
+      _.createInput(
+        'checkbox',
+        ['cs-checkbox'],
+        'cs_auto_height',
+        '',
+        '',
+        (e) => changeStyle('height', e.target.checked ? 'auto' : 'inherit')
       ),
     ]
   )
-  const boxSizingBox = createElement(
+  const boxSizingBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Box sizing', 'cs_bs', ['cs-label']),
-      createSelect(
+      _.createLabel('Box sizing', 'cs_bs', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -157,39 +153,53 @@ function createSizingForm() {
       ),
     ]
   )
-  const gapBox = createElement(
+  const gapBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Gap', '', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_gap_y', '', '', function (e) {
-        const unit = getNode('#unit_selector').value
-        changeStyle(
-          'gap',
-          `${e.target.value || 0}${unit} ${
-            getNode('#cs_gap_x').value || 0
-          }${unit}`
-        )
-      }),
-      createInput('number', ['cs-num-input'], 'cs_gap_x', '', '', function (e) {
-        const unit = getNode('#unit_selector').value
-        changeStyle(
-          'gap',
-          `${getNode('#cs_gap_y').value || 0}${unit} ${
-            e.target.value || 0
-          }${unit}`
-        )
-      }),
+      _.createLabel('Gap', '', ['cs-label']),
+      _.createInput(
+        'number',
+        ['cs-num-input'],
+        'cs_gap_y',
+        '',
+        '',
+        function (e) {
+          const unit = _.getNode('#unit_selector').value
+          changeStyle(
+            'gap',
+            `${e.target.value || 0}${unit} ${
+              _.getNode('#cs_gap_x').value || 0
+            }${unit}`
+          )
+        }
+      ),
+      _.createInput(
+        'number',
+        ['cs-num-input'],
+        'cs_gap_x',
+        '',
+        '',
+        function (e) {
+          const unit = _.getNode('#unit_selector').value
+          changeStyle(
+            'gap',
+            `${_.getNode('#cs_gap_y').value || 0}${unit} ${
+              e.target.value || 0
+            }${unit}`
+          )
+        }
+      ),
     ]
   )
-  const marginBox = createElement(
+  const marginBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Margin', 'cs_margin', ['cs-label']),
-      createSelect(
+      _.createLabel('Margin', 'cs_margin', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -203,7 +213,7 @@ function createSizingForm() {
         ],
         'cs_margin_side'
       ),
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_margin',
@@ -212,22 +222,22 @@ function createSizingForm() {
         function change(e) {
           changeStyle(
             ...calMNPSideValue(
-              getNode('#cs_margin_side').value,
+              _.getNode('#cs_margin_side').value,
               'margin',
-              `${e.target.value}${getNode('#unit_selector').value}`
+              `${e.target.value}${_.getNode('#unit_selector').value}`
             )
           )
         }
       ),
     ]
   )
-  const paddingBox = createElement(
+  const paddingBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Padding', 'cs_padding', ['cs-label']),
-      createSelect(
+      _.createLabel('Padding', 'cs_padding', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -239,7 +249,7 @@ function createSizingForm() {
         ],
         'cs_padding_side'
       ),
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_padding',
@@ -248,22 +258,22 @@ function createSizingForm() {
         function (e) {
           changeStyle(
             ...calMNPSideValue(
-              getNode('#cs_padding_side').value,
+              _.getNode('#cs_padding_side').value,
               'padding',
-              `${e.target.value}${getNode('#unit_selector').value}`
+              `${e.target.value}${_.getNode('#unit_selector').value}`
             )
           )
         }
       ),
     ]
   )
-  const objectFitBox = createElement(
+  const objectFitBox = _.createElement(
     '',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Object-fit', 'cs_obj_fit', ['cs-label']),
-      createSelect(
+      _.createLabel('Object-fit', 'cs_obj_fit', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -278,7 +288,7 @@ function createSizingForm() {
       ),
     ]
   )
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -306,13 +316,13 @@ function createSizingForm() {
 // overflow (visible, hidden,  auto , scroll ) / overflow-x / overflow-y
 
 function createPositionForm() {
-  const positionBox = createElement(
+  const positionBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Position', 'cs_position', ['cs-label']),
-      createSelect(
+      _.createLabel('Position', 'cs_position', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -328,13 +338,13 @@ function createPositionForm() {
       ),
     ]
   )
-  const floatBox = createElement(
+  const floatBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Float', 'cs_float', ['cs-label']),
-      createSelect(
+      _.createLabel('Float', 'cs_float', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -349,13 +359,13 @@ function createPositionForm() {
       ),
     ]
   )
-  const distanceBox = createElement(
+  const distanceBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Distance', 'cs_distance', ['cs-label']),
-      createSelect(
+      _.createLabel('Distance', 'cs_distance', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -366,43 +376,48 @@ function createPositionForm() {
         ],
         'cs_distance_side'
       ),
-      createInput('number', ['cs-num-input'], 'cs_distance', '', '', (e) =>
+      _.createInput('number', ['cs-num-input'], 'cs_distance', '', '', (e) =>
         changeStyle(
-          getNode('#cs_distance_side').value,
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          _.getNode('#cs_distance_side').value,
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const zIndexBox = createElement(
+  const zIndexBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Z-index', 'cs_zIndex', ['cs-label']),
-      createInput('number', ['cs-select'], 'cs_zIndex', '', '', (e) =>
+      _.createLabel('Z-index', 'cs_zIndex', ['cs-label']),
+      _.createInput('number', ['cs-select'], 'cs_zIndex', '', '', (e) =>
         changeStyle('z-index', parseInt(e.target.value))
       ),
     ]
   )
-  const zIndexAutoBox = createElement(
+  const zIndexAutoBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Z-index Auto', 'cs_zIndex_auto', ['cs-label']),
-      createInput('checkbox', ['cs-checkbox'], 'cs_zIndex_auto', '', '', (e) =>
-        changeStyle('z-index', e.target.checked ? 'auto' : 1)
+      _.createLabel('Z-index Auto', 'cs_zIndex_auto', ['cs-label']),
+      _.createInput(
+        'checkbox',
+        ['cs-checkbox'],
+        'cs_zIndex_auto',
+        '',
+        '',
+        (e) => changeStyle('z-index', e.target.checked ? 'auto' : 1)
       ),
     ]
   )
-  const overFlowBox = createElement(
+  const overFlowBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Over-Flow', 'cs_overflow', ['cs-label']),
-      createSelect(
+      _.createLabel('Over-Flow', 'cs_overflow', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -412,7 +427,7 @@ function createPositionForm() {
         ],
         'cs_overflow'
       ),
-      createSelect(
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -422,23 +437,23 @@ function createPositionForm() {
           { value: 'visible', text: 'Visible' },
         ],
         'cs_overflow_style',
-        (e) => changeStyle(getNode('#cs_overflow').value, e.target.value)
+        (e) => changeStyle(_.getNode('#cs_overflow').value, e.target.value)
       ),
     ]
   )
   let transformList = ['translate']
-  const transformBox = createElement(
+  const transformBox = _.createElement(
     'div',
     '',
     ['cs-lg-gp'],
     [
-      createElement(
+      _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Transform', '', ['cs-label']),
-          createSelect(
+          _.createLabel('Transform', '', ['cs-label']),
+          _.createSelect(
             ['cs-select'],
             '',
             [
@@ -452,15 +467,20 @@ function createPositionForm() {
             ],
             'cs_transform_type'
           ),
-          createButton('Add', ['inline-btn', 'text-primary'], '', function (e) {
-            const key = getNode('#cs_transform_type').value
-            if (transformList.findIndex((one) => one === key) !== -1) return
-            transformList.push(key)
-            e.target.parentElement.parentElement.appendChild(
-              transformListForm(key)
-            )
-          }),
-          createButton(
+          _.createButton(
+            'Add',
+            ['inline-btn', 'text-primary'],
+            '',
+            function (e) {
+              const key = _.getNode('#cs_transform_type').value
+              if (transformList.findIndex((one) => one === key) !== -1) return
+              transformList.push(key)
+              e.target.parentElement.parentElement.appendChild(
+                transformListForm(key)
+              )
+            }
+          ),
+          _.createButton(
             'Set Values',
             ['inline-btn', 'text-primary'],
             '',
@@ -476,26 +496,26 @@ function createPositionForm() {
   )
   function transformListForm(type) {
     function removeBtn(key) {
-      return createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
+      return _.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
         e.preventDefault()
         e.target.parentElement.remove()
         transformList = transformList.filter((one) => one !== key)
       })
     }
     if (type === 'translate') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Translate', '', ['cs-label']),
-          createInput(
+          _.createLabel('Translate', '', ['cs-label']),
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-translate-value'],
             '',
             { value: '-50' }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-translate-value'],
             '',
@@ -505,83 +525,98 @@ function createPositionForm() {
         ]
       )
     } else if (type === 'rotate') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Rotate', '', ['cs-label']),
-          createInput('number', ['cs-num-input', 'cs-trans-rotate-value'], '', {
-            value: 15,
-          }),
+          _.createLabel('Rotate', '', ['cs-label']),
+          _.createInput(
+            'number',
+            ['cs-num-input', 'cs-trans-rotate-value'],
+            '',
+            {
+              value: 15,
+            }
+          ),
           removeBtn('rotate'),
         ]
       )
     } else if (type === 'scale') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Scale', '', ['cs-label']),
-          createInput('number', ['cs-num-input', 'cs-trans-scale-value'], '', {
-            value: 1.1,
-          }),
-          createInput('number', ['cs-num-input', 'cs-trans-scale-value'], '', {
-            value: 1.1,
-          }),
+          _.createLabel('Scale', '', ['cs-label']),
+          _.createInput(
+            'number',
+            ['cs-num-input', 'cs-trans-scale-value'],
+            '',
+            {
+              value: 1.1,
+            }
+          ),
+          _.createInput(
+            'number',
+            ['cs-num-input', 'cs-trans-scale-value'],
+            '',
+            {
+              value: 1.1,
+            }
+          ),
           removeBtn('scale'),
         ]
       )
     } else if (type === 'skew') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Skew', '', ['cs-label']),
-          createInput('number', ['cs-num-input', 'cs-trans-skew-value'], '', {
+          _.createLabel('Skew', '', ['cs-label']),
+          _.createInput('number', ['cs-num-input', 'cs-trans-skew-value'], '', {
             value: 45,
           }),
-          createInput('number', ['cs-num-input', 'cs-trans-skew-value'], '', {
+          _.createInput('number', ['cs-num-input', 'cs-trans-skew-value'], '', {
             value: 45,
           }),
           removeBtn('skew'),
         ]
       )
     } else if (type === 'perspective') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Perspective', '', ['cs-label']),
-          createInput('number', ['cs-num-input', 'cs-trans-pov-value'], '', {
+          _.createLabel('Perspective', '', ['cs-label']),
+          _.createInput('number', ['cs-num-input', 'cs-trans-pov-value'], '', {
             value: 1000,
           }),
           removeBtn('perspective'),
         ]
       )
     } else if (type === 'rotate3d') {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Rotate 3D', '', ['cs-label']),
-          createInput(
+          _.createLabel('Rotate 3D', '', ['cs-label']),
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-rotate3d-value'],
             '',
             { value: 10 }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-rotate3d-value'],
             '',
             { value: 30 }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-rotate3d-value'],
             '',
@@ -591,25 +626,25 @@ function createPositionForm() {
         ]
       )
     } else {
-      return createElement(
+      return _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Translate 3D', '', ['cs-label']),
-          createInput(
+          _.createLabel('Translate 3D', '', ['cs-label']),
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-translate3d-value'],
             '',
             { value: 10 }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-translate3d-value'],
             '',
             { value: 30 }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input', 'cs-trans-translate3d-value'],
             '',
@@ -620,7 +655,7 @@ function createPositionForm() {
       )
     }
   }
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -639,27 +674,27 @@ function createPositionForm() {
 // font-family / font-size / font-style / font-weight
 // line-height / letter-spacing / color / text-decoration / text-align / text-shadow
 function createTypographyForm() {
-  const fsBox = createElement(
+  const fsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Font-size', 'cs_font_size', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_font_size', '', '', (e) =>
+      _.createLabel('Font-size', 'cs_font_size', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_font_size', '', '', (e) =>
         changeStyle(
           'font-size',
-          `${e.target.value}${getNode('#unit_selector').value}`
+          `${e.target.value}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const ffBox = createElement(
+  const ffBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Font-family', 'cs_font_family', ['cs-label']),
-      createSelect(
+      _.createLabel('Font-family', 'cs_font_family', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -680,13 +715,13 @@ function createTypographyForm() {
       ),
     ]
   )
-  const fStyleBox = createElement(
+  const fStyleBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Font-style', 'cs_font_style', ['cs-label']),
-      createSelect(
+      _.createLabel('Font-style', 'cs_font_style', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -699,38 +734,38 @@ function createTypographyForm() {
       ),
     ]
   )
-  const fwBox = createElement(
+  const fwBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Font-weight', 'cs_font_weight', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_font_weight', '', '', (e) =>
+      _.createLabel('Font-weight', 'cs_font_weight', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_font_weight', '', '', (e) =>
         changeStyle('font-weight', parseInt(e.target.value))
       ),
     ]
   )
-  const lineHBox = createElement(
+  const lineHBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Line-height', 'cs_line_height', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_line_height', '', '', (e) =>
+      _.createLabel('Line-height', 'cs_line_height', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_line_height', '', '', (e) =>
         changeStyle(
           'line-height',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const letterSpcBox = createElement(
+  const letterSpcBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Letter Spacing', 'cs_letter_spacing', ['cs-label']),
-      createInput(
+      _.createLabel('Letter Spacing', 'cs_letter_spacing', ['cs-label']),
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_letter_spacing',
@@ -739,18 +774,18 @@ function createTypographyForm() {
         (e) =>
           changeStyle(
             'letter-spacing',
-            `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+            `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
           )
       ),
     ]
   )
-  const colorBox = createElement(
+  const colorBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Color', 'cs_color', ['cs-label']),
-      createInput(
+      _.createLabel('Color', 'cs_color', ['cs-label']),
+      _.createInput(
         'color',
         ['cs-color-input'],
         'cs_color',
@@ -760,13 +795,13 @@ function createTypographyForm() {
       ),
     ]
   )
-  const textDecoBox = createElement(
+  const textDecoBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Text Decoration', 'cs_text_deco', ['cs-label']),
-      createSelect(
+      _.createLabel('Text Decoration', 'cs_text_deco', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -778,13 +813,13 @@ function createTypographyForm() {
       ),
     ]
   )
-  const decoTpBox = createElement(
+  const decoTpBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Text Decoration Types', 'cs_underline_type', ['cs-label']),
-      createSelect(
+      _.createLabel('Text Decoration Types', 'cs_underline_type', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -794,27 +829,29 @@ function createTypographyForm() {
         'cs_underline_type',
         function (e) {
           const type = e.target.value
-          const color = getNode('#cs_underline_color').value
+          const color = _.getNode('#cs_underline_color').value
           const value = calTextDecoration(type, color)
           changeStyle('text-decoration', value)
         }
       ),
     ]
   )
-  const decoColorBox = createElement(
+  const decoColorBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Text Decoration Color', 'cs_underline_color', ['cs-label']),
-      createInput(
+      _.createLabel('Text Decoration Color', 'cs_underline_color', [
+        'cs-label',
+      ]),
+      _.createInput(
         'color',
         ['cs-color-input'],
         'cs_underline_color',
         { value: '#000000' },
         '',
         function (e) {
-          const type = getNode('#cs_underline_type').value
+          const type = _.getNode('#cs_underline_type').value
           const color = e.target.value
           const value = calTextDecoration(type, color)
           changeStyle('text-decoration', value)
@@ -822,13 +859,13 @@ function createTypographyForm() {
       ),
     ]
   )
-  const textAlignBox = createElement(
+  const textAlignBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Text align', 'cs_text_align', ['cs-label']),
-      createSelect(
+      _.createLabel('Text align', 'cs_text_align', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -842,27 +879,27 @@ function createTypographyForm() {
       ),
     ]
   )
-  const textIdtBox = createElement(
+  const textIdtBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_text_idt', '', '', (e) =>
+      _.createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_text_idt', '', '', (e) =>
         changeStyle(
           'text-indent',
-          `${e.target.value}${getNode('#unit_selector').value}`
+          `${e.target.value}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const writingModeBox = createElement(
+  const writingModeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Writing Mode', 'cs_writing_mode', ['cs-label']),
-      createSelect(
+      _.createLabel('Writing Mode', 'cs_writing_mode', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -875,20 +912,20 @@ function createTypographyForm() {
       ),
     ]
   )
-  const textShadowBox = createElement(
+  const textShadowBox = _.createElement(
     'div',
     '',
     ['cs-lg-gp'],
     [
-      createElement(
+      _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Text-Shadow', '', ['cs-label']),
-          createButton('Add', ['inline-btn'], '', function (e) {
+          _.createLabel('Text-Shadow', '', ['cs-label']),
+          _.createButton('Add', ['inline-btn'], '', function (e) {
             e.preventDefault()
-            if (getAllNodes('.cs-ts-xo').length > 2) return
+            if (_.getAllNodes('.cs-ts-xo').length > 2) return
             e.target.parentElement.parentElement.appendChild(
               createTextShadowValue()
             )
@@ -899,12 +936,12 @@ function createTypographyForm() {
     ]
   )
   function createTextShadowValue() {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['cs-ip-gp'],
       [
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-ts-xo'],
           '',
@@ -912,7 +949,7 @@ function createTypographyForm() {
           '',
           () => changeStyle('text-shadow', calTextShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-ts-yo'],
           '',
@@ -920,7 +957,7 @@ function createTypographyForm() {
           '',
           () => changeStyle('text-shadow', calTextShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-ts-blur'],
           '',
@@ -928,7 +965,7 @@ function createTypographyForm() {
           '',
           () => changeStyle('text-shadow', calTextShadowValue())
         ),
-        createInput(
+        _.createInput(
           'color',
           ['cs-color-input', 'cs-ts-color'],
           '',
@@ -936,7 +973,7 @@ function createTypographyForm() {
           '',
           () => changeStyle('text-shadow', calTextShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-ts-alpha'],
           '',
@@ -948,7 +985,7 @@ function createTypographyForm() {
       ]
     )
   }
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -975,13 +1012,13 @@ function createTypographyForm() {
 // background-image / background-position / background-repeat / background-size / background-clip
 // background-attachment
 function createBackgroundForm() {
-  const bgBox = createElement(
+  const bgBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Background', 'cs_background', ['cs-label']),
-      createInput(
+      _.createLabel('Background', 'cs_background', ['cs-label']),
+      _.createInput(
         'color',
         ['cs-color-input'],
         'cs_background',
@@ -989,7 +1026,7 @@ function createBackgroundForm() {
         '',
         function (e) {
           let opacity = Math.min(
-            Math.max(parseInt(getNode('#cs_bg_opacity').value), 1),
+            Math.max(parseInt(_.getNode('#cs_bg_opacity').value), 1),
             10
           )
           changeStyle(
@@ -998,7 +1035,7 @@ function createBackgroundForm() {
           )
         }
       ),
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_bg_opacity',
@@ -1008,14 +1045,16 @@ function createBackgroundForm() {
           let opacity = Math.min(Math.max(parseInt(e.target.value), 1), 10)
           changeStyle(
             'background-color',
-            `rgba(${hexToRgb(getNode('#cs_background').value)},${opacity / 10})`
+            `rgba(${hexToRgb(_.getNode('#cs_background').value)},${
+              opacity / 10
+            })`
           )
         }
       ),
     ]
   )
   function createGrdColorIp() {
-    return createInput(
+    return _.createInput(
       'color',
       ['cs-color-input', 'bg-grd-color'],
       '',
@@ -1027,20 +1066,20 @@ function createBackgroundForm() {
         changeStyle(
           'background',
           calGrdValue(
-            getNode('#cs_bg_type').value,
-            getNode('#cs_grd_deg').value,
-            getAllNodes('.bg-grd-color')
+            _.getNode('#cs_bg_type').value,
+            _.getNode('#cs_grd_deg').value,
+            _.getAllNodes('.bg-grd-color')
           )
         )
     )
   }
-  const bgGradientBox = createElement(
+  const bgGradientBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Gradient', 'cs_bg_type', ['cs-label']),
-      createSelect(
+      _.createLabel('Gradient', 'cs_bg_type', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1049,7 +1088,7 @@ function createBackgroundForm() {
         ],
         'cs_bg_type'
       ),
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_grd_deg',
@@ -1060,9 +1099,9 @@ function createBackgroundForm() {
         },
         '',
         function (e) {
-          const colorNodes = getAllNodes('.bg-grd-color')
+          const colorNodes = _.getAllNodes('.bg-grd-color')
           const value = calGrdValue(
-            getNode('#cs_bg_type').value,
+            _.getNode('#cs_bg_type').value,
             parseInt(e.target.value),
             colorNodes
           )
@@ -1074,13 +1113,13 @@ function createBackgroundForm() {
       createGrdColorIp(),
     ]
   )
-  const bgImgBox = createElement(
+  const bgImgBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Image', 'cs_bg_img', ['cs-label']),
-      createInput(
+      _.createLabel('Background Image', 'cs_bg_img', ['cs-label']),
+      _.createInput(
         '',
         ['cs-text-input'],
         'cs_bg_img',
@@ -1090,29 +1129,29 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgSizeBox = createElement(
+  const bgSizeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Size', 'cs_bg_size', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_bg_size', '', '', (e) =>
+      _.createLabel('Background Size', 'cs_bg_size', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_bg_size', '', '', (e) =>
         changeStyle(
           'background-size',
-          `${parseInt(e.target.value)}${getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
         )
       ),
     ]
   )
-  const bgSizeAutoBox = createElement(
+  const bgSizeAutoBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Size ( predefined )', 'cs_bg_size_pre', [
+      _.createLabel('Background Size ( predefined )', 'cs_bg_size_pre', [
         'cs-label',
       ]),
-      createSelect(
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1125,13 +1164,13 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgRpBox = createElement(
+  const bgRpBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Repeat', 'cs_bg_rp', ['cs-label']),
-      createSelect(
+      _.createLabel('Background Repeat', 'cs_bg_rp', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1147,13 +1186,13 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgPstBox = createElement(
+  const bgPstBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Position', 'cs_bg_pst', ['cs-label']),
-      createSelect(
+      _.createLabel('Background Position', 'cs_bg_pst', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1172,13 +1211,13 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgClipBox = createElement(
+  const bgClipBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Clip', 'cs_bg_clip', ['cs-label']),
-      createSelect(
+      _.createLabel('Background Clip', 'cs_bg_clip', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1201,13 +1240,13 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgAttachBox = createElement(
+  const bgAttachBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Background Attachment', 'cs_bg_attach', ['cs-label']),
-      createSelect(
+      _.createLabel('Background Attachment', 'cs_bg_attach', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1227,7 +1266,7 @@ function createBackgroundForm() {
   // to add -webkit- for text-image and others??????????????????????
   // to add -webkit- for text-image and others??????????????????????
   // to add -webkit- for text-image and others??????????????????????
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -1255,13 +1294,13 @@ function createBackgroundForm() {
 
 function createBorderAndOutlinesForm() {
   //  here boo is border or outline
-  const bOOBox = createElement(
+  const bOOBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('BORDER', 'cs_bOOChooser', ['cs-label'], 'bOOChooser'),
-      createSelect(
+      _.createLabel('BORDER', 'cs_bOOChooser', ['cs-label'], 'bOOChooser'),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1270,17 +1309,17 @@ function createBorderAndOutlinesForm() {
         ],
         'cs_bOOChooser',
         (e) =>
-          (getNode('#bOOChooser').textContent = e.target.value.toUpperCase())
+          (_.getNode('#bOOChooser').textContent = e.target.value.toUpperCase())
       ),
     ]
   )
-  const bOOWidthBox = createElement(
+  const bOOWidthBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Width', 'cs_boo_width', ['cs-label']),
-      createInput(
+      _.createLabel('Width', 'cs_boo_width', ['cs-label']),
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_boo_width',
@@ -1288,24 +1327,24 @@ function createBorderAndOutlinesForm() {
         '',
         function (e) {
           const [key, value] = manageBOO(
-            getNode('#cs_bOOChooser').value,
-            getNode('#cs_boo_side').value,
-            getNode('#cs_boo_type').value,
-            `${parseInt(e.target.value)}${getNode('#unit_selector').value}`,
-            getNode('#cs_boo_color').value
+            _.getNode('#cs_bOOChooser').value,
+            _.getNode('#cs_boo_side').value,
+            _.getNode('#cs_boo_type').value,
+            `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`,
+            _.getNode('#cs_boo_color').value
           )
           changeStyle(key, value)
         }
       ),
     ]
   )
-  const bOOTypeBox = createElement(
+  const bOOTypeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Style', 'cs_boo_type', ['cs-label']),
-      createSelect(
+      _.createLabel('Style', 'cs_boo_type', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1318,26 +1357,26 @@ function createBorderAndOutlinesForm() {
         'cs_boo_type',
         function (e) {
           const [key, value] = manageBOO(
-            getNode('#cs_bOOChooser').value,
-            getNode('#cs_boo_side').value,
+            _.getNode('#cs_bOOChooser').value,
+            _.getNode('#cs_boo_side').value,
             e.target.value,
-            `${parseInt(getNode('#cs_boo_width').value)}${
-              getNode('#unit_selector').value
+            `${parseInt(_.getNode('#cs_boo_width').value)}${
+              _.getNode('#unit_selector').value
             }`,
-            getNode('#cs_boo_color').value
+            _.getNode('#cs_boo_color').value
           )
           changeStyle(key, value)
         }
       ),
     ]
   )
-  const bOOColorBox = createElement(
+  const bOOColorBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Color', 'cs_boo_color', ['cs-label']),
-      createInput(
+      _.createLabel('Color', 'cs_boo_color', ['cs-label']),
+      _.createInput(
         'color',
         ['cs-color-input'],
         'cs_boo_color',
@@ -1345,11 +1384,11 @@ function createBorderAndOutlinesForm() {
         '',
         function (e) {
           const [key, value] = manageBOO(
-            getNode('#cs_bOOChooser').value,
-            getNode('#cs_boo_side').value,
-            getNode('#cs_boo_type').value,
-            `${parseInt(getNode('#cs_boo_width').value)}${
-              getNode('#unit_selector').value
+            _.getNode('#cs_bOOChooser').value,
+            _.getNode('#cs_boo_side').value,
+            _.getNode('#cs_boo_type').value,
+            `${parseInt(_.getNode('#cs_boo_width').value)}${
+              _.getNode('#unit_selector').value
             }`,
             e.target.value
           )
@@ -1358,13 +1397,13 @@ function createBorderAndOutlinesForm() {
       ),
     ]
   )
-  const bOOSideBox = createElement(
+  const bOOSideBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Side', 'cs_boo_side', ['cs-label']),
-      createSelect(
+      _.createLabel('Side', 'cs_boo_side', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1378,95 +1417,95 @@ function createBorderAndOutlinesForm() {
       ),
     ]
   )
-  const rmBorderBox = createElement(
+  const rmBorderBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Remove border', 'cs_rm_border', ['cs-label']),
-      createInput('checkbox', ['cs-checkbox'], 'cs_rm_border', '', '', (e) =>
+      _.createLabel('Remove border', 'cs_rm_border', ['cs-label']),
+      _.createInput('checkbox', ['cs-checkbox'], 'cs_rm_border', '', '', (e) =>
         changeStyle('border', e.target.checked ? 'none' : '2px solid')
       ),
     ]
   )
-  const rmOutlineBox = createElement(
+  const rmOutlineBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
-      createLabel('Remove outline', 'cs_rm_outline', ['cs-label']),
-      createInput('checkbox', ['cs-checkbox'], 'cs_rm_outline', '', '', (e) =>
+      _.createLabel('Remove outline', 'cs_rm_outline', ['cs-label']),
+      _.createInput('checkbox', ['cs-checkbox'], 'cs_rm_outline', '', '', (e) =>
         changeStyle('outline', e.target.checked ? 'none' : '2px solid')
       ),
     ]
   )
-  const borderRadiusBox = createElement(
+  const borderRadiusBox = _.createElement(
     'div',
     '',
     ['cs-lg-gp'],
     [
-      createLabel('Border Radius', '', ['cs-label']),
-      createElement(
+      _.createLabel('Border Radius', '', ['cs-label']),
+      _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input'],
             'cs_border_r_one',
             '',
             '',
             function (e) {
-              const unit = getNode('#unit_selector').value
+              const unit = _.getNode('#unit_selector').value
               const one = `${e.target.value}${unit}`
-              const two = `${getNode('#cs_border_r_two').value}${unit}`
-              const three = `${getNode('#cs_border_r_three').value}${unit}`
-              const four = `${getNode('#cs_border_r_four').value}${unit}`
+              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
+              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
+              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
               changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
             }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input'],
             'cs_border_r_two',
             '',
             '',
             function (e) {
-              const unit = getNode('#unit_selector').value
-              const one = `${getNode('#cs_border_r_one').value}${unit}`
+              const unit = _.getNode('#unit_selector').value
+              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
               const two = `${e.target.value}${unit}`
-              const three = `${getNode('#cs_border_r_three').value}${unit}`
-              const four = `${getNode('#cs_border_r_four').value}${unit}`
+              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
+              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
               changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
             }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input'],
             'cs_border_r_three',
             '',
             '',
             function (e) {
-              const unit = getNode('#unit_selector').value
-              const one = `${getNode('#cs_border_r_one').value}${unit}`
-              const two = `${getNode('#cs_border_r_two').value}${unit}`
+              const unit = _.getNode('#unit_selector').value
+              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
+              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
               const three = `${e.target.value}${unit}`
-              const four = `${getNode('#cs_border_r_four').value}${unit}`
+              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
               changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
             }
           ),
-          createInput(
+          _.createInput(
             'number',
             ['cs-num-input'],
             'cs_border_r_four',
             '',
             '',
             function (e) {
-              const unit = getNode('#unit_selector').value
-              const one = `${getNode('#cs_border_r_one').value}${unit}`
-              const two = `${getNode('#cs_border_r_two').value}${unit}`
-              const three = `${getNode('#cs_border_r_three').value}${unit}`
+              const unit = _.getNode('#unit_selector').value
+              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
+              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
+              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
               const four = `${e.target.value}${unit}`
               changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
             }
@@ -1475,7 +1514,7 @@ function createBorderAndOutlinesForm() {
       ),
     ]
   )
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -1499,13 +1538,13 @@ function createBorderAndOutlinesForm() {
 // backdrop-filter ( blur , invert , sepia )
 
 function createMiscellaneousForm() {
-  const opacityBox = createElement(
+  const opacityBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Opacity 0 - 10', 'cs_opacity', ['cs-label']),
-      createInput(
+      _.createLabel('Opacity 0 - 10', 'cs_opacity', ['cs-label']),
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_opacity',
@@ -1519,13 +1558,13 @@ function createMiscellaneousForm() {
       ),
     ]
   )
-  const visibilityBox = createElement(
+  const visibilityBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Visibility', 'cs_visibility', ['cs-label']),
-      createSelect(
+      _.createLabel('Visibility', 'cs_visibility', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1538,13 +1577,13 @@ function createMiscellaneousForm() {
       ),
     ]
   )
-  const cursorBox = createElement(
+  const cursorBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Cursor', 'cs_cursor', ['cs-label']),
-      createSelect(
+      _.createLabel('Cursor', 'cs_cursor', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1560,13 +1599,13 @@ function createMiscellaneousForm() {
       ),
     ]
   )
-  const backdropFilterBox = createElement(
+  const backdropFilterBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Backdrop Filter', 'cs_bd_filter', ['cs-label']),
-      createSelect(
+      _.createLabel('Backdrop Filter', 'cs_bd_filter', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1576,23 +1615,23 @@ function createMiscellaneousForm() {
         ],
         'cs_bd_filter_tp'
       ),
-      createInput('number', ['cs-num-input'], 'cs_bd_filter', '', '', (e) =>
+      _.createInput('number', ['cs-num-input'], 'cs_bd_filter', '', '', (e) =>
         changeStyle(
           'backdrop-filter',
-          `${getNode('#cs_bd_filter_tp').value}(${parseInt(e.target.value)}${
-            getNode('#unit_selector').value
+          `${_.getNode('#cs_bd_filter_tp').value}(${parseInt(e.target.value)}${
+            _.getNode('#unit_selector').value
           })`
         )
       ),
     ]
   )
-  const filterBox = createElement(
+  const filterBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Filter', 'cs_filter', ['cs-label']),
-      createSelect(
+      _.createLabel('Filter', 'cs_filter', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1609,50 +1648,55 @@ function createMiscellaneousForm() {
         ],
         'cs_filter_tp'
       ),
-      createInput('number', ['cs-num-input'], 'cs_filter', '', '', (e) =>
+      _.createInput('number', ['cs-num-input'], 'cs_filter', '', '', (e) =>
         changeStyle(
           'filter',
-          `${getNode('#cs_filter_tp').value}(${parseInt(e.target.value)}${
-            getNode('#unit_selector').value
+          `${_.getNode('#cs_filter_tp').value}(${parseInt(e.target.value)}${
+            _.getNode('#unit_selector').value
           })`
         )
       ),
     ]
   )
-  const boxShadowBox = createElement(
+  const boxShadowBox = _.createElement(
     'div',
     '',
     ['cs-lg-gp'],
     [
-      createElement(
+      _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Box-Shadow', '', ['cs-label']),
-          createButton('Add', ['inline-btn', 'text-primary'], '', function (e) {
-            if (getAllNodes('.cs-bs-type').length > 2) return
-            e.target.parentElement.parentElement.appendChild(
-              boxShadowValueForm()
-            )
-          }),
+          _.createLabel('Box-Shadow', '', ['cs-label']),
+          _.createButton(
+            'Add',
+            ['inline-btn', 'text-primary'],
+            '',
+            function (e) {
+              if (_.getAllNodes('.cs-bs-type').length > 2) return
+              e.target.parentElement.parentElement.appendChild(
+                boxShadowValueForm()
+              )
+            }
+          ),
         ]
       ),
-      createElement('div', '', ['cs-ip-gp']),
+      _.createElement('div', '', ['cs-ip-gp']),
       boxShadowValueForm(),
     ]
   )
   function boxShadowValueForm() {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['cs-ip-gp'],
       [
-        createSelect(['cs-select', 'cs-bs-type'], '', [
+        _.createSelect(['cs-select', 'cs-bs-type'], '', [
           { value: '', text: 'Out' },
           { value: 'inset', text: 'Inset' },
         ]),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-bs-xo'],
           '',
@@ -1660,7 +1704,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('box-shadow', calBoxShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-bs-yo'],
           '',
@@ -1668,7 +1712,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('box-shadow', calBoxShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-bs-blur'],
           '',
@@ -1676,7 +1720,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('box-shadow', calBoxShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-bs-spr'],
           '',
@@ -1684,7 +1728,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('box-shadow', calBoxShadowValue())
         ),
-        createInput(
+        _.createInput(
           'color',
           ['cs-color-input', 'cs-bs-color'],
           '',
@@ -1692,7 +1736,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('box-shadow', calBoxShadowValue())
         ),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-bs-alpha'],
           '',
@@ -1704,23 +1748,28 @@ function createMiscellaneousForm() {
       ]
     )
   }
-  const transitionBox = createElement(
+  const transitionBox = _.createElement(
     'div',
     '',
     ['cs-lg-gp'],
     [
-      createElement(
+      _.createElement(
         'div',
         '',
         ['cs-ip-gp'],
         [
-          createLabel('Transition', '', ['cs-label']),
-          createButton('Add', ['inline-btn', 'text-primary'], '', function (e) {
-            if (getAllNodes('.cs-trans-name').length > 2) return
-            e.target.parentElement.parentElement.appendChild(
-              transitionValuesForm()
-            )
-          }),
+          _.createLabel('Transition', '', ['cs-label']),
+          _.createButton(
+            'Add',
+            ['inline-btn', 'text-primary'],
+            '',
+            function (e) {
+              if (_.getAllNodes('.cs-trans-name').length > 2) return
+              e.target.parentElement.parentElement.appendChild(
+                transitionValuesForm()
+              )
+            }
+          ),
         ]
       ),
       transitionValuesForm(),
@@ -1728,15 +1777,15 @@ function createMiscellaneousForm() {
     'transition_box'
   )
   function transitionValuesForm() {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['cs-ip-gp'],
       [
-        createInput('', ['cs-text-input', 'cs-trans-name'], '', {
+        _.createInput('', ['cs-text-input', 'cs-trans-name'], '', {
           value: 'opacity',
         }),
-        createInput(
+        _.createInput(
           'number',
           ['cs-num-input', 'cs-trans-prd'],
           '',
@@ -1744,7 +1793,7 @@ function createMiscellaneousForm() {
           '',
           () => changeStyle('transition', calTransitionValues())
         ),
-        createSelect(
+        _.createSelect(
           ['cs-select', 'cs-trans-ef'],
           '',
           [
@@ -1782,7 +1831,7 @@ function createMiscellaneousForm() {
     )
   }
 
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
@@ -1804,13 +1853,13 @@ function createMiscellaneousForm() {
 // align-self ( stretch , center , start , end )
 // ---- grid ------------- update later ----------- //
 function createDisplayForm() {
-  const displayBox = createElement(
+  const displayBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Display', 'cs_display', ['cs-label']),
-      createSelect(
+      _.createLabel('Display', 'cs_display', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1826,24 +1875,24 @@ function createDisplayForm() {
       ),
     ]
   )
-  const flexBox = createElement(
+  const flexBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Flex', 'cs_flex', ['cs-label']),
-      createInput('number', ['cs-num-input'], 'cs_flex', '', '', (e) =>
+      _.createLabel('Flex', 'cs_flex', ['cs-label']),
+      _.createInput('number', ['cs-num-input'], 'cs_flex', '', '', (e) =>
         changeStyle('flex', parseInt(e.target.value))
       ),
     ]
   )
-  const flexDirectionBox = createElement(
+  const flexDirectionBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Flex Direction', 'cs_flex_dir', ['cs-label']),
-      createSelect(
+      _.createLabel('Flex Direction', 'cs_flex_dir', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1857,13 +1906,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const flexWrapBox = createElement(
+  const flexWrapBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Flex Wrap', 'cs_flex_wrap', ['cs-label']),
-      createSelect(
+      _.createLabel('Flex Wrap', 'cs_flex_wrap', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1876,13 +1925,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const justifyContentBox = createElement(
+  const justifyContentBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Justify Content', 'cs_justify_cnt', ['cs-label']),
-      createSelect(
+      _.createLabel('Justify Content', 'cs_justify_cnt', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1899,13 +1948,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const alignItemsBox = createElement(
+  const alignItemsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Align Items', 'cs_algin_items', ['cs-label']),
-      createSelect(
+      _.createLabel('Align Items', 'cs_algin_items', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1926,13 +1975,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const alignContentBox = createElement(
+  const alignContentBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Align Content', 'cs_align_cnt', ['cs-label']),
-      createSelect(
+      _.createLabel('Align Content', 'cs_align_cnt', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1954,13 +2003,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const alignSelfBox = createElement(
+  const alignSelfBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Align-self', 'cs_align_self', ['cs-label']),
-      createSelect(
+      _.createLabel('Align-self', 'cs_align_self', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -1981,13 +2030,13 @@ function createDisplayForm() {
       ),
     ]
   )
-  const justifySelfBox = createElement(
+  const justifySelfBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Justify-self', 'cs_justify_self', ['cs-label']),
-      createSelect(
+      _.createLabel('Justify-self', 'cs_justify_self', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2010,15 +2059,15 @@ function createDisplayForm() {
       ),
     ]
   )
-  const readyGridTempColsBox = createElement(
+  const readyGridTempColsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-template-columns', 'cs_rdy_grd_temp_cols', [
+      _.createLabel('Grid-template-columns', 'cs_rdy_grd_temp_cols', [
         'cs-label',
       ]),
-      createSelect(
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2057,26 +2106,31 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdTempColsBox = createElement(
+  const cusGrdTempColsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Custom grid-template-columns', 'cs_cus_grd_temp_cols', [
+      _.createLabel('Custom grid-template-columns', 'cs_cus_grd_temp_cols', [
         'cs-label',
       ]),
-      createInput('', ['cs-text-input'], 'cs_cus_grd_temp_cols', '', '', (e) =>
-        changeStyle('grid-template-columns', e.target.value)
+      _.createInput(
+        '',
+        ['cs-text-input'],
+        'cs_cus_grd_temp_cols',
+        '',
+        '',
+        (e) => changeStyle('grid-template-columns', e.target.value)
       ),
     ]
   )
-  const readyGridTempRowsBox = createElement(
+  const readyGridTempRowsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-template-rows', 'cs_rdy_grd_temp_rows', ['cs-label']),
-      createSelect(
+      _.createLabel('Grid-template-rows', 'cs_rdy_grd_temp_rows', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2115,26 +2169,31 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdTempRowsBox = createElement(
+  const cusGrdTempRowsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Custom grid-template-rows', 'cs_cus_grd_temp_rows', [
+      _.createLabel('Custom grid-template-rows', 'cs_cus_grd_temp_rows', [
         'cs-label',
       ]),
-      createInput('', ['cs-text-input'], 'cs_cus_grd_temp_rows', '', '', (e) =>
-        changeStyle('grid-template-rows', e.target.value)
+      _.createInput(
+        '',
+        ['cs-text-input'],
+        'cs_cus_grd_temp_rows',
+        '',
+        '',
+        (e) => changeStyle('grid-template-rows', e.target.value)
       ),
     ]
   )
-  const rdyGrdColsBox = createElement(
+  const rdyGrdColsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Col & Row Set', 'cs_rdy_grd_col_row', ['cs-label']),
-      createSelect(
+      _.createLabel('Col & Row Set', 'cs_rdy_grd_col_row', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2177,36 +2236,36 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdColBox = createElement(
+  const cusGrdColBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Custom grid-column', 'cs_cus_grd_col', ['cs-label']),
-      createInput('', ['cs-text-input'], 'cs_cus_grd_col', '', '', (e) =>
+      _.createLabel('Custom grid-column', 'cs_cus_grd_col', ['cs-label']),
+      _.createInput('', ['cs-text-input'], 'cs_cus_grd_col', '', '', (e) =>
         changeStyle('grid-column', e.target.value)
       ),
     ]
   )
-  const cusGrdRowBox = createElement(
+  const cusGrdRowBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Custom grid-row', 'cs_cus_grd_row', ['cs-label']),
-      createInput('', ['cs-text-input'], 'cs_cus_grd_row', '', '', (e) =>
+      _.createLabel('Custom grid-row', 'cs_cus_grd_row', ['cs-label']),
+      _.createInput('', ['cs-text-input'], 'cs_cus_grd_row', '', '', (e) =>
         changeStyle('grid-row', e.target.value)
       ),
     ]
   )
-  const grdColStartBox = createElement(
+  const grdColStartBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-col-start', 'cs_grd_col_start', ['cs-label']),
+      _.createLabel('Grid-col-start', 'cs_grd_col_start', ['cs-label']),
 
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_grd_col_start',
@@ -2215,13 +2274,13 @@ function createDisplayForm() {
         (e) =>
           changeStyle(
             'grid-col-start',
-            `${getNode('#cs_grd_col_span_start').checked ? 'span ' : ''},${
+            `${_.getNode('#cs_grd_col_span_start').checked ? 'span ' : ''},${
               e.target.value
             }`
           )
       ),
-      createLabel('span !', 'cs_grd_col_span_start', ['cs-label']),
-      createInput(
+      _.createLabel('span !', 'cs_grd_col_span_start', ['cs-label']),
+      _.createInput(
         'checkbox',
         ['cs-checkbox'],
         'cs_grd_col_span_start',
@@ -2231,20 +2290,20 @@ function createDisplayForm() {
           changeStyle(
             'grid-col-start',
             `${e.target.checked ? 'span ' : ''}${parseInt(
-              getNode('#cs_grd_col_start').value
+              _.getNode('#cs_grd_col_start').value
             )}`
           )
       ),
     ]
   )
-  const grdColEndBox = createElement(
+  const grdColEndBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-col-end', 'cs_grd_col_end', ['cs-label']),
+      _.createLabel('Grid-col-end', 'cs_grd_col_end', ['cs-label']),
 
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_grd_col_end',
@@ -2253,13 +2312,13 @@ function createDisplayForm() {
         (e) =>
           changeStyle(
             'grid-col-end',
-            `${getNode('#cs_grd_col_span_end').checked ? 'span ' : ''},${
+            `${_.getNode('#cs_grd_col_span_end').checked ? 'span ' : ''},${
               e.target.value
             }`
           )
       ),
-      createLabel('span !', 'cs_grd_col_span_end', ['cs-label']),
-      createInput(
+      _.createLabel('span !', 'cs_grd_col_span_end', ['cs-label']),
+      _.createInput(
         'checkbox',
         ['cs-checkbox'],
         'cs_grd_col_span_end',
@@ -2269,20 +2328,20 @@ function createDisplayForm() {
           changeStyle(
             'grid-col-end',
             `${e.target.checked ? 'span ' : ''}${parseInt(
-              getNode('#cs_grd_col_end').value
+              _.getNode('#cs_grd_col_end').value
             )}`
           )
       ),
     ]
   )
-  const grdRowStartBox = createElement(
+  const grdRowStartBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-row-start', 'cs_grd_row_start', ['cs-label']),
+      _.createLabel('Grid-row-start', 'cs_grd_row_start', ['cs-label']),
 
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_grd_row_start',
@@ -2291,13 +2350,13 @@ function createDisplayForm() {
         (e) =>
           changeStyle(
             'grid-row-start',
-            `${getNode('#cs_grd_row_span_start').checked ? 'span ' : ''},${
+            `${_.getNode('#cs_grd_row_span_start').checked ? 'span ' : ''},${
               e.target.value
             }`
           )
       ),
-      createLabel('span !', 'cs_grd_row_span_start', ['cs-label']),
-      createInput(
+      _.createLabel('span !', 'cs_grd_row_span_start', ['cs-label']),
+      _.createInput(
         'checkbox',
         ['cs-checkbox'],
         'cs_grd_row_span_start',
@@ -2307,20 +2366,20 @@ function createDisplayForm() {
           changeStyle(
             'grid-row-start',
             `${e.target.checked ? 'span ' : ''}${parseInt(
-              getNode('#cs_grd_row_start').value
+              _.getNode('#cs_grd_row_start').value
             )}`
           )
       ),
     ]
   )
-  const grdRowEndBox = createElement(
+  const grdRowEndBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Grid-row-end', 'cs_grd_row_end', ['cs-label']),
+      _.createLabel('Grid-row-end', 'cs_grd_row_end', ['cs-label']),
 
-      createInput(
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_grd_row_end',
@@ -2329,13 +2388,13 @@ function createDisplayForm() {
         (e) =>
           changeStyle(
             'grid-row-end',
-            `${getNode('#cs_grd_row_span_end').checked ? 'span ' : ''},${
+            `${_.getNode('#cs_grd_row_span_end').checked ? 'span ' : ''},${
               e.target.value
             }`
           )
       ),
-      createLabel('span !', 'cs_grd_row_span_end', ['cs-label']),
-      createInput(
+      _.createLabel('span !', 'cs_grd_row_span_end', ['cs-label']),
+      _.createInput(
         'checkbox',
         ['cs-checkbox'],
         'cs_grd_row_span_end',
@@ -2345,13 +2404,13 @@ function createDisplayForm() {
           changeStyle(
             'grid-row-end',
             `${e.target.checked ? 'span ' : ''}${parseInt(
-              getNode('#cs_grd_row_end').value
+              _.getNode('#cs_grd_row_end').value
             )}`
           )
       ),
     ]
   )
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       displayBox,
@@ -2379,20 +2438,22 @@ function createDisplayForm() {
 }
 
 function createAnimationForm() {
-  const aniNameBox = createElement(
+  const aniNameBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Name', 'cs_ani_name', ['cs-label']),
-      createSelect(['cs-select'], '', [], 'cs_ani_name', function (e) {
-        const duration = `${parseInt(getNode('#cs_ani_duration').value) / 10}s`
-        const timingFn = getNode('#cs_ani_timing_fn').value
-        const delayTime = parseInt(getNode('#cs_ani_delay').value)
+      _.createLabel('Name', 'cs_ani_name', ['cs-label']),
+      _.createSelect(['cs-select'], '', [], 'cs_ani_name', function (e) {
+        const duration = `${
+          parseInt(_.getNode('#cs_ani_duration').value) / 10
+        }s`
+        const timingFn = _.getNode('#cs_ani_timing_fn').value
+        const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
         const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-        const iterationCount = getNode('#cs_ani_itr_count').value
-        const direction = getNode('#cs_ani_direction').value
-        const fillNode = getNode('#cs_ani_fill_mode').value
+        const iterationCount = _.getNode('#cs_ani_itr_count').value
+        const direction = _.getNode('#cs_ani_direction').value
+        const fillNode = _.getNode('#cs_ani_fill_mode').value
         changeStyle(
           'animation',
           `${e.target.value} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2400,28 +2461,28 @@ function createAnimationForm() {
       }),
     ]
   )
-  const aniDurationBox = createElement(
+  const aniDurationBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Duration', 'cs_ani_duration', ['cs-label']),
-      createInput(
+      _.createLabel('Duration', 'cs_ani_duration', ['cs-label']),
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_ani_duration',
         { value: 20 },
         '',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${parseInt(e.target.value) / 10}s`
-          const timingFn = getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(getNode('#cs_ani_delay').value)
+          const timingFn = _.getNode('#cs_ani_timing_fn').value
+          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = getNode('#cs_ani_itr_count').value
-          const direction = getNode('#cs_ani_direction').value
-          const fillNode = getNode('#cs_ani_fill_mode').value
+          const iterationCount = _.getNode('#cs_ani_itr_count').value
+          const direction = _.getNode('#cs_ani_direction').value
+          const fillNode = _.getNode('#cs_ani_fill_mode').value
           changeStyle(
             'animation',
             `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2430,13 +2491,13 @@ function createAnimationForm() {
       ),
     ]
   )
-  const aniTimingFnBox = createElement(
+  const aniTimingFnBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Timing Function', 'cs_ani_timing_fn', ['cs-label']),
-      createSelect(
+      _.createLabel('Timing Function', 'cs_ani_timing_fn', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2450,17 +2511,17 @@ function createAnimationForm() {
         ],
         'cs_ani_timing_fn',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${
-            parseInt(getNode('#cs_ani_duration').value) / 10
+            parseInt(_.getNode('#cs_ani_duration').value) / 10
           }s`
           const timingFn = e.target.value
-          const delayTime = parseInt(getNode('#cs_ani_delay').value)
+          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = getNode('#cs_ani_itr_count').value
-          const direction = getNode('#cs_ani_direction').value
-          const fillNode = getNode('#cs_ani_fill_mode').value
+          const iterationCount = _.getNode('#cs_ani_itr_count').value
+          const direction = _.getNode('#cs_ani_direction').value
+          const fillNode = _.getNode('#cs_ani_fill_mode').value
           changeStyle(
             'animation',
             `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2469,30 +2530,30 @@ function createAnimationForm() {
       ),
     ]
   )
-  const aniDelayBox = createElement(
+  const aniDelayBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Delay Time', 'cs_ani_delay', ['cs-label']),
-      createInput(
+      _.createLabel('Delay Time', 'cs_ani_delay', ['cs-label']),
+      _.createInput(
         'number',
         ['cs-num-input'],
         'cs_ani_delay',
         { value: '0' },
         '',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${
-            parseInt(getNode('#cs_ani_duration').value) / 10
+            parseInt(_.getNode('#cs_ani_duration').value) / 10
           }s`
-          const timingFn = getNode('#cs_ani_timing_fn').value
+          const timingFn = _.getNode('#cs_ani_timing_fn').value
           const delayTime = parseInt(e.target.value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = getNode('#cs_ani_itr_count').value
-          const direction = getNode('#cs_ani_direction').value
-          const fillNode = getNode('#cs_ani_fill_mode').value
+          const iterationCount = _.getNode('#cs_ani_itr_count').value
+          const direction = _.getNode('#cs_ani_direction').value
+          const fillNode = _.getNode('#cs_ani_fill_mode').value
           changeStyle(
             'animation',
             `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2501,13 +2562,13 @@ function createAnimationForm() {
       ),
     ]
   )
-  const aniIterationCountBox = createElement(
+  const aniIterationCountBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Iteration Count', 'cs_ani_itr_count', ['cs-label']),
-      createSelect(
+      _.createLabel('Iteration Count', 'cs_ani_itr_count', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2519,17 +2580,17 @@ function createAnimationForm() {
         ],
         'cs_ani_itr_count',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${
-            parseInt(getNode('#cs_ani_duration').value) / 10
+            parseInt(_.getNode('#cs_ani_duration').value) / 10
           }s`
-          const timingFn = getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(getNode('#cs_ani_delay').value)
+          const timingFn = _.getNode('#cs_ani_timing_fn').value
+          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
           const iterationCount = e.target.value
-          const direction = getNode('#cs_ani_direction').value
-          const fillNode = getNode('#cs_ani_fill_mode').value
+          const direction = _.getNode('#cs_ani_direction').value
+          const fillNode = _.getNode('#cs_ani_fill_mode').value
           changeStyle(
             'animation',
             `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2538,13 +2599,13 @@ function createAnimationForm() {
       ),
     ]
   )
-  const aniDirectionBox = createElement(
+  const aniDirectionBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Direction', 'cs_ani_direction', ['cs-label']),
-      createSelect(
+      _.createLabel('Direction', 'cs_ani_direction', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2555,17 +2616,17 @@ function createAnimationForm() {
         ],
         'cs_ani_direction',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${
-            parseInt(getNode('#cs_ani_duration').value) / 10
+            parseInt(_.getNode('#cs_ani_duration').value) / 10
           }s`
-          const timingFn = getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(getNode('#cs_ani_delay').value)
+          const timingFn = _.getNode('#cs_ani_timing_fn').value
+          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = getNode('#cs_ani_itr_count').value
+          const iterationCount = _.getNode('#cs_ani_itr_count').value
           const direction = e.target.value
-          const fillNode = getNode('#cs_ani_fill_mode').value
+          const fillNode = _.getNode('#cs_ani_fill_mode').value
           changeStyle(
             'animation',
             `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
@@ -2574,13 +2635,13 @@ function createAnimationForm() {
       ),
     ]
   )
-  const aniFillModeBox = createElement(
+  const aniFillModeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      createLabel('Fill Mode', 'cs_ani_fill_mode', ['cs-label']),
-      createSelect(
+      _.createLabel('Fill Mode', 'cs_ani_fill_mode', ['cs-label']),
+      _.createSelect(
         ['cs-select'],
         '',
         [
@@ -2591,16 +2652,16 @@ function createAnimationForm() {
         ],
         'cs_ani_fill_mode',
         function (e) {
-          const name = getNode('#cs_ani_name').value
+          const name = _.getNode('#cs_ani_name').value
           if (!name) return
           const duration = `${
-            parseInt(getNode('#cs_ani_duration').value) / 10
+            parseInt(_.getNode('#cs_ani_duration').value) / 10
           }s`
-          const timingFn = getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(getNode('#cs_ani_delay').value)
+          const timingFn = _.getNode('#cs_ani_timing_fn').value
+          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
           const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = getNode('#cs_ani_itr_count').value
-          const direction = getNode('#cs_ani_direction').value
+          const iterationCount = _.getNode('#cs_ani_itr_count').value
+          const direction = _.getNode('#cs_ani_direction').value
           const fillNode = e.target.value
           changeStyle(
             'animation',
@@ -2610,7 +2671,7 @@ function createAnimationForm() {
       ),
     ]
   )
-  return createForm(
+  return _.createForm(
     ['styler-box'],
     [
       aniNameBox,

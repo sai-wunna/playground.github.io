@@ -1,34 +1,29 @@
-import {
-  createButton,
-  createForm,
-  createInput,
-  createLabel,
-  createSelect,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+
+const _ = Document()
 
 function editImageForm(node) {
-  const target = getNode(node)
-  const srcLb = createLabel('Source', 'edit_src', ['form-label'])
-  const srcIp = createInput('', ['form-control'], 'edit_src', {
+  const target = _.getNode(node)
+  const srcLb = _.createLabel('Source', 'edit_src', ['form-label'])
+  const srcIp = _.createInput('', ['form-control'], 'edit_src', {
     value: target.src,
   })
-  const altLb = createLabel('Description about image', 'edit_alt', [
+  const altLb = _.createLabel('Description about image', 'edit_alt', [
     'form-label',
   ])
-  const altIp = createInput('', ['form-control'], 'edit_alt', {
+  const altIp = _.createInput('', ['form-control'], 'edit_alt', {
     value: target.alt,
   })
-  const updateBtn = createButton('Update', ['update-ele-btn'], '', (e) => {
+  const updateBtn = _.createButton('Update', ['update-ele-btn'], '', (e) => {
     e.preventDefault()
-    target.src = getNode('#edit_src').value
-    target.alt = getNode('#edit_alt').value
+    target.src = _.getNode('#edit_src').value
+    target.alt = _.getNode('#edit_alt').value
   })
-  return createForm([], [srcLb, srcIp, altLb, altIp, updateBtn], 'edit_form')
+  return _.createForm([], [srcLb, srcIp, altLb, altIp, updateBtn], 'edit_form')
 }
 
 function editLinkForm(node) {
-  const target = getNode(node)
+  const target = _.getNode(node)
   let type
   let link
   if (target.href.startsWith(`http`)) {
@@ -42,22 +37,22 @@ function editLinkForm(node) {
     link = target.href.split(':')[1]
   }
 
-  const LinkLb = createLabel('URL', 'edit_link', ['form-label'])
-  const linkIp = createInput('', ['form-control', 'my-2'], 'edit_link', {
+  const LinkLb = _.createLabel('URL', 'edit_link', ['form-label'])
+  const linkIp = _.createInput('', ['form-control', 'my-2'], 'edit_link', {
     value: link,
   })
-  const nameLb = createLabel('Link Name', 'edit_link_name', ['form-label'])
-  const nameIp = createInput('', ['form-control', 'my-2'], 'edit_link_name', {
+  const nameLb = _.createLabel('Link Name', 'edit_link_name', ['form-label'])
+  const nameIp = _.createInput('', ['form-control', 'my-2'], 'edit_link_name', {
     value: target.textContent,
   })
-  const titleLb = createLabel('Title for more information', 'edit_title', [
+  const titleLb = _.createLabel('Title for more information', 'edit_title', [
     'form-label',
   ])
-  const titleIp = createInput('', ['form-control', 'my-1'], 'edit_title', {
+  const titleIp = _.createInput('', ['form-control', 'my-1'], 'edit_title', {
     value: target.title,
   })
 
-  const select = createSelect(
+  const select = _.createSelect(
     ['form-select'],
     [
       { value: 'link', text: 'Link', selected: type === 1 },
@@ -75,13 +70,13 @@ function editLinkForm(node) {
       } else {
         newPlaceholder = '+123 456 789 012'
       }
-      getNode('#edit_link').placeholder = newPlaceholder
+      _.getNode('#edit_link').placeholder = newPlaceholder
     },
     ''
   )
-  const updateBtn = createButton('update', ['update-ele-btn'], '', (e) => {
+  const updateBtn = _.createButton('update', ['update-ele-btn'], '', (e) => {
     e.preventDefault()
-    let suffix = getNode('#link_type').value
+    let suffix = _.getNode('#link_type').value
     if (suffix === 'link') {
       suffix = ''
     } else if (suffix === 'email') {
@@ -89,11 +84,11 @@ function editLinkForm(node) {
     } else {
       suffix = 'tel:'
     }
-    target.href = `${suffix}${getNode('#edit_link').value}`
-    target.textContent = getNode('#edit_link_name').value
-    target.title = getNode('#edit_title').value
+    target.href = `${suffix}${_.getNode('#edit_link').value}`
+    target.textContent = _.getNode('#edit_link_name').value
+    target.title = _.getNode('#edit_title').value
   })
-  return createForm(
+  return _.createForm(
     [],
     [select, LinkLb, linkIp, nameLb, nameIp, titleLb, titleIp, updateBtn],
     'edit_form'

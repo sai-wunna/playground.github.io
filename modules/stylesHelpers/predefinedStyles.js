@@ -1,10 +1,6 @@
-import {
-  createButton,
-  createElement,
-  createFragment,
-  createSpan,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+
+const _ = Document()
 
 const predefinedStyles = {
   button: {},
@@ -45,11 +41,11 @@ function removePredefinedStyle(ele, condition, key) {
 // data manipulation done
 
 function changePredStyle(ele, condition, key, value) {
-  const appliedStyle = getNode(`#${ele}_${condition}_${key.trim()}_value`)
+  const appliedStyle = _.getNode(`#${ele}_${condition}_${key.trim()}_value`)
   if (appliedStyle) {
     appliedStyle.textContent = value
   } else {
-    const conditionBox = getNode(`.pred-styles-${condition}-info`)
+    const conditionBox = _.getNode(`.pred-styles-${condition}-info`)
     const styleInfo = createPredStyleInfo(ele, condition, key, value)
     if (conditionBox) {
       conditionBox.appendChild(styleInfo)
@@ -57,31 +53,31 @@ function changePredStyle(ele, condition, key, value) {
       const newConditionBox = createConditionBox(ele, condition, {
         [`${key}`]: value,
       })
-      getNode('.predefined-styles-info').appendChild(newConditionBox)
+      _.getNode('.predefined-styles-info').appendChild(newConditionBox)
     }
   }
   savePredefinedStyles(ele, condition, key, value)
 }
 
 function createConditionBox(ele, condition, styles) {
-  const fragment = createFragment()
+  const fragment = _.createFragment()
   for (let key in styles) {
     fragment.appendChild(createPredStyleInfo(ele, condition, key, styles[key]))
   }
-  return createElement(
+  return _.createElement(
     '',
     '',
     [`pred-styles-${condition}-box`],
     [
-      createElement('', condition, ['style-type-label']),
-      createElement('', '', [`pred-styles-${condition}-info`], [fragment]),
+      _.createElement('', condition, ['style-type-label']),
+      _.createElement('', '', [`pred-styles-${condition}-info`], [fragment]),
     ]
   )
 }
 
 function createPredStyleInfoFrag(ele) {
   const styles = predefinedStyles[ele]
-  const stylesFrags = createFragment()
+  const stylesFrags = _.createFragment()
 
   for (let condition in styles) {
     const conditionStyles = styles[condition]
@@ -92,18 +88,18 @@ function createPredStyleInfoFrag(ele) {
 }
 
 function createPredStyleInfo(ele, condition, key, value) {
-  return createElement(
+  return _.createElement(
     '',
     '',
     ['my-1', 'style-info'],
     [
-      createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
-      createSpan(
+      _.createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
+      _.createSpan(
         value,
         ['mx-1', 'css-value'],
         `${ele}_${condition}_${key.trim()}_value`
       ),
-      createButton(
+      _.createButton(
         'Del',
         ['inline-btn', 'text-danger', 'float-end'],
         '',

@@ -1,21 +1,16 @@
-import { getNode } from '../dom/index.js'
+import Document from '../dom/index.js'
+const _ = Document()
 
 function openNav(wrapper, classList) {
-  getNode('.priority-wrapper-box')?.classList.remove('priority-wrapper-box')
-  wrapper.style.display = 'block'
-  let timerId = setTimeout(() => {
-    wrapper.classList.add(classList)
-    wrapper.classList.add('priority-wrapper-box')
-  }, 10)
+  _.getNode('.priority-wrapper-box')?.classList.remove('priority-wrapper-box')
+  wrapper.classList.add(classList)
+  wrapper.classList.add('priority-wrapper-box')
+
   return () => clearTimeout(timerId)
 }
 
 function closeNav(wrapper, classList) {
-  wrapper.classList.remove('priority-wrapper-box')
   wrapper.classList.remove(classList)
-  let timerId = setTimeout(() => {
-    wrapper.style.display = 'none'
-  }, 400)
   return () => clearTimeout(timerId)
 }
 

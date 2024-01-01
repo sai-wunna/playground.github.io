@@ -1,13 +1,4 @@
-import {
-  createButton,
-  createElement,
-  createFragment,
-  createHeading,
-  createOption,
-  createSelect,
-  createSpan,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
 import { createCusStyleInfoShower } from './customStyles.js'
 import {
   animationInfoShower,
@@ -22,70 +13,79 @@ import {
 } from './classNameStyles .js'
 import { alertMe } from '../alert.js'
 
+const _ = Document()
+
 function createTargetStyleInfoBox(selectedNode) {
-  const styleInfoHolder = getNode('.styled-info')
+  const styleInfoHolder = _.getNode('.styled-info')
   styleInfoHolder.lastChild.remove()
-  getNode('#switch_css_mode')[0].selected = true
+  _.getNode('#switch_css_mode')[0].selected = true
   const styleInfo = createCusStyleInfoShower(selectedNode)
   function createCNSelect() {
-    const select = createSelect(
+    const select = _.createSelect(
       ['cs-select'],
       '',
       [],
       'add_class_list_selector'
     )
     for (let cn in classNames) {
-      createOption(select, cn, cn, cn)
+      _.createOption(select, cn, cn, cn)
     }
     return select
   }
   function createClassNameInfo(name) {
-    return createElement(
+    return _.createElement(
       '',
       '',
       ['style-info', 'my-1'],
       [
-        createSpan(name, ['css-key', 'mx-1']),
-        createButton(
+        _.createSpan(name, ['css-key', 'mx-1']),
+        _.createButton(
           'Del',
           ['inline-btn', 'text-danger', 'float-end'],
           '',
           function (e) {
             e.target.parentElement.remove()
-            getNode(selectedNode).classList.remove(name)
+            _.getNode(selectedNode).classList.remove(name)
           }
         ),
       ]
     )
   }
-  const appliedClassList = getNode(selectedNode).className.split(' ')
-  const classListFrag = createFragment()
+  const appliedClassList = _.getNode(selectedNode).className.split(' ')
+  const classListFrag = _.createFragment()
   appliedClassList.forEach((cn) => {
     if (!cn) return
     classListFrag.appendChild(createClassNameInfo(cn))
   })
   function createClassListBox() {
-    return createElement(
+    return _.createElement(
       '',
       '',
       ['available-class-list'],
       [
-        createElement('', '', '', [
+        _.createElement('', '', '', [
           createCNSelect(),
-          createButton('Add', ['inline-btn', 'text-primary'], '', function (e) {
-            const name = getNode('#add_class_list_selector').value
-            if (!name) {
-              alertMe('noAvailableCN')
-              return
+          _.createButton(
+            'Add',
+            ['inline-btn', 'text-primary'],
+            '',
+            function (e) {
+              const name = _.getNode('#add_class_list_selector').value
+              if (!name) {
+                alertMe('noAvailableCN')
+                return
+              }
+              const target = _.getNode(selectedNode)
+              if (target.classList.contains(name)) return
+              target.classList.add(name)
+              _.getNode('.applied-classlist').appendChild(
+                createClassNameInfo(name)
+              )
             }
-            const target = getNode(selectedNode)
-            if (target.classList.contains(name)) return
-            target.classList.add(name)
-            getNode('.applied-classlist').appendChild(createClassNameInfo(name))
-          }),
+          ),
         ]),
-        createHeading('h6', 'Added ClassList'),
-        createElement('', '', ['applied-classlist'], [classListFrag]),
+        _.createHeading('h6', 'Added ClassList'),
+        _.createElement('', '', ['applied-classlist'], [classListFrag]),
       ]
     )
   }
@@ -94,37 +94,37 @@ function createTargetStyleInfoBox(selectedNode) {
 }
 
 function createAnimationsBox() {
-  const styleInfoHolder = getNode('.styled-info')
+  const styleInfoHolder = _.getNode('.styled-info')
   styleInfoHolder.lastChild.remove()
-  const fragment = createFragment()
+  const fragment = _.createFragment()
   for (const key in animations) {
     fragment.appendChild(animationInfoShower(key))
     break
   }
 
   styleInfoHolder.appendChild(
-    createElement(
+    _.createElement(
       '',
       '',
       ['animation-box'],
       [
-        createElement('', '', ['animation-form'], [createAnimationForm()]),
-        createElement('', '', ['animation-info'], [fragment]),
+        _.createElement('', '', ['animation-form'], [createAnimationForm()]),
+        _.createElement('', '', ['animation-info'], [fragment]),
       ]
     )
   )
 }
 
 function createPredefinedStylesBox(selectedEle) {
-  const styleInfoHolder = getNode('.styled-info')
+  const styleInfoHolder = _.getNode('.styled-info')
   styleInfoHolder.lastChild.remove()
 
-  const pred_tool_box = createElement(
+  const pred_tool_box = _.createElement(
     '',
     '',
     ['predefined-elements-box'],
     [
-      createSelect(
+      _.createSelect(
         [''],
         '',
         [
@@ -148,27 +148,27 @@ function createPredefinedStylesBox(selectedEle) {
         ],
         'predefined_element',
         function (e) {
-          const styleInfo = createElement(
+          const styleInfo = _.createElement(
             '',
             '',
             ['predefined-styles-info'],
             [createPredStyleInfoFrag(e.target.value)]
           )
-          getNode('.predefined-styles-info').remove()
-          getNode('.predefined-styles-box').appendChild(styleInfo)
+          _.getNode('.predefined-styles-info').remove()
+          _.getNode('.predefined-styles-box').appendChild(styleInfo)
         }
       ),
     ]
   )
 
   styleInfoHolder.appendChild(
-    createElement(
+    _.createElement(
       '',
       '',
       ['predefined-styles-box'],
       [
         pred_tool_box,
-        createElement(
+        _.createElement(
           '',
           '',
           ['predefined-styles-info'],
@@ -180,10 +180,10 @@ function createPredefinedStylesBox(selectedEle) {
 }
 
 function createClassNamesBox(cn = '') {
-  const styleInfoHolder = getNode('.styled-info')
+  const styleInfoHolder = _.getNode('.styled-info')
   styleInfoHolder.lastChild.remove()
 
-  const fragment = createFragment()
+  const fragment = _.createFragment()
   if (Object.keys(classNames).length !== 0) {
     for (let className in classNames) {
       fragment.appendChild(createCNInfoShower(className))
@@ -193,7 +193,7 @@ function createClassNamesBox(cn = '') {
     fragment.appendChild(createCNInfoShower(cn))
   }
   styleInfoHolder.appendChild(
-    createElement('', '', ['class-names-box'], [createCNForm(), fragment])
+    _.createElement('', '', ['class-names-box'], [createCNForm(), fragment])
   )
 }
 

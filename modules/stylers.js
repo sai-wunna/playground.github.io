@@ -1,6 +1,6 @@
+import Document from './dom/index.js'
 import { pointOutTheEle, selectedNode } from './stackTree.js'
 import { alertMe } from './alert.js'
-import { createOption, getNode, on } from './dom/index.js'
 import {
   createBackgroundForm,
   createBorderAndOutlinesForm,
@@ -26,12 +26,14 @@ import {
 } from './stylesHelpers/predefinedStyles.js'
 import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 
-const stylesBoxChooser = getNode('#styles_box_chooser')
-const stylesBoxHolder = getNode('.stylers')
-const media_chooser = getNode('#style_screen_chooser')
-const pseudo_class_chooser = getNode('#style_pseudo_class_chooser')
-const switch_css_mode_chooser = getNode('#switch_css_mode')
-const save_media_styles = getNode('#save_media_styles')
+const _ = Document()
+
+const stylesBoxChooser = _.getNode('#styles_box_chooser')
+const stylesBoxHolder = _.getNode('.stylers')
+const media_chooser = _.getNode('#style_screen_chooser')
+const pseudo_class_chooser = _.getNode('#style_pseudo_class_chooser')
+const switch_css_mode_chooser = _.getNode('#switch_css_mode')
+const save_media_styles = _.getNode('#save_media_styles')
 
 let isStyleChanged = false
 const sizingBox = createSizingForm()
@@ -43,9 +45,9 @@ let miscellaneousBox
 let displayBox
 let animationBox
 
-on('change', stylesBoxChooser, (e) => {
+_.on('change', stylesBoxChooser, (e) => {
   const type = e.target.value
-  getNode('.styler-box')?.remove()
+  _.getNode('.styler-box')?.remove()
   let box
 
   switch (type) {
@@ -72,7 +74,7 @@ on('change', stylesBoxChooser, (e) => {
       const select = animationBox.querySelector('#cs_ani_name')
       select.innerHTML = ''
       for (let animation in animations) {
-        createOption(select, animation, animation)
+        _.createOption(select, animation, animation)
       }
       box = animationBox
       break
@@ -83,7 +85,7 @@ on('change', stylesBoxChooser, (e) => {
   stylesBoxHolder.appendChild(box)
 })
 
-on('click', save_media_styles, (e) => {
+_.on('click', save_media_styles, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
     alertMe('noUpdate')
@@ -97,7 +99,7 @@ on('click', save_media_styles, (e) => {
 
 // ----------- for styling mode
 
-on('change', switch_css_mode_chooser, (e) => {
+_.on('change', switch_css_mode_chooser, (e) => {
   e.preventDefault()
   const mode = e.target.value
   if (mode === 'normal') {
@@ -121,7 +123,7 @@ function changeAppliedStyes(key, value) {
       alertMe('invalidInput')
       return
     }
-    const name = getNode('#cs_animation_list').value
+    const name = _.getNode('#cs_animation_list').value
     if (!name) {
       alertMe('noSelectedAnimation')
       return
@@ -129,7 +131,10 @@ function changeAppliedStyes(key, value) {
     saveAnimationsStyle(
       name,
       Math.max(
-        Math.min(parseInt(getNode('#cs_add_animation_kf_selector').value), 100),
+        Math.min(
+          parseInt(_.getNode('#cs_add_animation_kf_selector').value),
+          100
+        ),
         0
       ).toString(),
       key,
@@ -138,10 +143,10 @@ function changeAppliedStyes(key, value) {
   } else if (mode === 'normal') {
     saveCusStyle(selectedNode, media, condition, key, value)
   } else if (mode === 'predefined') {
-    const ele = getNode('#predefined_element').value
+    const ele = _.getNode('#predefined_element').value
     changePredStyle(ele, condition, key, value)
   } else {
-    const name = getNode('#class_name_list').value
+    const name = _.getNode('#class_name_list').value
     if (!name) {
       alertMe('noSelectedCN')
       return
@@ -152,7 +157,7 @@ function changeAppliedStyes(key, value) {
 }
 
 function appliedLatestStyles(animations, predefined, classNames, customStyles) {
-  getNode('#my_styles').textContent = buildCss(
+  _.getNode('#my_styles').textContent = buildCss(
     animations,
     predefined,
     classNames,

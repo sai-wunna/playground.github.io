@@ -1,4 +1,4 @@
-import { getAllNodes, getNode, on } from './dom/index.js'
+import Document from './dom/index.js'
 import {
   createBlockForm,
   createImageForm,
@@ -38,10 +38,13 @@ import {
 import { alertMe } from './alert.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { isInvalidInsert } from './validators/isValidInsert.js'
-const selectElementBtn = getNode('.elements-selection')
-const add_element_btn = getNode('#add_element_btn')
-const element_form_box = getNode('.element-form')
-const addBeforeOrAfter = getNode('#beforeOrAfter')
+
+const _ = Document()
+
+const selectElementBtn = _.getNode('.elements-selection')
+const add_element_btn = _.getNode('#add_element_btn')
+const element_form_box = _.getNode('.element-form')
+const addBeforeOrAfter = _.getNode('#beforeOrAfter')
 
 const blockForm = createBlockForm()
 let imageForm
@@ -58,10 +61,10 @@ let brForm
 let hrForm
 // ------------------------- select and add -------------------
 
-on('change', selectElementBtn, (e) => {
+_.on('change', selectElementBtn, (e) => {
   e.preventDefault()
   const value = e.target.value
-  getNode('#add_form').remove()
+  _.getNode('#add_form').remove()
   let form
   if (value === 'block') {
     form = blockForm
@@ -93,7 +96,7 @@ on('change', selectElementBtn, (e) => {
   element_form_box.appendChild(form)
 })
 
-on('click', add_element_btn, (e) => {
+_.on('click', add_element_btn, (e) => {
   e.preventDefault()
   lockBtn(add_element_btn)
   if (isInvalidInsert(selectedNode)) {
@@ -101,67 +104,67 @@ on('click', add_element_btn, (e) => {
     return
   }
   if (selectElementBtn.value === 'block') {
-    const text = getNode('#new_block').value
+    const text = _.getNode('#new_block').value
     deployBlock(text, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'image') {
-    const src = getNode('#new_image').value
-    const alt = getNode('#new_alt').value
+    const src = _.getNode('#new_image').value
+    const alt = _.getNode('#new_alt').value
     deployImage(src, alt, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'heading') {
-    const type = getNode('#new_header').value
-    const text = getNode('#new_h_content').value
+    const type = _.getNode('#new_header').value
+    const text = _.getNode('#new_h_content').value
     deployHeading(type, text, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'link') {
-    const url = getNode('#new_link').value.split(' ').join('')
-    const type = getNode('#link_type').value
-    const text = getNode('#new_link_name').value
-    const title = getNode('#new_title').value
+    const url = _.getNode('#new_link').value.split(' ').join('')
+    const type = _.getNode('#link_type').value
+    const text = _.getNode('#new_link_name').value
+    const title = _.getNode('#new_title').value
     deployLink(type, url, text, title, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'paragraph') {
-    const text = getNode('#new_para').value
+    const text = _.getNode('#new_para').value
     deployParagraph(text, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'list') {
-    const type = getNode('#list_type').value
+    const type = _.getNode('#list_type').value
     let lists = []
-    getAllNodes('.list-value').forEach((item) => {
+    _.getAllNodes('.list-value').forEach((item) => {
       lists.push(item.value)
     })
     lists = manageListData(lists)
     deployList(type, lists, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'span') {
-    const text = getNode('#new_text').value
+    const text = _.getNode('#new_text').value
     deployText(text, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'table') {
     const hData = []
     const bData = []
     const fData = []
-    getAllNodes('.c-t-h-cell').forEach((cell) => hData.push(cell.value))
-    getAllNodes('.c-t-b-cell').forEach((cell) => bData.push(cell.value))
-    getAllNodes('.c-t-f-cell').forEach((cell) => fData.push(cell.value))
+    _.getAllNodes('.c-t-h-cell').forEach((cell) => hData.push(cell.value))
+    _.getAllNodes('.c-t-b-cell').forEach((cell) => bData.push(cell.value))
+    _.getAllNodes('.c-t-f-cell').forEach((cell) => fData.push(cell.value))
     const [thData, tbData, tfData] = manageTData(hData, bData, fData)
     deployTable(thData, tbData, tfData, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'selection') {
     const options = []
     const values = []
-    getAllNodes('.option-data').forEach((opt) => options.push(opt.value))
-    getAllNodes('.option-value').forEach((value) => values.push(value.value))
+    _.getAllNodes('.option-data').forEach((opt) => options.push(opt.value))
+    _.getAllNodes('.option-value').forEach((value) => values.push(value.value))
     deploySelection(manageSelectData(options, values), addBeforeOrAfter)
   } else if (selectElementBtn.value === 'button') {
-    deployButton(getNode('#new_button').value, addBeforeOrAfter)
+    deployButton(_.getNode('#new_button').value, addBeforeOrAfter)
   } else if (selectElementBtn.value === 'figure') {
-    const type = getNode('#new_img_or_audio').value
-    let caption = getNode('#new_caption').value
-    const captionFirstOrNot = getNode('#caption_first_or_not')
+    const type = _.getNode('#new_img_or_audio').value
+    let caption = _.getNode('#new_caption').value
+    const captionFirstOrNot = _.getNode('#caption_first_or_not')
     if (type === 'image_box') {
-      const src = getNode('#new_image').value
-      const alt = getNode('#new_image_alt').value
+      const src = _.getNode('#new_image').value
+      const alt = _.getNode('#new_image_alt').value
       deployImageFigureBox(
         { src, alt, caption },
         captionFirstOrNot,
         addBeforeOrAfter
       )
     } else {
-      const src = getNode('#new_audio').value
+      const src = _.getNode('#new_audio').value
       deployAudioFigureBox(
         { src, caption },
         captionFirstOrNot,

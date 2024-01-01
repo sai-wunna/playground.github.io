@@ -1,27 +1,24 @@
-import {
-  createButton,
-  createElement,
-  createLabel,
-  createSelect,
-} from '../../dom/index.js'
+import Document from '../../dom/index.js'
+
+const _ = Document()
 
 function createUnitSelector(...units) {
   const options = []
   for (let i = 0; i < units.length; i++) {
     options.push({ value: units[i], text: units[i] })
   }
-  const unitLb = createLabel('Unit', 'unit_selector', ['cs-label'])
-  const unitSelector = createSelect(
+  const unitLb = _.createLabel('Unit', 'unit_selector', ['cs-label'])
+  const unitSelector = _.createSelect(
     ['cs-select'],
     '',
     [...options],
     'unit_selector'
   )
-  return createElement('div', '', ['cs-ip-gp'], [unitLb, unitSelector])
+  return _.createElement('div', '', ['cs-ip-gp'], [unitLb, unitSelector])
 }
 
 function removeParentBtn() {
-  return createButton('Del', ['inline-btn', 'text-danger'], '', (e) =>
+  return _.createButton('Del', ['inline-btn', 'text-danger'], '', (e) =>
     e.target.parentElement.remove()
   )
 }

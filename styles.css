@@ -218,7 +218,7 @@
 
 .create-element-form-wrapper {
   position: fixed;
-  top: -50%;
+  top: 48%;
   left: 47%;
   padding: 10px;
   transform: translate(-50%, -50%);
@@ -233,7 +233,7 @@
 }
 /* opened condition */
 .open-ele-wrapper {
-  top: 48%;
+  display: block;
 }
 .create-element-form-wrapper h5 {
   margin: 5px 10px;
@@ -261,7 +261,7 @@
 /* elements end --------------_____________-------------------- */
 .styler-tools-wrapper {
   position: fixed;
-  top: -50%;
+  top: 52%;
   left: 47%;
   display: none;
   width: 90%;
@@ -276,7 +276,7 @@
 }
 /* opened condition */
 .open-tools-wrapper {
-  top: 52%;
+  display: block;
 }
 .styler-tools-wrapper h5 {
   margin: 5px 10px;
@@ -446,7 +446,7 @@
   position: fixed;
   width: 90%;
   left: 53%;
-  top: -50%;
+  top: 48%;
   height: 90%;
   padding: 10px;
   display: none;
@@ -460,7 +460,7 @@
 }
 /* opened condition */
 .open-stacks-wrapper {
-  top: 48%;
+  display: block;
 }
 .element-stacks-wrapper h5 {
   margin: 5px 10px;
@@ -509,7 +509,7 @@
   position: fixed;
   width: 90%;
   height: 90%;
-  top: -50%;
+  top: 52%;
   left: 53%;
   display: none;
   overflow: hidden;
@@ -521,12 +521,12 @@
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
+.open-editor-wrapper {
+  display: block;
+}
 .editor-wrapper h5 {
   font-size: 1.1rem;
   margin: 5px 10px;
-}
-.open-editor-wrapper {
-  top: 52%;
 }
 .editor-box {
   width: 100%;

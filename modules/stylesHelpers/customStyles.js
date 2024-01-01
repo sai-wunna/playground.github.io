@@ -1,16 +1,5 @@
-import { alertMe } from '../alert.js'
-import {
-  appendChildrenTo,
-  createButton,
-  createElement,
-  createFragment,
-  createHeading,
-  createInput,
-  createOption,
-  createSelect,
-  createSpan,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+const _ = Document()
 
 // { #div_232334 : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const customStyles = {}
@@ -28,12 +17,12 @@ function saveCusStyle(node, media, condition, key, value) {
   }
   customStyles[node][media][condition][key] = value
   // push to doc
-  const existedNode = getNode(`#${media}_${condition}_${key}_value`)
+  const existedNode = _.getNode(`#${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
     return
   } else {
-    getNode(`.${media}-screen-${condition}-styles`).appendChild(
+    _.getNode(`.${media}-screen-${condition}-styles`).appendChild(
       createStyleInfo(node, media, condition, key, value)
     )
   }
@@ -48,18 +37,18 @@ function removeCusStyleValue(node, media, condition, key) {
 }
 
 function createStyleInfo(node, media, condition, key, value) {
-  return createElement(
+  return _.createElement(
     '',
     '',
     ['my-1', 'style-info'],
     [
-      createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
-      createSpan(
+      _.createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
+      _.createSpan(
         value,
         ['mx-1', 'css-value'],
         `${media}_${condition}_${key.trim()}_value`
       ),
-      createButton(
+      _.createButton(
         'Del',
         ['inline-btn', 'text-danger', 'float-end'],
         '',
@@ -78,14 +67,14 @@ function createCusStyleInfoShower(node) {
     medium: { standard: {}, hover: {}, active: {}, focus: {} },
     large: { standard: {}, hover: {}, active: {}, focus: {} },
   }
-  const appliedStyles = createElement('', '', ['applied-styles'], [])
+  const appliedStyles = _.createElement('', '', ['applied-styles'], [])
 
   mediaTypes.forEach((mediaType) => {
-    const header = createHeading('h6', `${mediaType} screen size`)
-    const mediaBox = createElement('', '', [`${mediaType}-screen`])
+    const header = _.createHeading('h6', `${mediaType} screen size`)
+    const mediaBox = _.createElement('', '', [`${mediaType}-screen`])
 
     conditionTypes.forEach((conditionType) => {
-      const stylesInfoBox = createFragment()
+      const stylesInfoBox = _.createFragment()
       const styles = className[mediaType][conditionType]
 
       if (Object.keys(styles).length !== 0) {
@@ -96,13 +85,13 @@ function createCusStyleInfoShower(node) {
         }
       }
       mediaBox.appendChild(
-        createElement(
+        _.createElement(
           '',
           '',
           [`${mediaType}-screen-${conditionType}`],
           [
-            createElement('', `${conditionType} -`, ['style-type-label']),
-            createElement(
+            _.createElement('', `${conditionType} -`, ['style-type-label']),
+            _.createElement(
               '',
               '',
               [`${mediaType}-screen-${conditionType}-styles`],
@@ -112,7 +101,7 @@ function createCusStyleInfoShower(node) {
         )
       )
     })
-    appendChildrenTo(appliedStyles, [header, mediaBox])
+    _.appendChildrenTo(appliedStyles, [header, mediaBox])
   })
   return appliedStyles
 }

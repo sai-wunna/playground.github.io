@@ -1,16 +1,7 @@
 import { alertMe } from '../alert.js'
-import {
-  appendChildrenTo,
-  createButton,
-  createElement,
-  createFragment,
-  createHeading,
-  createInput,
-  createOption,
-  createSelect,
-  createSpan,
-  getNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+
+const _ = Document()
 
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
@@ -30,12 +21,12 @@ function saveCNStyle(name, media, condition, key, value) {
   classNames[name][media][condition][key] = value
 
   // push to doc
-  const existedNode = getNode(`#${media}_${condition}_${key}_value`)
+  const existedNode = _.getNode(`#${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
     return
   } else {
-    getNode(`.${media}-screen-${condition}-styles`).appendChild(
+    _.getNode(`.${media}-screen-${condition}-styles`).appendChild(
       createStyleInfo(name, media, condition, key, value)
     )
   }
@@ -50,18 +41,18 @@ function removeCNStyle(name, media, condition, key) {
 }
 
 function createStyleInfo(name, media, condition, key, value) {
-  return createElement(
+  return _.createElement(
     '',
     '',
     ['my-1', 'style-info'],
     [
-      createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
-      createSpan(
+      _.createSpan(`${key.trim()} : `, ['mx-1', 'css-key']),
+      _.createSpan(
         value,
         ['mx-1', 'css-value'],
         `${media}_${condition}_${key.trim()}_value`
       ),
-      createButton(
+      _.createButton(
         'Del',
         ['inline-btn', 'text-danger', 'float-end'],
         '',
@@ -80,14 +71,14 @@ function createCNInfoShower(cn) {
     medium: { standard: {}, hover: {}, active: {}, focus: {} },
     large: { standard: {}, hover: {}, active: {}, focus: {} },
   }
-  const appliedStyles = createElement('', '', ['applied-styles'], [])
+  const appliedStyles = _.createElement('', '', ['applied-styles'], [])
 
   mediaTypes.forEach((mediaType) => {
-    const header = createHeading('h6', `${mediaType} screen size`)
-    const mediaBox = createElement('', '', [`${mediaType}-screen`])
+    const header = _.createHeading('h6', `${mediaType} screen size`)
+    const mediaBox = _.createElement('', '', [`${mediaType}-screen`])
 
     conditionTypes.forEach((conditionType) => {
-      const stylesInfoBox = createFragment()
+      const stylesInfoBox = _.createFragment()
       const styles = className[mediaType][conditionType]
 
       if (Object.keys(styles).length !== 0) {
@@ -98,13 +89,13 @@ function createCNInfoShower(cn) {
         }
       }
       mediaBox.appendChild(
-        createElement(
+        _.createElement(
           '',
           '',
           [`${mediaType}-screen-${conditionType}`],
           [
-            createElement('', `${conditionType} -`, ['style-type-label']),
-            createElement(
+            _.createElement('', `${conditionType} -`, ['style-type-label']),
+            _.createElement(
               '',
               '',
               [`${mediaType}-screen-${conditionType}-styles`],
@@ -114,27 +105,27 @@ function createCNInfoShower(cn) {
         )
       )
     })
-    appendChildrenTo(appliedStyles, [header, mediaBox])
+    _.appendChildrenTo(appliedStyles, [header, mediaBox])
   })
   return appliedStyles
 }
 
 function createCNForm() {
-  const selectCN = createSelect(
+  const selectCN = _.createSelect(
     ['cs-select'],
     '',
     [],
     'class_name_list',
     function (e) {
-      const infoBox = getNode('.class-names-box')
+      const infoBox = _.getNode('.class-names-box')
       infoBox.lastChild.remove()
       infoBox.appendChild(createCNInfoShower(e.target.value))
     }
   )
   for (let name in classNames) {
-    createOption(selectCN, name, name, name)
+    _.createOption(selectCN, name, name, name)
   }
-  const form = createElement(
+  const form = _.createElement(
     '',
     '',
     [
@@ -144,28 +135,32 @@ function createCNForm() {
       'align-items-center',
     ],
     [
-      createButton('Del', ['inline-btn', 'text-danger'], '', function () {
-        const name = getNode('#class_name_list').value
+      _.createButton('Del', ['inline-btn', 'text-danger'], '', function () {
+        const name = _.getNode('#class_name_list').value
         if (!name) return
-        getNode(`#${name}`).remove()
-        getNode('.class-name-info').innerHTML = ''
+        _.getNode(`#${name}`).remove()
+        _.getNode('.class-names-box').lastChild.remove()
         removeClassName(name)
-        for (let cn in classNames) {
-          getNode('.class-name-info').appendChild(createCNInfoShower(cn))
-          break
+        if (classNames.length > 0) {
+          for (let cn in classNames) {
+            _.getNode('.class-names-box').appendChild(createCNInfoShower(cn))
+            break
+          }
+        } else {
+          _.getNode('.class-names-box').appendChild(createCNInfoShower(''))
         }
       }),
       selectCN,
-      createInput('', ['cs-text-input'], 'add_new_cn'),
-      createButton('Add', ['inline-btn'], '', function (e) {
-        let name = getNode('#add_new_cn').value
+      _.createInput('', ['cs-text-input'], 'add_new_cn'),
+      _.createButton('Add', ['inline-btn'], '', function (e) {
+        let name = _.getNode('#add_new_cn').value
         if (!name) {
           alertMe('invalidInput')
           return
         }
         name = `prv-${name.trim().split(' ').join('-')}`
         addNewClassName(name)
-        createOption(getNode('#class_name_list'), name, name, name)
+        _.createOption(_.getNode('#class_name_list'), name, name, name)
       }),
     ]
   )

@@ -1,4 +1,4 @@
-import { getNode, on } from './dom/index.js'
+import Document from './dom/index.js'
 import { selectedNode } from './stackTree.js'
 import { isInvalidTextInput } from './validators/isValidToWriteText.js'
 import { createTextNodes } from './editHelpers/createTextNodes.js'
@@ -6,13 +6,15 @@ import { alertMe } from './alert.js'
 import { editImageForm, editLinkForm } from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
-const getEditFormBtn = getNode('.get-edit-form-btn')
-const removeEditFormBtn = getNode('.remove-edit-form-btn')
+const _ = Document()
 
-on('click', getEditFormBtn, (e) => {
+const getEditFormBtn = _.getNode('.get-edit-form-btn')
+const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
+
+_.on('click', getEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(getEditFormBtn, 1000)
-  getNode('#edit_form')?.remove()
+  _.getNode('#edit_form')?.remove()
   if (isInvalidTextInput(selectedNode)) {
     alertMe('unEditable')
     return
@@ -25,11 +27,11 @@ on('click', getEditFormBtn, (e) => {
   } else {
     form = createTextNodes(selectedNode)
   }
-  getNode('.edit-text').appendChild(form)
+  _.getNode('.edit-text').appendChild(form)
 })
 
-on('click', removeEditFormBtn, (e) => {
+_.on('click', removeEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(removeEditFormBtn, 1000)
-  getNode('#edit_form')?.remove()
+  _.getNode('#edit_form')?.remove()
 })

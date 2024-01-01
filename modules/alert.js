@@ -1,4 +1,7 @@
-import { createElement, getAllNodes, getNode } from './dom/index.js'
+import Document from './dom/index.js'
+
+const _ = Document()
+
 const alertMessages = {
   invalid: 'Invalid Action',
   noSelectedAnimation: 'Please create new animation or select from List.',
@@ -17,10 +20,10 @@ let countLimit = 0
 function alertMe(type = 'invalid', period = 3000) {
   if (countLimit > 2) return
   countLimit += 1
-  const alertBox = createElement('div', alertMessages[type], [
+  const alertBox = _.createElement('div', alertMessages[type], [
     'custom-alert-box',
   ])
-  getNode('#wrapper').appendChild(alertBox)
+  _.getNode('#wrapper').appendChild(alertBox)
   let dropTimer = setTimeout(() => {
     alertBox.style.top = `${(countLimit - 1) * 40}px`
   }, 10)

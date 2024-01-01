@@ -1,41 +1,32 @@
-import {
-  createButton,
-  createElement,
-  createForm,
-  createFragment,
-  createInput,
-  createLabel,
-  createSelect,
-  getAllNodes,
-  getNode,
-  insertBefore,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+
+const _ = Document()
 
 function createBlockForm() {
-  const label = createLabel('Content', 'new_block', ['form-label'])
-  const input = createInput('', ['form-control'], 'new_block', {
+  const label = _.createLabel('Content', 'new_block', ['form-label'])
+  const input = _.createInput('', ['form-control'], 'new_block', {
     value: 'new block',
   })
-  return createForm([], [label, input], 'add_form')
+  return _.createForm([], [label, input], 'add_form')
 }
 
 function createImageForm() {
-  const srcLabel = createLabel('Source, link', 'new_image', ['form-label'])
-  const srcInput = createInput('', ['form-control'], 'new_image', {
+  const srcLabel = _.createLabel('Source, link', 'new_image', ['form-label'])
+  const srcInput = _.createInput('', ['form-control'], 'new_image', {
     placeholder: 'Only link is available now',
   })
-  const altLabel = createLabel('Something about this image', 'new_alt', [
+  const altLabel = _.createLabel('Something about this image', 'new_alt', [
     'form-label',
   ])
-  const altInput = createInput('', ['form-control'], 'new_alt', {
+  const altInput = _.createInput('', ['form-control'], 'new_alt', {
     placeholder: 'something about this image',
   })
-  return createForm([], [srcLabel, srcInput, altLabel, altInput], 'add_form')
+  return _.createForm([], [srcLabel, srcInput, altLabel, altInput], 'add_form')
 }
 
 function createHeadingForm() {
-  const label = createLabel('Heading Type', 'new_header', ['form-label'])
-  const select = createSelect(
+  const label = _.createLabel('Heading Type', 'new_header', ['form-label'])
+  const select = _.createSelect(
     ['form-select'],
     '',
     [
@@ -52,21 +43,23 @@ function createHeadingForm() {
     ],
     'new_header'
   )
-  const label2 = createLabel('Heading content', 'new_h_content', ['form-label'])
-  const input = createInput('', ['form-control'], 'new_h_content', {
+  const label2 = _.createLabel('Heading content', 'new_h_content', [
+    'form-label',
+  ])
+  const input = _.createInput('', ['form-control'], 'new_h_content', {
     placeholder: 'The Heading',
   })
-  return createForm([], [label, select, label2, input], 'add_form')
+  return _.createForm([], [label, select, label2, input], 'add_form')
 }
 
 function createLinkForm() {
-  const label = createLabel('URL', 'new_link', ['form-label'])
-  const input = createInput('', ['form-control', 'my-2'], 'new_link', {
+  const label = _.createLabel('URL', 'new_link', ['form-label'])
+  const input = _.createInput('', ['form-control', 'my-2'], 'new_link', {
     placeholder: 'https://example.com',
   })
-  const label2 = createLabel('Link Name', 'new_link_name', ['form-label'])
-  const input2 = createInput('', ['form-control', 'my-2'], 'new_link_name')
-  const select = createSelect(
+  const label2 = _.createLabel('Link Name', 'new_link_name', ['form-label'])
+  const input2 = _.createInput('', ['form-control', 'my-2'], 'new_link_name')
+  const select = _.createSelect(
     ['form-select'],
     '',
     [
@@ -85,15 +78,15 @@ function createLinkForm() {
       } else {
         newPlaceholder = '+123 456 789 012'
       }
-      getNode('#new_link').placeholder = newPlaceholder
+      _.getNode('#new_link').placeholder = newPlaceholder
     },
     ''
   )
-  const label3 = createLabel('Title for more information', 'new_title', [
+  const label3 = _.createLabel('Title for more information', 'new_title', [
     'form-label',
   ])
-  const input3 = createInput('', ['form-control', 'my-1'], 'new_title')
-  return createForm(
+  const input3 = _.createInput('', ['form-control', 'my-1'], 'new_title')
+  return _.createForm(
     [],
     [select, label, input, label2, input2, label3, input3],
     'add_form'
@@ -101,25 +94,25 @@ function createLinkForm() {
 }
 
 function createParagraphForm() {
-  const label = createLabel('Content of the paragraph', 'new_para', [
+  const label = _.createLabel('Content of the paragraph', 'new_para', [
     'form-label',
   ])
-  const textArea = createElement(
+  const textArea = _.createElement(
     'textarea',
     '',
     ['form-control'],
     [],
     'new_para'
   )
-  return createForm([], [label, textArea], 'add_form')
+  return _.createForm([], [label, textArea], 'add_form')
 }
 
 function createButtonForm() {
-  const label = createLabel('Button name', 'new_button', ['form-label'])
-  const input = createInput('', ['form-control'], 'new_button', {
+  const label = _.createLabel('Button name', 'new_button', ['form-label'])
+  const input = _.createInput('', ['form-control'], 'new_button', {
     value: 'Click Me',
   })
-  return createForm([], [label, input], 'add_form')
+  return _.createForm([], [label, input], 'add_form')
 }
 
 function createInputForm() {
@@ -127,8 +120,8 @@ function createInputForm() {
 }
 
 function createListForm() {
-  const label = createLabel('List type', 'list_type', ['form-label'])
-  const select = createSelect(
+  const label = _.createLabel('List type', 'list_type', ['form-label'])
+  const select = _.createSelect(
     ['form-select'],
     '',
     [
@@ -137,63 +130,73 @@ function createListForm() {
     ],
     'list_type'
   )
-  const fragment = createFragment()
+  const fragment = _.createFragment()
   function createListItem() {
-    return createInput('', ['form-control', 'list-value'], '', {
+    return _.createInput('', ['form-control', 'list-value'], '', {
       placeholder: 'list item',
     })
   }
   for (let i = 0; i < 3; i++) {
     fragment.appendChild(createListItem())
   }
-  const del = createButton('Del', ['btn', 'btn-sm', 'text-danger'], '', () => {
-    const listItems = getAllNodes('.list-value')
-    if (listItems.length === 2) return
-    listItems[listItems.length - 1].remove()
-  })
-  const add = createButton('Add', ['btn', 'btn-sm', 'text-primary'], '', () => {
-    getNode('#add_form').appendChild(createListItem())
-  })
-  const controllers = createElement(
+  const del = _.createButton(
+    'Del',
+    ['btn', 'btn-sm', 'text-danger'],
+    '',
+    () => {
+      const listItems = _.getAllNodes('.list-value')
+      if (listItems.length === 2) return
+      listItems[listItems.length - 1].remove()
+    }
+  )
+  const add = _.createButton(
+    'Add',
+    ['btn', 'btn-sm', 'text-primary'],
+    '',
+    () => {
+      _.getNode('#add_form').appendChild(createListItem())
+    }
+  )
+  const controllers = _.createElement(
     'div',
     '',
     ['d-flex', 'justify-content-between'],
     [del, add]
   )
-  return createForm([], [controllers, select, fragment], 'add_form')
+  return _.createForm([], [controllers, select, fragment], 'add_form')
 }
 
 function createTextForm() {
-  const label = createLabel('Short text', 'new_text', ['form-label'])
-  const input = createInput('', ['form-control'], 'new_text')
-  return createForm([], [label, input], 'add_form')
+  const label = _.createLabel('Short text', 'new_text', ['form-label'])
+  const input = _.createInput('', ['form-control'], 'new_text')
+  return _.createForm([], [label, input], 'add_form')
 }
 
 function createTableForm() {
-  const tHLabel = createLabel('Table headers', '', ['form-label'])
-  const tHRow = createElement(
+  const tHLabel = _.createLabel('Table headers', '', ['form-label'])
+  const tHRow = _.createElement(
     'div',
     '',
     ['my-1', 'd-flex', 'flex-wrap', 'align-items-center'],
     [...createTRow('c-t-h-cell')]
   )
-  const tBLabel = createLabel('Table Body', '', ['form-label'])
-  const tBRow = createElement(
+  const tBLabel = _.createLabel('Table Body', '', ['form-label'])
+  const tBRow = _.createElement(
     'div',
     '',
     ['my-1', 'd-flex', 'flex-wrap', 'align-items-center'],
     [...createTRow('c-t-b-cell')]
   )
-  const tFLabel = createLabel('Table Footers', '', ['form-label'])
-  const tFRow = createElement(
+  const tFLabel = _.createLabel('Table Footers', '', ['form-label'])
+  const tFRow = _.createElement(
     'div',
     '',
     ['my-1', 'd-flex', 'flex-wrap', 'align-items-center'],
     [...createTRow('c-t-f-cell')]
   )
   function createTRow(type) {
-    const fragment = createFragment()
-    const del = createButton(
+    const fragment = _.createFragment()
+    const del = _.createButton(
       'Del',
       ['btn', 'btn-sm', 'text-danger'],
       '',
@@ -214,28 +217,28 @@ function createTableForm() {
     for (let i = 0; i < 4; i++) {
       fragment.appendChild(addNewCell(type))
     }
-    const add = createButton(
+    const add = _.createButton(
       'Add',
       ['btn', 'btn-sm', 'text-primary'],
       '',
       (e, type) => {
-        insertBefore([addNewCell(type)], e.target)
+        _.insertBefore([addNewCell(type)], e.target)
       },
       type
     )
     return [del, fragment, add]
   }
   function addNewCell(type) {
-    return createInput('', ['c-t-cell', `${type}`], '')
+    return _.createInput('', ['c-t-cell', `${type}`], '')
   }
-  const addBodyRow = createButton(
+  const addBodyRow = _.createButton(
     'Add Row',
     ['btn', 'btn-sm', 'text-primary', 'd-block'],
     '',
     (e) => {
-      insertBefore(
+      _.insertBefore(
         [
-          createElement(
+          _.createElement(
             'div',
             '',
             ['my-1', 'flex', 'flex-wrap', 'align-items-center'],
@@ -247,7 +250,7 @@ function createTableForm() {
     },
     ''
   )
-  return createForm(
+  return _.createForm(
     [],
     [tHLabel, tHRow, tBLabel, tBRow, addBodyRow, tFLabel, tFRow],
     'add_form'
@@ -255,72 +258,72 @@ function createTableForm() {
 }
 
 function createSelectionForm() {
-  const label = createLabel('Options')
-  const fragment = createFragment()
-  const del = createButton(
+  const label = _.createLabel('Options')
+  const fragment = _.createFragment()
+  const del = _.createButton(
     'Del',
     ['btn', 'btn-sm', 'text-danger'],
     '',
     (e) => {
       e.preventDefault()
-      const options = getAllNodes('.option-data')
+      const options = _.getAllNodes('.option-data')
       if (options.length === 1) return
       options[options.length - 1].parentElement.remove()
     },
     ''
   )
-  const add = createButton(
+  const add = _.createButton(
     'Add',
     ['btn', 'btn-sm', 'text-primary'],
     '',
     (e) => {
       e.preventDefault()
-      const set = createElement(
+      const set = _.createElement(
         'div',
         '',
         ['my-1', 'd-flex'],
         [
-          createInput('', ['option-value', 'form-control'], '', {
+          _.createInput('', ['option-value', 'form-control'], '', {
             placeholder: 'value',
             name: "select's value",
           }),
-          createInput('', ['option-data', 'form-control'], '', {
+          _.createInput('', ['option-data', 'form-control'], '', {
             placeholder: 'option',
             name: "select's option",
           }),
         ]
       )
-      getNode('#add_form').appendChild(set)
+      _.getNode('#add_form').appendChild(set)
     },
     ''
   )
   for (let i = 0; i < 5; i++) {
-    const value = createInput('', ['option-value', 'form-control'], '', {
+    const value = _.createInput('', ['option-value', 'form-control'], '', {
       placeholder: 'value',
       name: "select's value",
     })
-    const input = createInput('', ['option-data', 'form-control'], '', {
+    const input = _.createInput('', ['option-data', 'form-control'], '', {
       placeholder: 'option',
       name: "select's option",
     })
     fragment.appendChild(
-      createElement('div', '', ['my-1', 'd-flex'], [value, input])
+      _.createElement('div', '', ['my-1', 'd-flex'], [value, input])
     )
   }
-  const controllers = createElement(
+  const controllers = _.createElement(
     'div',
     '',
     ['my-1', 'd-flex', 'justify-content-between'],
     [del, label, add]
   )
-  return createForm([], [controllers, fragment], 'add_form')
+  return _.createForm([], [controllers, fragment], 'add_form')
 }
 
 function createFigureForm() {
-  const label = createLabel('Image Box or Audio Box', 'new_img_or_audio', [
+  const label = _.createLabel('Image Box or Audio Box', 'new_img_or_audio', [
     'form-label',
   ])
-  const imgOrAudioSelect = createSelect(
+  const imgOrAudioSelect = _.createSelect(
     ['form-select'],
     '',
     [
@@ -330,83 +333,83 @@ function createFigureForm() {
     'new_img_or_audio',
     function (e) {
       let box = e.target.value === 'image_box' ? imageForm() : audioForm()
-      getNode('.form-figure-box').remove()
-      getNode('#add_form').appendChild(box)
+      _.getNode('.form-figure-box').remove()
+      _.getNode('#add_form').appendChild(box)
     }
   )
-  const captionBox = createElement(
+  const captionBox = _.createElement(
     'div',
     '',
     ['form-group'],
     [
-      createLabel('Check to add Caption first', 'caption_first_or_not', [
+      _.createLabel('Check to add Caption first', 'caption_first_or_not', [
         'form-label',
       ]),
-      createInput('checkbox', ['form-check-input'], 'caption_first_or_not'),
-      createInput('', ['form-control'], 'new_caption', {
+      _.createInput('checkbox', ['form-check-input'], 'caption_first_or_not'),
+      _.createInput('', ['form-control'], 'new_caption', {
         placeholder: 'caption . . .',
       }),
     ]
   )
   function audioForm() {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['form-figure-box'],
       [
-        createElement(
+        _.createElement(
           'div',
           '',
           ['form-group'],
           [
-            createLabel('Audio Source Link', 'new_audio', ['form-label']),
-            createInput('', ['form-control'], 'new_audio'),
+            _.createLabel('Audio Source Link', 'new_audio', ['form-label']),
+            _.createInput('', ['form-control'], 'new_audio'),
           ]
         ),
-        createElement(
+        _.createElement(
           'div',
           '',
           ['form-group'],
           [
-            createLabel('Add DownLoad Option !', 'new_audio_download', [
+            _.createLabel('Add DownLoad Option !', 'new_audio_download', [
               'form-label',
             ]),
-            createInput('checkbox', ['form-control'], 'new_audio_download'),
+            _.createInput('checkbox', ['form-control'], 'new_audio_download'),
           ]
         ),
       ]
     )
   }
   function imageForm() {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['form-figure-box'],
       [
-        createElement(
+        _.createElement(
           'div',
           '',
           ['form-group'],
           [
-            createLabel('Image Source Link', 'new_image', ['form-label']),
-            createInput('', ['form-control'], 'new_image'),
+            _.createLabel('Image Source Link', 'new_image', ['form-label']),
+            _.createInput('', ['form-control'], 'new_image'),
           ]
         ),
-        createElement(
+        _.createElement(
           'div',
           '',
           ['form-group'],
           [
-            createLabel('Something about this image', 'new_image_alt', [
+            _.createLabel('Something about this image', 'new_image_alt', [
               'form-label',
             ]),
-            createInput('', ['form-control'], 'new_image_alt'),
+            _.createInput('', ['form-control'], 'new_image_alt'),
           ]
         ),
       ]
     )
   }
-  return createForm(
+  return _.createForm(
     [],
     [label, imgOrAudioSelect, captionBox, imageForm()],
     'add_form'
@@ -414,23 +417,23 @@ function createFigureForm() {
 }
 
 function createBrForm() {
-  const p = createElement(
+  const p = _.createElement(
     'p',
     'This will break line within the parent block, next element or text will be on another line.',
     [],
     []
   )
-  return createForm([], [p], 'add_form')
+  return _.createForm([], [p], 'add_form')
 }
 
 function createHrForm() {
-  const p = createElement(
+  const p = _.createElement(
     'p',
     'This will break line horizontally through the whole page, next element or text will be on another line.',
     [],
     []
   )
-  return createForm([], [p], 'add_form')
+  return _.createForm([], [p], 'add_form')
 }
 
 export {

@@ -1,26 +1,18 @@
-import {
-  createButton,
-  createElement,
-  createForm,
-  createFragment,
-  createInput,
-  createTextArea,
-  getNode,
-  createTNode,
-} from '../dom/index.js'
+import Document from '../dom/index.js'
+const _ = Document()
 
 function createTextNodes(node) {
-  const childNodes = getNode(node).childNodes
-  const fragment = createFragment()
+  const childNodes = _.getNode(node).childNodes
+  const fragment = _.createFragment()
   let spamBlocker
 
   function createEditBox(node) {
-    return createElement(
+    return _.createElement(
       'div',
       '',
       ['my-1', 'd-flex'],
       [
-        createTextArea(
+        _.createTextArea(
           '',
           ['form-control'],
           {
@@ -35,7 +27,7 @@ function createTextNodes(node) {
           },
           ''
         ),
-        createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
+        _.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
           e.target.parentElement.remove()
           node.remove()
         }),
@@ -43,20 +35,20 @@ function createTextNodes(node) {
     )
   }
 
-  const addTNForm = createElement(
+  const addTNForm = _.createElement(
     'div',
     '',
     ['my-1', 'd-flex'],
     [
-      createInput('', ['form-control'], 'new_text_node', {
+      _.createInput('', ['form-control'], 'new_text_node', {
         placeholder: 'new text node ... ... ...',
       }),
-      createButton('Add', ['btn', 'btn-sm'], '', (e) => {
-        const textNode = createTNode(
-          getNode('#new_text_node').value || 'text node has been added.'
+      _.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
+        const textNode = _.createTNode(
+          _.getNode('#new_text_node').value || 'text node has been added.'
         )
-        getNode(node).appendChild(textNode)
-        getNode('#edit_form').appendChild(createEditBox(textNode))
+        _.getNode(node).appendChild(textNode)
+        _.getNode('#edit_form').appendChild(createEditBox(textNode))
       }),
     ]
   )
@@ -65,7 +57,7 @@ function createTextNodes(node) {
     if (child.nodeType !== Node.TEXT_NODE) return
     fragment.appendChild(createEditBox(child))
   })
-  return createForm([], [addTNForm, fragment], 'edit_form')
+  return _.createForm([], [addTNForm, fragment], 'edit_form')
 }
 
 export { createTextNodes }
