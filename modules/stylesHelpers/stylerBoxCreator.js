@@ -11,6 +11,8 @@ import {
   calTextShadowValue,
   calTransformValue,
   hexToRgb,
+  calAniTimeLineValue,
+  calAnimationValue,
 } from './helper/keyValueExtractor.js'
 
 // sizing --------------
@@ -291,7 +293,7 @@ function createSizingForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       widthBox,
       minWidthBox,
       maxWidthBox,
@@ -658,7 +660,7 @@ function createPositionForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       positionBox,
       distanceBox,
       floatBox,
@@ -988,7 +990,7 @@ function createTypographyForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       fsBox,
       ffBox,
       fStyleBox,
@@ -1269,7 +1271,7 @@ function createBackgroundForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       bgBox,
       bgGradientBox,
       bgImgBox,
@@ -1517,7 +1519,7 @@ function createBorderAndOutlinesForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       bOOBox,
       bOOWidthBox,
       bOOSideBox,
@@ -1834,7 +1836,7 @@ function createMiscellaneousForm() {
   return _.createForm(
     ['styler-box'],
     [
-      createUnitSelector('px', '%', 'em', 'rem', 'vh', 'vw'),
+      createUnitSelector(),
       opacityBox,
       visibilityBox,
       cursorBox,
@@ -2444,20 +2446,12 @@ function createAnimationForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Name', 'cs_ani_name', ['cs-label']),
-      _.createSelect(['cs-select'], '', [], 'cs_ani_name', function (e) {
-        const duration = `${
-          parseInt(_.getNode('#cs_ani_duration').value) / 10
-        }s`
-        const timingFn = _.getNode('#cs_ani_timing_fn').value
-        const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-        const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-        const iterationCount = _.getNode('#cs_ani_itr_count').value
-        const direction = _.getNode('#cs_ani_direction').value
-        const fillNode = _.getNode('#cs_ani_fill_mode').value
-        changeStyle(
-          'animation',
-          `${e.target.value} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-        )
+      _.createSelect(['cs-select'], '', [], 'cs_ani_name', function () {
+        const name = _.getNode('#cs_ani_name').value
+        if (!name) return
+        const value = calAnimationValue()
+        if (!value) return
+        changeStyle('animation', `${name} ${value}`)
       }),
     ]
   )
@@ -2473,20 +2467,12 @@ function createAnimationForm() {
         'cs_ani_duration',
         { value: 20 },
         '',
-        function (e) {
+        function () {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${parseInt(e.target.value) / 10}s`
-          const timingFn = _.getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = _.getNode('#cs_ani_itr_count').value
-          const direction = _.getNode('#cs_ani_direction').value
-          const fillNode = _.getNode('#cs_ani_fill_mode').value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
@@ -2510,22 +2496,12 @@ function createAnimationForm() {
           { value: 'step-end', text: 'Step End' },
         ],
         'cs_ani_timing_fn',
-        function (e) {
+        function () {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${
-            parseInt(_.getNode('#cs_ani_duration').value) / 10
-          }s`
-          const timingFn = e.target.value
-          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = _.getNode('#cs_ani_itr_count').value
-          const direction = _.getNode('#cs_ani_direction').value
-          const fillNode = _.getNode('#cs_ani_fill_mode').value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
@@ -2542,22 +2518,12 @@ function createAnimationForm() {
         'cs_ani_delay',
         { value: '0' },
         '',
-        function (e) {
+        function () {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${
-            parseInt(_.getNode('#cs_ani_duration').value) / 10
-          }s`
-          const timingFn = _.getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(e.target.value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = _.getNode('#cs_ani_itr_count').value
-          const direction = _.getNode('#cs_ani_direction').value
-          const fillNode = _.getNode('#cs_ani_fill_mode').value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
@@ -2582,19 +2548,9 @@ function createAnimationForm() {
         function (e) {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${
-            parseInt(_.getNode('#cs_ani_duration').value) / 10
-          }s`
-          const timingFn = _.getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = e.target.value
-          const direction = _.getNode('#cs_ani_direction').value
-          const fillNode = _.getNode('#cs_ani_fill_mode').value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
@@ -2615,22 +2571,12 @@ function createAnimationForm() {
           { value: 'alternate-reverse', text: 'Alternate-reverse' },
         ],
         'cs_ani_direction',
-        function (e) {
+        function () {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${
-            parseInt(_.getNode('#cs_ani_duration').value) / 10
-          }s`
-          const timingFn = _.getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = _.getNode('#cs_ani_itr_count').value
-          const direction = e.target.value
-          const fillNode = _.getNode('#cs_ani_fill_mode').value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
@@ -2651,29 +2597,104 @@ function createAnimationForm() {
           { value: 'both', text: 'Both' },
         ],
         'cs_ani_fill_mode',
-        function (e) {
+        function () {
           const name = _.getNode('#cs_ani_name').value
           if (!name) return
-          const duration = `${
-            parseInt(_.getNode('#cs_ani_duration').value) / 10
-          }s`
-          const timingFn = _.getNode('#cs_ani_timing_fn').value
-          const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
-          const delay = delayTime === 0 ? '0s' : `${delayTime}s`
-          const iterationCount = _.getNode('#cs_ani_itr_count').value
-          const direction = _.getNode('#cs_ani_direction').value
-          const fillNode = e.target.value
-          changeStyle(
-            'animation',
-            `${name} ${duration} ${timingFn} ${delay} ${iterationCount} ${direction} ${fillNode}`
-          )
+          const value = calAnimationValue()
+          if (!value) return
+          changeStyle('animation', `${name} ${value}`)
         }
       ),
     ]
   )
+  const aniTimeLineScrollBox = _.createElement(
+    '',
+    '',
+    ['cs-ip-gp'],
+    [
+      _.createLabel('Timeline Scroll', 'cs_ani_timeLine_scroll', ['cs-label']),
+      _.createSelect(
+        ['cs-select'],
+        '',
+        [
+          { value: '', text: 'Empty' },
+          { value: 'nearest', text: 'Nearest' },
+          { value: 'root', text: 'Root' },
+          { value: 'self', text: 'Self' },
+          { value: 'block', text: 'Block' },
+          { value: 'block nearest', text: 'Block Nearest' },
+          { value: 'x', text: 'X axis' },
+          { value: 'y', text: 'Y axis' },
+          { value: 'inline', text: 'Inline' },
+          { value: 'inline root', text: 'Inline Root' },
+          { value: 'x self', text: 'X Self' },
+        ],
+        'cs_ani_timeLine_scroll',
+        (e) => changeStyle('animation-timeline', `scroll(${e.target.value})`)
+      ),
+    ]
+  )
+
+  const aniTimelineViewBox = _.createElement(
+    '',
+    '',
+    ['cs-lg-gp'],
+    [
+      _.createElement(
+        '',
+        '',
+        ['cs-ip-gp'],
+        [
+          _.createLabel('Timeline View', 'cs_ani_timeline_view', ['cs-label']),
+          _.createSelect(
+            ['cs-select'],
+            '',
+            [
+              { value: '', text: 'Empty' },
+              { value: 'block', text: 'Block' },
+              { value: 'inline', text: 'Inline' },
+              { value: 'y', text: 'Y axis' },
+              { value: 'x', text: 'X axis' },
+              { value: 'block auto', text: 'Block Auto' },
+              { value: 'auto', text: 'Auto' },
+              { value: 'block', text: 'Block' },
+              { value: 'v_single_inset', text: 'Custom Single Inset' },
+              { value: 'v_double_inset', text: 'Custom Double Inset' },
+              { value: 'v_block_double_inset', text: 'Block Custom Double Inset' },
+              { value: 'v_x_custom_auto', text: 'X Custom Auto' },
+              { value: 'v_inline_custom', text: 'Inline Custom-inset' },
+              { value: 'v_auto_custom', text: 'Auto Custom-inset' },
+            ],
+            'cs_ani_timeline_view'
+          ),
+          _.createButton(
+            'Set',
+            ['inline-btn', 'text-primary'],
+            '',
+            function (e) {
+              changeStyle('animation-timeline', calAniTimeLineValue())
+            }
+          ),
+        ]
+      ),
+      _.createElement(
+        '',
+        '',
+        ['cs-ip-gp'],
+        [
+          _.createLabel('Cus-1', '', ['cs-label']),
+          _.createInput('number', ['cs-num-input', 'ani-tl-view-arg-value']),
+          _.createLabel('Cus-2', '', ['cs-label']),
+          _.createInput('number', ['cs-num-input', 'ani-tl-view-arg-value']),
+        ]
+      ),
+    ]
+  )
+
   return _.createForm(
     ['styler-box'],
     [
+      createUnitSelector(),
       aniNameBox,
       aniDurationBox,
       aniTimingFnBox,
@@ -2681,6 +2702,8 @@ function createAnimationForm() {
       aniIterationCountBox,
       aniDirectionBox,
       aniFillModeBox,
+      aniTimeLineScrollBox,
+      aniTimelineViewBox,
     ]
   )
 }
@@ -2691,6 +2714,7 @@ function changeStyle(key, value) {
     changeAppliedStyes(key, value)
   }, 500)
 }
+
 function changeSerialStyles(key, value) {
   clearTimeout(spamBlocker)
   spamBlocker = setTimeout(() => {

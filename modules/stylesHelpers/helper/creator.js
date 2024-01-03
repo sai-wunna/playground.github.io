@@ -2,7 +2,8 @@ import Document from '../../dom/index.js'
 
 const _ = Document()
 
-function createUnitSelector(...units) {
+function createUnitSelector() {
+  const units = ['px', '%', 'em', 'rem', 'vh', 'vw']
   const options = []
   for (let i = 0; i < units.length; i++) {
     options.push({ value: units[i], text: units[i] })

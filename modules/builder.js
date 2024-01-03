@@ -8,7 +8,23 @@ import { predefinedStyles } from './stylesHelpers/predefinedStyles.js'
 const _ = Document()
 
 function buildWeb(title, styles, app) {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${title}</title><style>body {position: absolute !important;width: 100% !important;top: 0 !important;left: 0 !important;margin: 0 !important;z-index: 1 !important;box-sizing: border-box !important; scroll-behavior: smooth !important;}${styles}</style></head><body>${app}</body></html>`
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`
+}
+
+function rebuildClassNames() {
+  const app = _.getNode('#app').cloneNode(true)
+  const fakeDoc = _.createElement('', '', [], [app])
+  const modifiedClassnames = {}
+  for (let cn in classNames) {
+    const newCn = cn.slice(4)
+    modifiedClassnames[newCn] = classNames[cn]
+    fakeDoc.querySelectorAll(`.${cn}`).forEach((node) => {
+      node.classList.remove(cn)
+      node.classList.add(newCn)
+    })
+  }
+
+  return { modifiedClassnames, app }
 }
 
 function downloadFile(content, fileName) {
@@ -22,10 +38,10 @@ function downloadFile(content, fileName) {
     '',
     fileName
   )
-
-  document.body.appendChild(link)
+  link.download = fileName
+  _.appendChild(link)
   link.click()
-  document.body.removeChild(link)
+  _.removeChild(link)
 }
 
 function downloadForm() {
@@ -43,14 +59,15 @@ function downloadForm() {
       }),
       _.createButton('Download', ['btn', 'text-primary'], '', (e) => {
         const title = _.getNode('#title_of_web').value || 'Beautiful Day'
+        const { modifiedClassnames, app } = rebuildClassNames()
+        const modifiedApp = app.outerHTML
         const styles = buildProductionCss(
           animations,
           predefinedStyles,
-          classNames,
+          modifiedClassnames,
           customStyles
         )
-        const app = _.getNode('#app').outerHTML
-        const file = buildWeb(title, styles, app)
+        const file = buildWeb(title, styles, modifiedApp)
         const fileName = `web_${title.split(' ').join('_')}`
         downloadFile(file, fileName)
       }),

@@ -1,6 +1,6 @@
 import Helper from './Helper.js'
 
-class _ {
+class Doc {
   constructor(helper) {
     this._ = document
     this.helper = helper
@@ -540,7 +540,7 @@ class _ {
 }
 
 function Document() {
-  return new _(new Helper())
+  return new Doc(new Helper())
 }
 
 export default Document

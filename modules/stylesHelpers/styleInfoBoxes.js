@@ -128,6 +128,7 @@ function createPredefinedStylesBox(selectedEle) {
         [''],
         '',
         [
+          { value: 'all', text: '*' },
           { value: 'button', text: 'Button' },
           { value: 'link', text: 'Link' },
           { value: 'h1', text: 'Heading One' },

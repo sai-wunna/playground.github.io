@@ -3,6 +3,7 @@ import Document from '../dom/index.js'
 const _ = Document()
 
 const predefinedStyles = {
+  all: {},
   button: {},
   link: {},
   h1: {},

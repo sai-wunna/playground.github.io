@@ -159,6 +159,61 @@ function calTransformValue(transformList) {
   return value
 }
 
+function calAniTimeLineValue() {
+  let value
+  const valuesInput = _.getAllNodes('.ani-tl-view-arg-value')
+  const values = [valuesInput[0].value, valuesInput[1].value]
+  const type = _.getNode('#cs_ani_timeline_view').value
+  const unit = _.getNode('#unit_selector').value
+  if (type.startsWith('v_')) {
+    if (type === 'v_single_inset') {
+      value = `${values[0]}${unit}`
+    } else if (type === 'v_double_inset') {
+      value = `${values[0]}${unit} ${values[1]}${unit}`
+    } else if (type === 'v_block_double_inset') {
+      value = `block ${values[0]}${unit} ${values[1]}${unit}`
+    } else if (type === 'v_x_custom_auto') {
+      value = `x ${values[0]}${unit} auto`
+    } else if (type === 'v_auto_custom') {
+      value = `auto ${values[0]}${unit}`
+    } else {
+      value = `inline ${values[0]}${unit}`
+    }
+  } else {
+    value = type
+  }
+  return `view(${value})`
+}
+
+function calAnimationValue() {
+  let value = ''
+  const duration = parseInt(_.getNode('#cs_ani_duration').value)
+  if (duration) {
+    value += `${duration / 10}s `
+  }
+  const timingFn = _.getNode('#cs_ani_timing_fn').value
+  if (timingFn) {
+    value += `${timingFn} `
+  }
+  const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
+  if (delayTime) {
+    value += `${delayTime}s `
+  }
+  const iterationCount = _.getNode('#cs_ani_itr_count').value
+  if (iterationCount) {
+    value += `${iterationCount} `
+  }
+  const direction = _.getNode('#cs_ani_direction').value
+  if (direction) {
+    value += `${direction} `
+  }
+  const fillNode = _.getNode('#cs_ani_fill_mode').value
+  if (fillNode) {
+    value += `${fillNode} `
+  }
+  return value
+}
+
 function hexToRgb(hex) {
   hex = hex.replace(/^#/, '')
 
@@ -179,5 +234,7 @@ export {
   calBoxShadowValue,
   calTextShadowValue,
   calTransformValue,
+  calAnimationValue,
+  calAniTimeLineValue,
   hexToRgb,
 }

@@ -21,8 +21,7 @@ const editor_wrapper = _.getNode('.editor-wrapper')
 const editor_opener_btn = _.getNode('.editor_opener')
 const editorCloseBtn = _.getNode('.close-editor-wrapper')
 
-const clearViewBtn = _.getNode('.clean-view')
-let openedModals = []
+const download_form_btn = _.getNode('.download_form_opener')
 
 _.on('click', elements_opener_btn, (e) => {
   e.preventDefault()
@@ -106,27 +105,7 @@ _.on('click', editor_wrapper, (e) => {
   setPriorityWrapper(editor_wrapper)
 })
 
-_.on('mouseover', clearViewBtn, (e) => {
-  e.preventDefault()
-  if (element_create_wrapper.classList.contains('open-ele-wrapper')) {
-    openedModals.push('.create-element-form-wrapper')
-    element_create_wrapper.style.display = 'none'
-  }
-  if (style_tools_wrapper.classList.contains('open-tools-wrapper')) {
-    openedModals.push('.styler-tools-wrapper')
-    style_tools_wrapper.style.display = 'none'
-  }
-  if (stacks_wrapper.classList.contains('open-stacks-wrapper')) {
-    openedModals.push('.element-stacks-wrapper')
-    stacks_wrapper.style.display = 'none'
-  }
-  if (editor_wrapper.classList.contains('open-editor-wrapper')) {
-    openedModals.push('.editor-wrapper')
-    editor_wrapper.style.display = 'none'
-  }
-})
-
-_.on('click', clearViewBtn, (e) => {
+_.on('click', download_form_btn, (e) => {
   e.preventDefault()
   const existed = _.getNode('.download-form')
   if (existed) {
@@ -134,12 +113,4 @@ _.on('click', clearViewBtn, (e) => {
   } else {
     _.appendChild(downloadForm())
   }
-})
-
-_.on('mouseout', clearViewBtn, (e) => {
-  e.preventDefault()
-  openedModals.forEach((modal) => {
-    _.getNode(modal).style.display = 'block'
-  })
-  openedModals = []
 })
