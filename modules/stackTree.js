@@ -1,5 +1,5 @@
 import Document from './dom/index.js'
-import { generateRandomColor } from './helpers/generateRandColor.js'
+import { generateURC } from './randoms/index.js'
 import { isInvalidEleToShow } from './validators/isValidEleToShow.js'
 import { alertMe } from './alert.js'
 import { lockBtn } from './helpers/lockBtn.js'
@@ -7,6 +7,7 @@ import { removeCusStyle } from './stylesHelpers/customStyles.js'
 import { createTargetStyleInfoBox } from './stylesHelpers/styleInfoBoxes.js'
 
 const _ = Document()
+const randomColor = generateURC()
 
 const high_light_ele = _.getNode('#high_light_ele')
 const element_pointer = _.getNode('#element_pointer')
@@ -143,7 +144,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     [tableHeader, tableBody, tableFooter],
     `${tableId}_c`
   )
-  tableStacks.style.backgroundColor = generateRandomColor()
+  tableStacks.style.backgroundColor = randomColor.generate()
   const tableNode = _.createElement(
     'div',
     '',
@@ -296,7 +297,7 @@ function createTreeNode(id, name, children) {
   if (children) {
     childrenBox.appendChild(children)
   }
-  childrenBox.style.backgroundColor = generateRandomColor()
+  childrenBox.style.backgroundColor = randomColor.generate()
   return _.createElement(
     'div',
     '',

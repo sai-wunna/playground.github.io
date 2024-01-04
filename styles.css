@@ -226,7 +226,7 @@
   display: none;
   background-color: rgb(199, 217, 218);
   border: 2px solid #ff0000;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   z-index: 999;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
@@ -269,7 +269,7 @@
   transform: translate(-50%, -50%);
   border: 2px solid rgb(119, 255, 0);
   background-color: rgb(199, 217, 218);
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   z-index: 999;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
@@ -453,7 +453,7 @@
   background-color: rgb(199, 217, 218);
   transform: translate(-50%, -50%);
   border: 2px solid rgb(0, 162, 255);
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   z-index: 999;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
@@ -517,7 +517,7 @@
   border: 2px solid rgb(255, 234, 0);
   padding: 5px;
   z-index: 999;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 .open-editor-wrapper {
