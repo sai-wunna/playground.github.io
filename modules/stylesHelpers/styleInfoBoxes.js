@@ -11,9 +11,10 @@ import {
   createCNForm,
   createCNInfoShower,
 } from './classNameStyles .js'
-import { alertMe } from '../alert.js'
+import Alert from '../alert.js'
 
 const _ = Document()
+const alert = Alert()
 
 function createTargetStyleInfoBox(selectedNode) {
   const styleInfoHolder = _.getNode('.styled-info')
@@ -72,7 +73,7 @@ function createTargetStyleInfoBox(selectedNode) {
             function (e) {
               const name = _.getNode('#add_class_list_selector').value
               if (!name) {
-                alertMe('noAvailableCN')
+                alert.alertMe('noAvailableCN')
                 return
               }
               const target = _.getNode(selectedNode)

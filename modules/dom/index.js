@@ -539,8 +539,4 @@ class Doc {
   }
 }
 
-function Document() {
-  return new Doc(new Helper())
-}
-
-export default Document
+export default () => new Doc(new Helper())

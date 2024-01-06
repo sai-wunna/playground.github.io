@@ -1,7 +1,8 @@
-import { alertMe } from '../alert.js'
+import Alert from '../alert.js'
 import Document from '../dom/index.js'
 
 const _ = Document()
+const alert = Alert()
 
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}
@@ -54,7 +55,7 @@ function createAnimationForm() {
       _.createButton('Add', ['inline-btn', 'text-primary'], '', function () {
         const name = `${_.getNode('#cs_add_animation_name').value}`
         if (!name) {
-          alertMe('invalidInput')
+          alert.alertMe('invalidInput')
           return
         }
         if (_.getNode('#cs_ani_name')) {

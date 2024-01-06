@@ -1,5 +1,5 @@
 import Document from './dom/index.js'
-import { generateURS } from './randoms/index.js'
+import Random from './random/index.js'
 import { animations } from './stylesHelpers/animations.js'
 import { classNames } from './stylesHelpers/classNameStyles .js'
 import { customStyles } from './stylesHelpers/customStyles.js'
@@ -7,7 +7,7 @@ import { buildProductionCss } from './stylesHelpers/buildCss.js'
 import { predefinedStyles } from './stylesHelpers/predefinedStyles.js'
 
 const _ = Document()
-const URS = generateURS()
+const random = Random()
 
 function buildWeb(title, styles, app) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`
@@ -28,19 +28,20 @@ function prepareProduction() {
     })
   }
 
+  const modifiedCustomStyles = {}
+  for (let id in customStyles) {
+    const newCn = random.string()
+    modifiedCustomStyles[newCn] = customStyles[id]
+    appWrapper.querySelector(id).classList.add(newCn)
+    appWrapper.querySelector(id).removeAttribute('id')
+  }
+
   let styles = buildProductionCss(
     animations,
     predefinedStyles,
     modifiedClassnames,
-    customStyles
+    modifiedCustomStyles
   )
-
-  for (let id in customStyles) {
-    const newId = URS.randomString()
-    styles = styles.replace(id, `.${newId}`)
-    appWrapper.querySelector(id).classList.add(newId)
-    appWrapper.querySelector(id).removeAttribute('id')
-  }
 
   return { styles, app: app.outerHTML }
 }

@@ -1,12 +1,14 @@
 import Document from './dom/index.js'
 import { selectedNode } from './stackTree.js'
-import { isInvalidTextInput } from './validators/isValidToWriteText.js'
+import Validator from './validators/index.js'
 import { createTextNodes } from './editHelpers/createTextNodes.js'
-import { alertMe } from './alert.js'
+import Alert from './alert.js'
 import { editImageForm, editLinkForm } from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
 const _ = Document()
+const alert = Alert()
+const validator = Validator()
 
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
 const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
@@ -15,8 +17,8 @@ _.on('click', getEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(getEditFormBtn, 1000)
   _.getNode('#edit_form')?.remove()
-  if (isInvalidTextInput(selectedNode)) {
-    alertMe('unEditable')
+  if (validator.isInvalidTextInput(selectedNode)) {
+    alert.alertMe('unEditable')
     return
   }
   let form

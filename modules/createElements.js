@@ -1,4 +1,5 @@
 import Document from './dom/index.js'
+import Alert from './alert.js'
 import {
   createBlockForm,
   createImageForm,
@@ -35,11 +36,12 @@ import {
   manageTData,
   manageSelectData,
 } from './cefHelpers/manageInputData.js'
-import { alertMe } from './alert.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import { isInvalidInsert } from './validators/isValidInsert.js'
+import Validator from './validators/index.js'
 
 const _ = Document()
+const validator = Validator()
+const alert = Alert()
 
 const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNode('#add_element_btn')
@@ -99,8 +101,8 @@ _.on('change', selectElementBtn, (e) => {
 _.on('click', add_element_btn, (e) => {
   e.preventDefault()
   lockBtn(add_element_btn)
-  if (isInvalidInsert(selectedNode)) {
-    alertMe('unAppendAble')
+  if (validator.isInvalidInsert(selectedNode)) {
+    alert.alertMe('unAppendAble')
     return
   }
   if (selectElementBtn.value === 'block') {

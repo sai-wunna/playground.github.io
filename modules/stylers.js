@@ -1,6 +1,6 @@
 import Document from './dom/index.js'
 import { pointOutTheEle, selectedNode } from './stackTree.js'
-import { alertMe } from './alert.js'
+import Alert from './alert.js'
 import {
   createBackgroundForm,
   createBorderAndOutlinesForm,
@@ -27,6 +27,7 @@ import {
 import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 
 const _ = Document()
+const alert = Alert()
 
 const stylesBoxChooser = _.getNode('#styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
@@ -88,7 +89,7 @@ _.on('change', stylesBoxChooser, (e) => {
 _.on('click', save_media_styles, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
-    alertMe('noUpdate')
+    alert.alertMe('noUpdate')
     return
   }
   save_media_styles.disabled = true
@@ -120,12 +121,12 @@ function changeAppliedStyes(key, value) {
 
   if (mode === 'animation') {
     if (key === 'animation') {
-      alertMe('invalidInput')
+      alert.alertMe('invalidInput')
       return
     }
     const name = _.getNode('#cs_animation_list').value
     if (!name) {
-      alertMe('noSelectedAnimation')
+      alert.alertMe('noSelectedAnimation')
       return
     }
     saveAnimationsStyle(
@@ -148,7 +149,7 @@ function changeAppliedStyes(key, value) {
   } else {
     const name = _.getNode('#class_name_list').value
     if (!name) {
-      alertMe('noSelectedCN')
+      alert.alertMe('noSelectedCN')
       return
     }
     saveCNStyle(name, media, condition, key, value)

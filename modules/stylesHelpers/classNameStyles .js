@@ -1,8 +1,8 @@
-import { alertMe } from '../alert.js'
+import Alert from '../alert.js'
 import Document from '../dom/index.js'
 
 const _ = Document()
-
+const alert = Alert()
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
 
@@ -155,7 +155,7 @@ function createCNForm() {
       _.createButton('Add', ['inline-btn'], '', function (e) {
         let name = _.getNode('#add_new_cn').value
         if (!name) {
-          alertMe('invalidInput')
+          alert.alertMe('invalidInput')
           return
         }
         name = `prv-${name.trim().split(' ').join('-')}`

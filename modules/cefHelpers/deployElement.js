@@ -112,7 +112,7 @@ function deployTable(thData, tbData, tfData, addBeforeOrAfter) {
 
 function deploySelection(options, addBeforeOrAfter) {
   const id = `selection_${new Date().getTime()}`
-  const select = _.createSelect([], options, id)
+  const select = _.createSelect([], '', options, id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
     _.insertBefore([select], selectedNode)
   } else {

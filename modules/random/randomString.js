@@ -1,16 +1,16 @@
 class URS {
   #alphabets = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   #numbers = '0123456789'
-  #createdStrings
+  #createdStrings = []
 
   constructor(exceptions = []) {
     this.#createdStrings = [...exceptions]
   }
 
-  randomString(length = 5) {
+  generate(length = 5) {
     let str = ''
 
-    const getString = () => {
+    const get = () => {
       let string = ''
       for (let i = 0; i < length; i++) {
         if (i % 2 === 0) {
@@ -22,13 +22,13 @@ class URS {
       if (this.#createdStrings.includes(string)) {
         string[0] = this.#randomAlphaIdx()
         if (this.#createdStrings.includes(string)) {
-          string = getString()
+          string = get()
         }
       }
       return string
     }
 
-    str = getString()
+    str = get()
     this.#createdStrings.push(str)
     return str
   }
@@ -44,13 +44,14 @@ class URS {
     const idx = parseInt((Math.random() * 9).toFixed(0))
     return this.#numbers[idx]
   }
+
   addNewAlphabets(alphabets) {
-    this.#alphabets += [...alphabets].join('')
+    this.#alphabets += alphabets.trim()
+  }
+
+  addExceptions(ecp) {
+    this.#createdStrings = [...this.#createdStrings, ...ecp]
   }
 }
 
-function generateURS(ecp) {
-  return new URS(ecp)
-}
-
-export default generateURS
+export default URS

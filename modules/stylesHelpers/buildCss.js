@@ -1,5 +1,23 @@
 // { name : { general : { standard : { color : red }}}}
 
+function convertToKeyFrames(animations) {
+  let keyFrames = ''
+  for (const animation in animations) {
+    const animationData = animations[animation]
+    let ani = `@keyframes ${animation} {`
+    for (const kfs in animationData) {
+      const kfsData = animationData[kfs]
+      let kf = `${kfs}% {`
+      for (const key in kfsData) {
+        kf += `${key} : ${kfsData[key]};`
+      }
+      ani += `${kf}}`
+    }
+    keyFrames += `${ani}}`
+  }
+  return keyFrames
+}
+
 function extractMediaStyles(styles, classNames = '') {
   let generalStyles = ''
   let mediumStyles = ''
@@ -38,24 +56,6 @@ function extractMediaStyles(styles, classNames = '') {
     }
   }
   return [generalStyles, mediumStyles, largeStyles]
-}
-
-function convertToKeyFrames(animations) {
-  let keyFrames = ''
-  for (const animation in animations) {
-    const animationData = animations[animation]
-    let ani = `@keyframes ${animation} {`
-    for (const kfs in animationData) {
-      const kfsData = animationData[kfs]
-      let kf = `${kfs}% {`
-      for (const key in kfsData) {
-        kf += `${key} : ${kfsData[key]};`
-      }
-      ani += `${kf}}`
-    }
-    keyFrames += `${ani}}`
-  }
-  return keyFrames
 }
 
 function convertToPredCss(styles) {
@@ -115,15 +115,25 @@ function convertToPredProductionCss(styles) {
 }
 
 function buildProductionCss(animations, predefined, classNames, customStyles) {
+  let stylesString = ''
   const keyFrames = convertToKeyFrames(animations)
   const predefinedStyles = convertToPredProductionCss(predefined)
-  const [cusGrlStyles, cusMdStyles, cusLgStyles] =
-    extractMediaStyles(customStyles)
+  const [cusGrlStyles, cusMdStyles, cusLgStyles] = extractMediaStyles(
+    customStyles,
+    '_'
+  )
   const [cnGrlStyles, cnMdStyles, cnLgStyles] = extractMediaStyles(
     classNames,
     '_'
   )
-  return `${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} @media only screen and (min-width: 769px) and (max-width: 1024px){${cnMdStyles}${cusMdStyles}} @media only screen and (min-width: 1025px){${cnLgStyles}${cusLgStyles}}`
+  stylesString += `${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
+  if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
+    stylesString += `@media only screen and (min-width: 769px) and (max-width: 1024px){${cnMdStyles}${cusMdStyles}} `
+  }
+  if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
+    stylesString += `@media only screen and (min-width: 1025px){${cnLgStyles}${cusLgStyles}}`
+  }
+  return stylesString
 }
 
 export { buildCss, buildProductionCss }
