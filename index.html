@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <meta name="description" content="Create Web with html and css" />
+    <meta name="keywords" content="basic knowledge of html and css" />
+    <meta name="author" content="sai wunna" />
     <style id="my_styles"></style>
     <title>Playground</title>
   </head>
   <body>
     <article id="wrapper">
       <nav id="main_nav_box">
-        <button type="button" class="btn elements_opener">E</button>
+        <button type="button" class="btn elements_opener">C</button>
         <button type="button" class="btn tools_opener">S</button>
         <button type="button" class="btn stacks_opener">T</button>
         <button type="button" class="btn editor_opener">E</button>
@@ -29,6 +32,8 @@
               <option value="list">List</option>
               <option value="table">Table</option>
               <option value="selection">selection</option>
+              <option value="option">Option</option>
+              <option value="blockquote">Block Quote</option>
               <option value="span">Span ( short text )</option>
               <!-- <option value="input">Input</option> -->
               <!-- under construction -->
@@ -145,21 +150,22 @@
               remove form
             </button>
           </div>
-          <div class="events-box d-flex justify-content-center">
+          <!-- under construction -->
+          <!-- <div class="events-box d-flex justify-content-center">
             <form class="add-events-form"></form>
             <div class="events-info">
               <h5>Applied Events</h5>
               <div class="applied-events"></div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </article>
+    <div id="element_pointer"></div>
     <main id="app_wrapper">
-      <div id="element_pointer"></div>
       <div id="app"></div>
     </main>
-    <script defer type="module" src="main.js"></script>
+    <script defer type="module" src="./modules/main.js"></script>
     <script defer type="module" src="./modules/navs.js"></script>
     <script defer type="module" src="./modules/createElements.js"></script>
     <script defer type="module" src="./modules/stylers.js"></script>

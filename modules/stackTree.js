@@ -14,24 +14,12 @@ const validator = Validator()
 const high_light_ele = _.getNode('#high_light_ele')
 const element_pointer = _.getNode('#element_pointer')
 const appNode = _.getNode('.app-node')
+const isInsertBefore = _.getNode('#beforeOrAfter')
 
+const tree = {}
+// here we need to build tree in js and show them only when request
 let selectedNode = '#app'
 let selectedTreeNode = '#children'
-let elementsCounter = {
-  header: 0,
-  span: 0,
-  button: 0,
-  block: 0,
-  paragraph: 0,
-  input: 0,
-  list: 0,
-  link: 0,
-  image: 0,
-  selection: 0,
-  table: 0,
-  breaker: 0,
-  figure: 0,
-}
 
 _.on('click', appNode, (e) => {
   e.preventDefault()
@@ -50,7 +38,6 @@ _.on('change', high_light_ele, (e) => {
 })
 
 function addTableStack(tableId, thData, tbData, tfData) {
-  elementsCounter.table = elementsCounter.table + 1
   function createTRNode(data, trId) {
     const fragment = _.createFragment()
     data.forEach((one) => {
@@ -174,7 +161,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
       tableStacks,
     ]
   )
-  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+  if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       tableNode,
       _.getNode(`${selectedTreeNode}_c`).parentElement
@@ -186,7 +173,6 @@ function addTableStack(tableId, thData, tbData, tfData) {
 }
 
 function addListStack(type, id, lists) {
-  elementsCounter.list = elementsCounter.list + 1
   const listItemNode = _.createFragment()
   lists.forEach((item) => {
     listItemNode.appendChild(createTreeNode(item.id, 'list item'))
@@ -197,7 +183,7 @@ function addListStack(type, id, lists) {
     listItemNode
   )
 
-  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+  if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       listNode,
       _.getNode(`${selectedTreeNode}_c`).parentElement
@@ -209,7 +195,6 @@ function addListStack(type, id, lists) {
 }
 
 function addSelectionStack(selectId, options) {
-  elementsCounter.selection = elementsCounter.selection + 1
   function createOption(text, id) {
     return _.createElement(
       'div',
@@ -251,7 +236,7 @@ function addSelectionStack(selectId, options) {
   })
   const selectionNode = createTreeNode(selectId, 'Select', optionFragment)
 
-  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+  if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       selectionNode,
       _.getNode(`${selectedTreeNode}_c`).parentElement
@@ -263,13 +248,12 @@ function addSelectionStack(selectId, options) {
 }
 
 function addFigureStack(stacksArr) {
-  elementsCounter.figure = elementsCounter.figure + 1
   const fragment = _.createFragment()
   for (let i = 2; i < stacksArr.length; i += 2) {
     fragment.appendChild(createTreeNode(stacksArr[i], stacksArr[i + 1]))
   }
   const newStack = createTreeNode(stacksArr[0], stacksArr[1], fragment)
-  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+  if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       newStack,
       _.getNode(`${selectedTreeNode}_c`).parentElement
@@ -281,9 +265,8 @@ function addFigureStack(stacksArr) {
 }
 
 function addNewStack(id, name) {
-  elementsCounter[name.split(' ')[0]] = elementsCounter[name.split(' ')[0]] + 1
   const newStack = createTreeNode(id, name)
-  if (_.getNode('#beforeOrAfter').checked && selectedNode !== '#app') {
+  if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       newStack,
       _.getNode(`${selectedTreeNode}_c`).parentElement
@@ -329,8 +312,8 @@ function createTreeNode(id, name, children) {
 }
 
 function selectNode(e, id) {
-  lockBtn(e.target)
   if (id === selectedNode) return
+  lockBtn(e.target)
   pointOutTheEle(id)
   selectedNode = selectedTreeNode = id
   setTargetEleShowers(id)
@@ -415,6 +398,5 @@ export {
   addListStack,
   addFigureStack,
   pointOutTheEle,
-  elementsCounter,
   selectedNode,
 }

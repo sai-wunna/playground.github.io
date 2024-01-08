@@ -20,7 +20,7 @@ class URS {
         }
       }
       if (this.#createdStrings.includes(string)) {
-        string[0] = this.#randomAlphaIdx()
+        string = this.#randomAlphaIdx() + string.slice(1)
         if (this.#createdStrings.includes(string)) {
           string = get()
         }

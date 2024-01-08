@@ -20,22 +20,24 @@ class Validator {
     'audio',
   ]
 
-  isInvalidTextInput(ele) {
-    const val = this.#untie(ele)
+  isInvalidTextInput(target) {
+    const val = this.#untie(target)
     return this.uwl.includes(val)
   }
-  isInvalidInsert(ele) {
-    if (ele === '#app') return false
-    const val = this.#untie(ele)
+  isInvalidInsert(target, ele) {
+    if (target === '#app' && ele !== 'option') return false
+    if (target.startsWith('#select') && ele === 'option') return false
+    if (target === '#app' && ele === 'option') return true
+    const val = this.#untie(target)
     return this.ual.includes(val)
   }
-  isInvalidEleToShow(ele) {
-    const val = this.#untie(ele)
+  isInvalidEleToShow(target) {
+    const val = this.#untie(target)
     return ['option', 'br'].includes(val)
   }
 
-  #untie(ele) {
-    return ele.split('_')[0].slice(1)
+  #untie(target) {
+    return target.split('_')[0].slice(1)
   }
 }
 

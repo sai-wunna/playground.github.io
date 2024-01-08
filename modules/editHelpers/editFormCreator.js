@@ -14,11 +14,16 @@ function editImageForm(node) {
   const altIp = _.createInput('', ['form-control'], 'edit_alt', {
     value: target.alt,
   })
-  const updateBtn = _.createButton('Update', ['update-ele-btn'], '', (e) => {
-    e.preventDefault()
-    target.src = _.getNode('#edit_src').value
-    target.alt = _.getNode('#edit_alt').value
-  })
+  const updateBtn = _.createButton(
+    'Update',
+    ['btn', 'btn-sm', 'text-primary'],
+    '',
+    (e) => {
+      e.preventDefault()
+      target.src = srcIp.value
+      target.alt = altIp.value
+    }
+  )
   return _.createForm([], [srcLb, srcIp, altLb, altIp, updateBtn], 'edit_form')
 }
 
@@ -54,6 +59,7 @@ function editLinkForm(node) {
 
   const select = _.createSelect(
     ['form-select'],
+    '',
     [
       { value: 'link', text: 'Link', selected: type === 1 },
       { value: 'email', text: 'Email', selected: type === 2 },
@@ -74,20 +80,25 @@ function editLinkForm(node) {
     },
     ''
   )
-  const updateBtn = _.createButton('update', ['update-ele-btn'], '', (e) => {
-    e.preventDefault()
-    let suffix = _.getNode('#link_type').value
-    if (suffix === 'link') {
-      suffix = ''
-    } else if (suffix === 'email') {
-      suffix = 'mailto:'
-    } else {
-      suffix = 'tel:'
+  const updateBtn = _.createButton(
+    'update',
+    ['btn', 'btn-sm', 'text-primary'],
+    '',
+    (e) => {
+      e.preventDefault()
+      let suffix = select.value
+      if (suffix === 'link') {
+        suffix = ''
+      } else if (suffix === 'email') {
+        suffix = 'mailto:'
+      } else {
+        suffix = 'tel:'
+      }
+      target.href = `${suffix}${linkIp.value}`
+      target.textContent = nameIp.value
+      target.title = titleIp.value
     }
-    target.href = `${suffix}${_.getNode('#edit_link').value}`
-    target.textContent = _.getNode('#edit_link_name').value
-    target.title = _.getNode('#edit_title').value
-  })
+  )
   return _.createForm(
     [],
     [select, LinkLb, linkIp, nameLb, nameIp, titleLb, titleIp, updateBtn],
@@ -95,4 +106,119 @@ function editLinkForm(node) {
   )
 }
 
-export { editImageForm, editLinkForm }
+function editOptionForm(node) {
+  const target = _.getNode(node)
+  const valueLb = _.createLabel('Value', 'edit_opt_value', ['form-label'])
+  const valueIp = _.createInput('', ['form-control'], 'edit_opt_value', {
+    value: target.value,
+  })
+  const valueBox = _.createElement('', '', ['cs-ip-gp'], [valueLb, valueIp])
+  const optionLb = _.createLabel('Option', 'edit_opt_text', ['form-label'])
+  const optionIp = _.createInput('', ['form-control'], 'edit_opt_text', {
+    value: target.textContent,
+  })
+  const textBox = _.createElement('', '', ['cs-ip-gp'], [optionLb, optionIp])
+  const updateBtn = _.createButton(
+    'Update',
+    ['btn', 'btn-sm', 'text-primary'],
+    '',
+    (e) => {
+      target.value = valueIp.value
+      target.textContent = optionIp.value
+    }
+  )
+  return _.createForm([], [valueBox, textBox, updateBtn], 'edit_form')
+}
+
+function textNodeForm(node) {
+  const childNodes = _.getNode(node).childNodes
+  const fragment = _.createFragment()
+  let spamBlocker
+
+  function createEditBox(node) {
+    return _.createElement(
+      'div',
+      '',
+      ['my-1', 'd-flex'],
+      [
+        _.createTextArea(
+          '',
+          ['form-control'],
+          {
+            value: node.textContent,
+          },
+          '',
+          (e) => {
+            clearTimeout(spamBlocker)
+            spamBlocker = setTimeout(() => {
+              node.textContent = e.target.value
+            }, 500)
+          },
+          ''
+        ),
+        _.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
+          e.target.parentElement.remove()
+          node.remove()
+        }),
+      ]
+    )
+  }
+
+  const addTNForm = _.createElement(
+    'div',
+    '',
+    ['my-1', 'd-flex'],
+    [
+      _.createInput('', ['form-control'], 'new_text_node', {
+        placeholder: 'new text node ... ... ...',
+      }),
+      _.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
+        const textNode = _.createTNode(
+          _.getNode('#new_text_node').value || 'text node has been added.'
+        )
+        _.getNode(node).appendChild(textNode)
+        _.getNode('#edit_form').appendChild(createEditBox(textNode))
+      }),
+    ]
+  )
+
+  childNodes.forEach((child) => {
+    if (child.nodeType !== Node.TEXT_NODE) return
+    fragment.appendChild(createEditBox(child))
+  })
+  return _.createForm([], [addTNForm, fragment], 'edit_form')
+}
+
+function editBlockQuoteForm(node) {
+  const target = _.getNode(node)
+  const citeLb = _.createLabel('Cite', 'edit_cite', ['form-label'])
+  const citeIp = _.createInput('', ['form-control'], 'edit_cite', {
+    value: target.cite,
+  })
+  const contentLb = _.createLabel('Content', 'edit_content', ['form-label'])
+  const contentIp = _.createInput('', ['form-control'], 'edit_content', {
+    value: target.textContent,
+  })
+  const updateBtn = _.createButton(
+    'Update',
+    ['btn', 'btn-sm', 'text-primary'],
+    '',
+    function (e) {
+      target.cite = citeIp.value
+      target.textContent = contentIp.value
+    }
+  )
+  return _.createForm(
+    [],
+    [citeLb, citeIp, contentLb, contentIp, updateBtn],
+    'edit_form'
+  )
+}
+
+export {
+  editImageForm,
+  editLinkForm,
+  editOptionForm,
+  textNodeForm,
+  editBlockQuoteForm,
+}

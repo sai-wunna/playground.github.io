@@ -1,9 +1,14 @@
 import Document from './dom/index.js'
 import { selectedNode } from './stackTree.js'
 import Validator from './validators/index.js'
-import { createTextNodes } from './editHelpers/createTextNodes.js'
 import Alert from './alert.js'
-import { editImageForm, editLinkForm } from './editHelpers/editFormCreator.js'
+import {
+  editBlockQuoteForm,
+  editImageForm,
+  editLinkForm,
+  editOptionForm,
+  textNodeForm,
+} from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
 const _ = Document()
@@ -26,8 +31,12 @@ _.on('click', getEditFormBtn, (e) => {
     form = editImageForm(selectedNode)
   } else if (selectedNode.startsWith('#link')) {
     form = editLinkForm(selectedNode)
+  } else if (selectedNode.startsWith('#option')) {
+    form = editOptionForm(selectedNode)
+  } else if (selectedNode.startsWith('#blockquote')) {
+    form = editBlockQuoteForm(selectedNode)
   } else {
-    form = createTextNodes(selectedNode)
+    form = textNodeForm(selectedNode)
   }
   _.getNode('.edit-text').appendChild(form)
 })

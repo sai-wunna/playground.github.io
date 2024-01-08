@@ -66,9 +66,9 @@ function convertToPredCss(styles) {
     ele = ele === 'all' ? '*' : ele
     for (let condition in element) {
       if (condition === 'standard') {
-        css += `#app ${ele} {`
+        css += `#app_wrapper ${ele} {`
       } else {
-        css += `#app ${ele}:${condition} {`
+        css += `#app_wrapper ${ele}:${condition} {`
       }
       const conditionStyles = element[condition]
       for (let key in conditionStyles) {
@@ -97,7 +97,7 @@ function convertToPredProductionCss(styles) {
   let css = ''
   for (let ele in styles) {
     const element = styles[ele]
-    ele = ele === 'all' ? '*' : ele
+    ele = ele === 'all' ? 'body *' : ele
     for (let condition in element) {
       if (condition === 'standard') {
         css += `${ele} {`

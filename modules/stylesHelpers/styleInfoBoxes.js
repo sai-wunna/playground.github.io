@@ -126,10 +126,10 @@ function createPredefinedStylesBox(selectedEle) {
     ['predefined-elements-box'],
     [
       _.createSelect(
-        [''],
+        ['cs-select'],
         '',
         [
-          { value: 'all', text: '*' },
+          { value: 'all', text: '* ( any type of elements inside body )' },
           { value: 'button', text: 'Button' },
           { value: 'link', text: 'Link' },
           { value: 'h1', text: 'Heading One' },

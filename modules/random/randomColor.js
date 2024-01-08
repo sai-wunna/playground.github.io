@@ -2,7 +2,7 @@ class URC {
   baseColor
   opacity
   #createdColors = []
-  constructor(baseColor = [200, 200, 200], opacity = 1) {
+  constructor(baseColor = [255, 250, 250], opacity = 0.5) {
     this.baseColor = baseColor
     this.opacity = opacity
   }

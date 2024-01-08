@@ -56,19 +56,19 @@ _.on('change', stylesBoxChooser, (e) => {
       box = sizingBox
       break
     case 'position':
-      box = positionBox || (positionBox = createPositionForm())
+      box = positionBox ||= createPositionForm()
       break
     case 'typography':
-      box = typographyBox || (typographyBox = createTypographyForm())
+      box = typographyBox ||= createTypographyForm()
       break
     case 'background':
-      box = backgroundBox || (backgroundBox = createBackgroundForm())
+      box = backgroundBox ||= createBackgroundForm()
       break
     case 'border_n_outlines':
-      box = bNOBox || (bNOBox = createBorderAndOutlinesForm())
+      box = bNOBox ||= createBorderAndOutlinesForm()
       break
     case 'display':
-      box = displayBox || (displayBox = createDisplayForm())
+      box = displayBox ||= createDisplayForm()
       break
     case 'animation':
       animationBox ||= createAnimationForm()
@@ -80,7 +80,7 @@ _.on('change', stylesBoxChooser, (e) => {
       box = animationBox
       break
     default:
-      box = miscellaneousBox || (miscellaneousBox = createMiscellaneousForm())
+      box = miscellaneousBox ||= createMiscellaneousForm()
   }
 
   stylesBoxHolder.appendChild(box)
@@ -173,12 +173,8 @@ function appliedLatestStyles(animations, predefined, classNames, customStyles) {
   return () => clearTimeout(timerId)
 }
 
-function setIsStyleChanged(boo) {
-  isStyleChanged = boo
-}
-
 // initial load to page ___________
 stylesBoxHolder.appendChild(sizingBox)
 createTargetStyleInfoBox('#app')
 
-export { changeAppliedStyes, setIsStyleChanged }
+export { changeAppliedStyes }

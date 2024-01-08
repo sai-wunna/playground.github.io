@@ -5,6 +5,8 @@ class Alert {
   #alertMessages = {}
   #countLimit
   #currentCount = 0
+  #wrapper
+  #progressLoader
 
   constructor(
     messages = {
@@ -17,21 +19,23 @@ class Alert {
       hidden: 'This element is currently out of sight',
       unWritable: 'Cannot write or add text to this element',
       unEditable: 'Cannot edit this element',
-      noUpdate: 'Changes not found to update',
+      noUpdate: 'No new added styles found to update',
     },
     countLimit = 3
   ) {
     this.#alertMessages = messages
     this.#countLimit = countLimit
+    this.#wrapper = _.getNode('#wrapper')
+    this.#progressLoader = _.createElement('div', '', ['progress-alert'], [])
   }
 
   alertMe(type = 'invalid', period = 3000) {
-    if (this.#currentCount > this.#countLimit) return
+    if (this.#currentCount >= this.#countLimit) return
     this.#currentCount += 1
     const alertBox = _.createElement('div', this.#alertMessages[type], [
       'custom-alert-box',
     ])
-    _.getNode('#wrapper').appendChild(alertBox)
+    this.#wrapper.appendChild(alertBox)
     let dropTimer = setTimeout(() => {
       alertBox.style.top = `${(this.#currentCount - 1) * 40}px`
     }, 10)
@@ -47,6 +51,19 @@ class Alert {
       clearTimeout(hideTimer)
       clearTimeout(removeTimer)
     }
+  }
+
+  __start(msg) {
+    this.#progressLoader.textContent = msg ? msg : 'Loading'
+    this.#wrapper.appendChild(this.#progressLoader)
+  }
+
+  __end(msg = 'Ready') {
+    this.#progressLoader.textContent = msg
+    let timerId = setTimeout(() => {
+      this.#progressLoader.remove()
+    }, 2000)
+    return () => clearTimeout(timerId)
   }
 
   addMessages(messages = {}) {

@@ -543,6 +543,9 @@
   height: auto;
   border-top: 4px solid silver;
 }
+#edit_form {
+  margin: 5px 0;
+}
 .add-events-form {
   width: 100%;
   background: white;
@@ -580,6 +583,7 @@
   position: fixed;
   top: -10%;
   left: 50%;
+  font-size: 1.2em;
   width: auto;
   border-radius: 5px;
   padding: 5px 10px;
@@ -592,19 +596,34 @@
   transition: top 0.5s ease-in-out;
   z-index: 2000;
 }
+.progress-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  border-radius: 5px;
+  font-size: 1.2em;
+  padding: 5px 20px;
+  transform: translate(-50%, -0%);
+  text-align: center;
+  border: 3px solid rgb(206, 207, 255);
+  border-left: 6px solid rgb(0, 46, 251);
+  background-color: rgb(206, 207, 255);
+  transition: top 0.5s ease-in-out;
+  z-index: 2000;
+}
 /* experience -------------- */
 
 .download-form {
   position: fixed;
-  top: 80%;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
   border-radius: 5px;
-  width: 400px;
-  background-color: #24756350;
-  backdrop-filter: blur(50px);
-  box-shadow: 0 4px 8px rgba(50, 149, 144, 0.784);
+  width: 600px;
+  background-color: #e3e3e3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.929);
   z-index: 10000;
 }
 
@@ -622,13 +641,11 @@
 }
 
 @keyframes elePointer {
-  0% {
+  0%,
+  100% {
     border: 2px dashed black;
   }
   50% {
     border: 2px dashed white;
-  }
-  100% {
-    border: 2px dashed black;
   }
 }

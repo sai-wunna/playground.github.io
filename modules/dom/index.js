@@ -8,8 +8,14 @@ class Doc {
   getNode(node) {
     return this._.querySelector(node)
   }
+  getNodeOn(parent, node) {
+    return parent.querySelector(node)
+  }
   getAllNodes(node) {
     return this._.querySelectorAll(node)
+  }
+  getAllNodesOn(node) {
+    return parent.querySelectorAll(node)
   }
   createNode(node) {
     return this._.createElement(node)
@@ -426,7 +432,7 @@ class Doc {
       tbody.className = classList.join(' ')
     }
     bodyData.forEach((bodyData) => {
-      tbody.appendChild(createTRow(bodyData.data, bodyData.trId))
+      tbody.appendChild(this.createTRow(bodyData.data, bodyData.trId))
     })
     if (id) {
       tbody.id = id
@@ -442,7 +448,7 @@ class Doc {
     if (id) {
       tfoot.id = id
     }
-    const tr = createTRow(footerData, trId)
+    const tr = this.createTRow(footerData, trId)
     tfoot.appendChild(tr)
     return tfoot
   }
@@ -474,21 +480,70 @@ class Doc {
   }
   // table creation ----------------------------- end ////////
 
-  createAudio(src, id) {
+  createAudio(src, classList = [], id) {
     const audio = this.createNode('audio')
     audio.src = src
+    if (classList.length > 0) {
+      audio.className = classList.join(' ')
+    }
     audio.controls = true
     if (id) audio.id = id
     return audio
   }
 
-  createFigCaption(text, id) {
+  createFigCaption(text, classList = [], id) {
     const cap = this.createNode('figcaption')
-    cap.textContent = text
+    if (text) {
+      if (typeof text === 'object') {
+        cap.appendChild(text)
+      } else {
+        cap.textContent = text
+      }
+    }
+    if (classList.length > 0) {
+      cap.className = classList.join(' ')
+    }
     if (id) {
       cap.id = id
     }
     return cap
+  }
+
+  createBlockQuote(cite, text, classList = [], id) {
+    const bq = this.createNode('blockquote')
+    bq.cite = cite || "i don't remember it"
+    if (text) {
+      if (typeof text === 'object') {
+        bq.appendChild(text)
+      } else {
+        bq.textContent = text
+      }
+    }
+    if (classList.length > 0) {
+      bq.className = classList.join(' ')
+    }
+    if (id) {
+      bq.id = id
+    }
+    return bq
+  }
+
+  createCite(text, classList = [], id) {
+    const cite = this.createNode('cite')
+    if (text) {
+      if (typeof text === 'object') {
+        cite.appendChild(text)
+      } else {
+        cite.textContent = text
+      }
+    }
+    if (classList.length > 0) {
+      cite.className = classList.join(' ')
+    }
+    if (id) {
+      cite.id = id
+    }
+    return id
   }
 
   createCanvas(imageData, classList = [], id) {

@@ -1,5 +1,4 @@
 import {
-  elementsCounter,
   addNewStack,
   selectedNode,
   addTableStack,
@@ -12,7 +11,6 @@ import Document from '../dom/index.js'
 const _ = Document()
 
 function deployBlock(text, addBeforeOrAfter) {
-  const time = elementsCounter.block + 1
   const id = `div_${new Date().getTime()}`
   const div = _.createElement('div', text, [], [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -21,11 +19,10 @@ function deployBlock(text, addBeforeOrAfter) {
     _.appendChildrenTo(selectedNode, [div])
   }
 
-  return addNewStack(id, `block ${time}, ${text?.slice(0, 5)}...`)
+  return addNewStack(id, `block ${text?.slice(0, 5)}...`)
 }
 
 function deployImage(src, alt, addBeforeOrAfter) {
-  const time = elementsCounter.image + 1
   const id = `img_${new Date().getTime()}`
   const img = _.createImage(src, alt || `image No . ${time}`, [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -33,11 +30,10 @@ function deployImage(src, alt, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [img])
   }
-  return addNewStack(id, `image ${time}, ${alt?.slice(0, 5)}...`)
+  return addNewStack(id, `image ${alt?.slice(0, 5)}...`)
 }
 
 function deployHeading(type, text, addBeforeOrAfter) {
-  const time = elementsCounter.header + 1
   const id = `header_${new Date().getTime()}`
   const header = _.createHeading(type, text, [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -45,11 +41,10 @@ function deployHeading(type, text, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [header])
   }
-  return addNewStack(id, `header ${time}, ${text?.slice(0, 5)}...`)
+  return addNewStack(id, `header ${text?.slice(0, 5)}...`)
 }
 
 function deployLink(type, url, text, title, addBeforeOrAfter) {
-  const time = elementsCounter.link + 1
   const id = `link_${new Date().getTime()}`
   const link = _.createAnchor(type, text, url, [], id, title)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -57,11 +52,10 @@ function deployLink(type, url, text, title, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [link])
   }
-  return addNewStack(id, `link ${time}, ${url?.slice(0, 5)}...`)
+  return addNewStack(id, `link ${url?.slice(0, 5)}...`)
 }
 
 function deployParagraph(text, addBeforeOrAfter) {
-  const time = elementsCounter.paragraph + 1
   const id = `paragraph_${new Date().getTime()}`
   const p = _.createElement('p', text, [], [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -69,7 +63,7 @@ function deployParagraph(text, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [p])
   }
-  return addNewStack(id, `paragraph ${time}, ${text?.slice(0, 5)}...`)
+  return addNewStack(id, `paragraph ${text?.slice(0, 5)}...`)
 }
 
 function deployList(type, lists, addBeforeOrAfter) {
@@ -84,7 +78,6 @@ function deployList(type, lists, addBeforeOrAfter) {
 }
 
 function deployText(text, addBeforeOrAfter) {
-  const time = elementsCounter.span + 1
   const id = `span_${new Date().getTime()}`
   const span = _.createSpan(text, [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -92,7 +85,7 @@ function deployText(text, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [span])
   }
-  return addNewStack(id, `span ${time}, .....`)
+  return addNewStack(id, `span ${text}, .....`)
 }
 
 function deployTable(thData, tbData, tfData, addBeforeOrAfter) {
@@ -121,8 +114,18 @@ function deploySelection(options, addBeforeOrAfter) {
   return addSelectionStack(id, options)
 }
 
+function deployOption(value, text, addBeforeOrAfter) {
+  const id = `option_${new Date().getTime()}`
+  const option = _.createOption('', value, text, id)
+  if (addBeforeOrAfter.checked && selectedNode !== '#app') {
+    _.insertBefore([option], selectedNode)
+  } else {
+    _.appendChildrenTo(selectedNode, [option])
+  }
+  return addNewStack(id, `option ${text}, .....`)
+}
+
 function deployButton(text, addBeforeOrAfter) {
-  const time = elementsCounter.button + 1
   const id = `button_${new Date().getTime()}`
   const button = _.createButton(text, [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -130,11 +133,10 @@ function deployButton(text, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [button])
   }
-  return addNewStack(id, `button ${time}, .....`)
+  return addNewStack(id, `button ${text}, .....`)
 }
 
 function deployLineBreaker(type, addBeforeOrAfter) {
-  const time = elementsCounter.breaker + 1
   const id = `${type}_${new Date().getTime()}`
   const breaker = _.createElement(type, '', [], [], id)
   if (addBeforeOrAfter.checked && selectedNode !== '#app') {
@@ -142,7 +144,7 @@ function deployLineBreaker(type, addBeforeOrAfter) {
   } else {
     _.appendChildrenTo(selectedNode, [breaker])
   }
-  return addNewStack(id, `breaker ${type} ${time}, .....`)
+  return addNewStack(id, `breaker ${type}, .....`)
 }
 
 function deployImageFigureBox(data, captionFirstOrNot, addBeforeOrAfter) {
@@ -152,7 +154,7 @@ function deployImageFigureBox(data, captionFirstOrNot, addBeforeOrAfter) {
   const fragment = _.createFragment()
   if (data.caption) {
     const captionId = `caption_${new Date().getTime()}`
-    const caption = _.createFigCaption(data.caption, captionId)
+    const caption = _.createFigCaption(data.caption, [], captionId)
     if (captionFirstOrNot.checked) {
       _.appendChildrenTo(fragment, [caption, image])
       stackTraces.push(captionId, 'caption', imgId, 'image')
@@ -179,12 +181,12 @@ function deployImageFigureBox(data, captionFirstOrNot, addBeforeOrAfter) {
 
 function deployAudioFigureBox(data, captionFirstOrNot, addBeforeOrAfter) {
   const audioId = `audio_${new Date().getTime()}`
-  const audio = _.createAudio(data.src, audioId)
+  const audio = _.createAudio(data.src, [], audioId)
   const fragment = _.createFragment()
   const stackTraces = []
   if (data.caption) {
     const capId = `caption_${new Date().getTime()}`
-    const caption = _.createFigCaption(data.caption, capId)
+    const caption = _.createFigCaption(data.caption, [], capId)
     if (captionFirstOrNot.checked) {
       _.appendChildrenTo(fragment, [caption, audio])
       stackTraces.push(capId, 'caption', audioId, 'audio')
@@ -207,6 +209,17 @@ function deployAudioFigureBox(data, captionFirstOrNot, addBeforeOrAfter) {
   return addFigureStack(stackTraces)
 }
 
+function deployBlockQuote(cite, text, addBeforeOrAfter) {
+  const id = `blockquote_${new Date().getTime()}`
+  const bq = _.createBlockQuote(cite, text, [], id)
+  if (addBeforeOrAfter.checked && selectedNode !== '#app') {
+    _.insertBefore([bq], selectedNode)
+  } else {
+    _.appendChildrenTo(selectedNode, [bq])
+  }
+  return addNewStack(id, `blockquote ${text}, .....`)
+}
+
 export {
   deployBlock,
   deployImage,
@@ -217,8 +230,10 @@ export {
   deployText,
   deployTable,
   deploySelection,
+  deployOption,
   deployImageFigureBox,
   deployAudioFigureBox,
   deployButton,
   deployLineBreaker,
+  deployBlockQuote,
 }
