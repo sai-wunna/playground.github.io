@@ -10,6 +10,7 @@ import {
   createDisplayForm,
   createMiscellaneousForm,
   createAnimationForm,
+  createUnitSelector,
 } from './stylesHelpers/stylerBoxCreator.js'
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
@@ -48,7 +49,6 @@ let animationBox
 
 _.on('change', stylesBoxChooser, (e) => {
   const type = e.target.value
-  _.getNode('.styler-box')?.remove()
   let box
 
   switch (type) {
@@ -82,8 +82,7 @@ _.on('change', stylesBoxChooser, (e) => {
     default:
       box = miscellaneousBox ||= createMiscellaneousForm()
   }
-
-  stylesBoxHolder.appendChild(box)
+  _.getNode('.styler-box').replaceWith(box)
 })
 
 _.on('click', save_media_styles, (e) => {
@@ -174,7 +173,7 @@ function appliedLatestStyles(animations, predefined, classNames, customStyles) {
 }
 
 // initial load to page ___________
-stylesBoxHolder.appendChild(sizingBox)
+_.appendChildrenTo(stylesBoxHolder, [createUnitSelector(), sizingBox])
 createTargetStyleInfoBox('#app')
 
 export { changeAppliedStyes }

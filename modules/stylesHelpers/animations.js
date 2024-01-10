@@ -119,8 +119,7 @@ function animationInfoShower(name) {
   const animation = animations[name]
   const fragment = _.createFragment()
   if (Object.keys(animation).length === 0) return fragment
-  for (const keyFrame in animation) {
-    const kfStyles = animation[keyFrame]
+  for (const [keyFrame, kfStyles] of Object.entries(animation)) {
     const kfsBox = _.createElement(
       'div',
       '',
@@ -138,10 +137,8 @@ function animationInfoShower(name) {
         ),
       ]
     )
-    for (const key in kfStyles) {
-      kfsBox.appendChild(
-        createAnimationInfo(name, keyFrame, key, kfStyles[key])
-      )
+    for (const [key, value] of Object.entries(kfStyles)) {
+      kfsBox.appendChild(createAnimationInfo(name, keyFrame, key, value))
     }
     fragment.appendChild(kfsBox)
   }

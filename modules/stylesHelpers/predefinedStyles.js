@@ -80,9 +80,8 @@ function createPredStyleInfoFrag(ele) {
   const styles = predefinedStyles[ele]
   const stylesFrags = _.createFragment()
 
-  for (let condition in styles) {
-    const conditionStyles = styles[condition]
-    const box = createConditionBox(ele, condition, conditionStyles)
+  for (let [condition,cStyles] of Object.entries(styles)) {
+    const box = createConditionBox(ele, condition, cStyles)
     stylesFrags.appendChild(box)
   }
   return stylesFrags

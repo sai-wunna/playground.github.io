@@ -290,10 +290,11 @@ function createSizingForm() {
       ),
     ]
   )
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       widthBox,
       minWidthBox,
       maxWidthBox,
@@ -657,10 +658,11 @@ function createPositionForm() {
       )
     }
   }
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       positionBox,
       distanceBox,
       floatBox,
@@ -987,10 +989,11 @@ function createTypographyForm() {
       ]
     )
   }
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       fsBox,
       ffBox,
       fStyleBox,
@@ -1268,10 +1271,11 @@ function createBackgroundForm() {
   // to add -webkit- for text-image and others??????????????????????
   // to add -webkit- for text-image and others??????????????????????
   // to add -webkit- for text-image and others??????????????????????
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       bgBox,
       bgGradientBox,
       bgImgBox,
@@ -1516,10 +1520,11 @@ function createBorderAndOutlinesForm() {
       ),
     ]
   )
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       bOOBox,
       bOOWidthBox,
       bOOSideBox,
@@ -1833,10 +1838,11 @@ function createMiscellaneousForm() {
     )
   }
 
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       opacityBox,
       visibilityBox,
       cursorBox,
@@ -2412,7 +2418,9 @@ function createDisplayForm() {
       ),
     ]
   )
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
       displayBox,
@@ -2660,7 +2668,10 @@ function createAnimationForm() {
               { value: 'block', text: 'Block' },
               { value: 'v_single_inset', text: 'Custom Single Inset' },
               { value: 'v_double_inset', text: 'Custom Double Inset' },
-              { value: 'v_block_double_inset', text: 'Block Custom Double Inset' },
+              {
+                value: 'v_block_double_inset',
+                text: 'Block Custom Double Inset',
+              },
               { value: 'v_x_custom_auto', text: 'X Custom Auto' },
               { value: 'v_inline_custom', text: 'Inline Custom-inset' },
               { value: 'v_auto_custom', text: 'Auto Custom-inset' },
@@ -2691,10 +2702,11 @@ function createAnimationForm() {
     ]
   )
 
-  return _.createForm(
+  return _.createElement(
+    '',
+    '',
     ['styler-box'],
     [
-      createUnitSelector(),
       aniNameBox,
       aniDurationBox,
       aniTimingFnBox,
@@ -2725,6 +2737,7 @@ function changeSerialStyles(key, value) {
 }
 
 export {
+  createUnitSelector,
   createSizingForm,
   createPositionForm,
   createTypographyForm,

@@ -82,9 +82,9 @@ function createCNInfoShower(cn) {
       const styles = className[mediaType][conditionType]
 
       if (Object.keys(styles).length !== 0) {
-        for (let key in styles) {
+        for (let [key, value] of Object.entries(styles)) {
           stylesInfoBox.appendChild(
-            createStyleInfo(cn, mediaType, conditionType, key, styles[key])
+            createStyleInfo(cn, mediaType, conditionType, key, value)
           )
         }
       }
