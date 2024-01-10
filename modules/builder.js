@@ -21,9 +21,9 @@ function prepareProduction() {
   const appWrapper = _.createElement('', '', [], [app])
 
   const modifiedClassnames = {}
-  for (let cn in classNames) {
+  for (let [cn, values] of Object.entries(classNames)) {
     const newCn = cn.slice(4)
-    modifiedClassnames[newCn] = classNames[cn]
+    modifiedClassnames[newCn] = values
     appWrapper.querySelectorAll(`.${cn}`).forEach((node) => {
       node.classList.remove(cn)
       node.classList.add(newCn)
@@ -31,9 +31,9 @@ function prepareProduction() {
   }
 
   const modifiedCustomStyles = {}
-  for (let id in customStyles) {
+  for (let [id, values] of Object.entries(customStyles)) {
     const newCn = random.string()
-    modifiedCustomStyles[newCn] = customStyles[id]
+    modifiedCustomStyles[newCn] = values
     appWrapper.querySelector(id).classList.add(newCn)
     appWrapper.querySelector(id).removeAttribute('id')
   }

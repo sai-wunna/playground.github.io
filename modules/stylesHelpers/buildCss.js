@@ -2,14 +2,12 @@
 
 function convertToKeyFrames(animations) {
   let keyFrames = ''
-  for (const animation in animations) {
-    const animationData = animations[animation]
-    let ani = `@keyframes ${animation} {`
-    for (const kfs in animationData) {
-      const kfsData = animationData[kfs]
-      let kf = `${kfs}% {`
-      for (const key in kfsData) {
-        kf += `${key} : ${kfsData[key]};`
+  for (const [name, kfs] of Object.entries(animations)) {
+    let ani = `@keyframes ${name} {`
+    for (const [keyFrame, values] of Object.entries(kfs)) {
+      let kf = `${keyFrame}% {`
+      for (const [key, value] of Object.entries(values)) {
+        kf += `${key} : ${value};`
       }
       ani += `${kf}}`
     }
@@ -23,15 +21,12 @@ function extractMediaStyles(styles, classNames = '') {
   let mediumStyles = ''
   let largeStyles = ''
   let prefix = classNames ? '.' : ''
-  for (let owner in styles) {
-    const ownerStyles = styles[owner]
 
-    for (let media in ownerStyles) {
+  for (const [owner, ownerStyles] of Object.entries(styles)) {
+    for (const [media, mediaStyles] of Object.entries(ownerStyles)) {
       let mediaStyleSet = ''
-      const mediaStyles = ownerStyles[media]
 
-      for (let condition in mediaStyles) {
-        const conditionStyles = mediaStyles[condition]
+      for (const [condition, conditionStyles] of Object.entries(mediaStyles)) {
         if (Object.keys(conditionStyles).length !== 0) {
           let conditionStyleSet = ''
           if (condition !== 'standard') {
@@ -39,9 +34,11 @@ function extractMediaStyles(styles, classNames = '') {
           } else {
             conditionStyleSet += `${prefix}${owner} {`
           }
-          for (let key in conditionStyles) {
-            conditionStyleSet += `${key} : ${conditionStyles[key]};`
+
+          for (const [key, value] of Object.entries(conditionStyles)) {
+            conditionStyleSet += `${key} : ${value};`
           }
+
           mediaStyleSet += `${conditionStyleSet}}`
         }
       }
@@ -55,28 +52,28 @@ function extractMediaStyles(styles, classNames = '') {
       }
     }
   }
+
   return [generalStyles, mediumStyles, largeStyles]
 }
 
 function convertToPredCss(styles) {
-  // { h1 : { standard :{color : "red" }}, button : { hover :{ color : "green"}} }
   let css = ''
-  for (let ele in styles) {
-    const element = styles[ele]
-    ele = ele === 'all' ? '*' : ele
-    for (let condition in element) {
-      if (condition === 'standard') {
-        css += `#app_wrapper ${ele} {`
-      } else {
-        css += `#app_wrapper ${ele}:${condition} {`
+
+  for (const [element, conditions] of Object.entries(styles)) {
+    const selector =
+      element === 'all' ? '#app_wrapper *' : `#app_wrapper ${element}`
+
+    for (const [condition, conditionStyles] of Object.entries(conditions)) {
+      css += `${selector}${condition === 'standard' ? '' : `:${condition}`} {`
+
+      for (const [key, value] of Object.entries(conditionStyles)) {
+        css += `${key} : ${value};`
       }
-      const conditionStyles = element[condition]
-      for (let key in conditionStyles) {
-        css += `${key} : ${conditionStyles[key]};`
-      }
+
       css += '}'
     }
   }
+
   return css
 }
 
@@ -93,24 +90,22 @@ function buildCss(animations, predefined, classNames, customStyles) {
 }
 
 function convertToPredProductionCss(styles) {
-  // { h1 : { standard : "red" }, button : { hover : "green"} }
   let css = ''
-  for (let ele in styles) {
-    const element = styles[ele]
-    ele = ele === 'all' ? 'body *' : ele
-    for (let condition in element) {
-      if (condition === 'standard') {
-        css += `${ele} {`
-      } else {
-        css += `${ele}:${condition} {`
+
+  for (const [element, conditions] of Object.entries(styles)) {
+    const selector = element === 'all' ? 'body *' : element
+
+    for (const [condition, conditionStyles] of Object.entries(conditions)) {
+      css += `${selector}${condition === 'standard' ? '' : `:${condition}`} {`
+
+      for (const [key, value] of Object.entries(conditionStyles)) {
+        css += `${key} : ${value};`
       }
-      const conditionStyles = element[condition]
-      for (let key in conditionStyles) {
-        css += `${key} : ${conditionStyles[key]};`
-      }
+
       css += '}'
     }
   }
+
   return css
 }
 
