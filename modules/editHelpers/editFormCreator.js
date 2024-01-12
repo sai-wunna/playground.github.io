@@ -76,7 +76,7 @@ function editLinkForm(node) {
       } else {
         newPlaceholder = '+123 456 789 012'
       }
-      _.getNode('#edit_link').placeholder = newPlaceholder
+      _.getNodeById('edit_link').placeholder = newPlaceholder
     },
     ''
   )
@@ -174,10 +174,10 @@ function textNodeForm(node) {
       }),
       _.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
         const textNode = _.createTNode(
-          _.getNode('#new_text_node').value || 'text node has been added.'
+          _.getNodeById('new_text_node').value || 'text node has been added.'
         )
         _.getNode(node).appendChild(textNode)
-        _.getNode('#edit_form').appendChild(createEditBox(textNode))
+        _.getNodeById('edit_form').appendChild(createEditBox(textNode))
       }),
     ]
   )

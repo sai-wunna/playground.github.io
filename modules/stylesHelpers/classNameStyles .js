@@ -21,7 +21,7 @@ function saveCNStyle(name, media, condition, key, value) {
   classNames[name][media][condition][key] = value
 
   // push to doc
-  const existedNode = _.getNode(`#${media}_${condition}_${key}_value`)
+  const existedNode = _.getNodeById(`${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
     return
@@ -138,7 +138,7 @@ function createCNForm() {
       _.createButton('Del', ['inline-btn', 'text-danger'], '', function () {
         const name = _.getNode('#class_name_list').value
         if (!name) return
-        _.getNode(`#${name}`).remove()
+        _.getNodeById(`${name}`).remove()
         _.getNode('.class-names-box').lastChild.remove()
         removeClassName(name)
         if (classNames.length > 0) {

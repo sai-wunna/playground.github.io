@@ -19,7 +19,7 @@ const alert = Alert()
 function createTargetStyleInfoBox(selectedNode) {
   const styleInfoHolder = _.getNode('.styled-info')
   styleInfoHolder.lastChild.remove()
-  _.getNode('#switch_css_mode')[0].selected = true
+  _.getNodeById('switch_css_mode')[0].selected = true
   const styleInfo = createCusStyleInfoShower(selectedNode)
   function createCNSelect() {
     const select = _.createSelect(
@@ -71,7 +71,7 @@ function createTargetStyleInfoBox(selectedNode) {
             ['inline-btn', 'text-primary'],
             '',
             function (e) {
-              const name = _.getNode('#add_class_list_selector').value
+              const name = _.getNodeById('add_class_list_selector').value
               if (!name) {
                 alert.alertMe('noAvailableCN')
                 return

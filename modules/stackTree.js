@@ -11,10 +11,10 @@ const random = Random()
 const alert = Alert()
 const validator = Validator()
 
-const high_light_ele = _.getNode('#high_light_ele')
-const element_pointer = _.getNode('#element_pointer')
+const high_light_ele = _.getNodeById('high_light_ele')
+const element_pointer = _.getNodeById('element_pointer')
 const appNode = _.getNode('.app-node')
-const isInsertBefore = _.getNode('#beforeOrAfter')
+const isInsertBefore = _.getNodeById('beforeOrAfter')
 
 const tree = {}
 // here we need to build tree in js and show them only when request
@@ -320,7 +320,7 @@ function selectNode(e, id) {
   createTargetStyleInfoBox(id)
   setSelectedNodeStyle(e.target)
 
-  _.getNode('#edit_form')?.remove()
+  _.getNodeById('edit_form')?.remove()
 }
 
 function removeNode(e, id) {
@@ -347,13 +347,13 @@ function selectAppNode() {
   selectedNode = '#app'
   selectedTreeNode = '#children'
   createTargetStyleInfoBox('#app')
-  _.getNode('#edit_form')?.remove()
+  _.getNodeById('edit_form')?.remove()
 }
 
 function setTargetEleShowers(target) {
-  _.getNode('#selected_ele_shower').textContent = target
-  _.getNode('#styling_ele_shower').textContent = target
-  _.getNode('#edit_ele_shower').textContent = target
+  _.getNodeById('selected_ele_shower').textContent = target
+  _.getNodeById('styling_ele_shower').textContent = target
+  _.getNodeById('edit_ele_shower').textContent = target
 }
 
 function pointOutTheEle(ele) {

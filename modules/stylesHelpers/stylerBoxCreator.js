@@ -25,6 +25,8 @@ import {
 const _ = Document()
 let spamBlocker
 
+const unitSelector = createUnitSelector()
+
 function createSizingForm() {
   const widthBox = _.createElement(
     'div',
@@ -32,12 +34,9 @@ function createSizingForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Width', 'cs_width', ['cs-label']),
-      _.createInput('number', ['cs-num-input'], 'cs_width', '', '', (e) =>
-        changeStyle(
-          'width',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
-        )
-      ),
+      _.createInput('number', ['cs-num-input'], 'cs_width', '', '', (e) => {
+        changeStyle('width', `${parseInt(e.target.value)}${unitSelector.value}`)
+      }),
     ]
   )
   const minWidthBox = _.createElement(
@@ -49,7 +48,7 @@ function createSizingForm() {
       _.createInput('number', ['cs-num-input'], 'cs_min_width', '', '', (e) =>
         changeStyle(
           'min-width',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -63,7 +62,7 @@ function createSizingForm() {
       _.createInput('number', ['cs-num-input'], 'cs_max_width', '', '', (e) =>
         changeStyle(
           'max-width',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -88,7 +87,7 @@ function createSizingForm() {
       _.createInput('number', ['cs-num-input'], 'cs_height', '', '', (e) =>
         changeStyle(
           'height',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -102,7 +101,7 @@ function createSizingForm() {
       _.createInput('number', ['cs-num-input'], 'cs_min_height', '', '', (e) =>
         changeStyle(
           'min-height',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -116,7 +115,7 @@ function createSizingForm() {
       _.createInput('number', ['cs-num-input'], 'cs_max_height', '', '', (e) =>
         changeStyle(
           'max-height',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -155,45 +154,61 @@ function createSizingForm() {
       ),
     ]
   )
+  // gap
+  let cs_gap_x_ip
+  let cs_gap_y_ip
+  cs_gap_y_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
+    'cs_gap_y',
+    '',
+    '',
+    function (e) {
+      const unit = unitSelector.value
+      changeStyle(
+        'gap',
+        `${e.target.value || 0}${unit} ${
+          _.getNodeById('cs_gap_x').value || 0
+        }${unit}`
+      )
+    }
+  )
+  cs_gap_x_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
+    'cs_gap_x',
+    '',
+    '',
+    function (e) {
+      const unit = unitSelector.value
+      changeStyle(
+        'gap',
+        `${_.getNodeById('cs_gap_y').value || 0}${unit} ${
+          e.target.value || 0
+        }${unit}`
+      )
+    }
+  )
   const gapBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
+    [_.createLabel('Gap', '', ['cs-label']), cs_gap_y_ip, cs_gap_x_ip]
+  )
+  // margin
+  const cs_margin_side_s = _.createSelect(
+    ['cs-select'],
+    '',
     [
-      _.createLabel('Gap', '', ['cs-label']),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_gap_y',
-        '',
-        '',
-        function (e) {
-          const unit = _.getNode('#unit_selector').value
-          changeStyle(
-            'gap',
-            `${e.target.value || 0}${unit} ${
-              _.getNode('#cs_gap_x').value || 0
-            }${unit}`
-          )
-        }
-      ),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_gap_x',
-        '',
-        '',
-        function (e) {
-          const unit = _.getNode('#unit_selector').value
-          changeStyle(
-            'gap',
-            `${_.getNode('#cs_gap_y').value || 0}${unit} ${
-              e.target.value || 0
-            }${unit}`
-          )
-        }
-      ),
-    ]
+      { value: '', text: 'All side' },
+      { value: 'right', text: 'right' },
+      { value: 'top', text: 'top' },
+      { value: 'bottom', text: 'bottom' },
+      { value: 'left', text: 'left' },
+      { value: 'v_center', text: 'vertical center' },
+      { value: 'h_center', text: 'horizontal center' },
+    ],
+    'cs_margin_side'
   )
   const marginBox = _.createElement(
     'div',
@@ -201,20 +216,7 @@ function createSizingForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Margin', 'cs_margin', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: '', text: 'All side' },
-          { value: 'right', text: 'right' },
-          { value: 'top', text: 'top' },
-          { value: 'bottom', text: 'bottom' },
-          { value: 'left', text: 'left' },
-          { value: 'v_center', text: 'vertical center' },
-          { value: 'h_center', text: 'horizontal center' },
-        ],
-        'cs_margin_side'
-      ),
+      cs_margin_side_s,
       _.createInput(
         'number',
         ['cs-num-input'],
@@ -224,14 +226,27 @@ function createSizingForm() {
         function change(e) {
           changeStyle(
             ...calMNPSideValue(
-              _.getNode('#cs_margin_side').value,
+              cs_margin_side_s.value,
               'margin',
-              `${e.target.value}${_.getNode('#unit_selector').value}`
+              `${e.target.value}${unitSelector.value}`
             )
           )
         }
       ),
     ]
+  )
+  // padding
+  const cs_padding_side_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: '', text: 'All side' },
+      { value: 'top', text: 'top' },
+      { value: 'right', text: 'right' },
+      { value: 'bottom', text: 'bottom' },
+      { value: 'left', text: 'left' },
+    ],
+    'cs_padding_side'
   )
   const paddingBox = _.createElement(
     'div',
@@ -239,18 +254,7 @@ function createSizingForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Padding', 'cs_padding', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: '', text: 'All side' },
-          { value: 'top', text: 'top' },
-          { value: 'right', text: 'right' },
-          { value: 'bottom', text: 'bottom' },
-          { value: 'left', text: 'left' },
-        ],
-        'cs_padding_side'
-      ),
+      cs_padding_side_s,
       _.createInput(
         'number',
         ['cs-num-input'],
@@ -260,15 +264,16 @@ function createSizingForm() {
         function (e) {
           changeStyle(
             ...calMNPSideValue(
-              _.getNode('#cs_padding_side').value,
+              cs_padding_side_s.value,
               'padding',
-              `${e.target.value}${_.getNode('#unit_selector').value}`
+              `${e.target.value}${unitSelector.value}`
             )
           )
         }
       ),
     ]
   )
+  // object fit
   const objectFitBox = _.createElement(
     '',
     '',
@@ -362,27 +367,29 @@ function createPositionForm() {
       ),
     ]
   )
+  // top left . . .
+  const cs_distance_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'top', text: 'Top' },
+      { value: 'right', text: 'Right' },
+      { value: 'bottom', text: 'Bottom' },
+      { value: 'left', text: 'Left' },
+    ],
+    'cs_distance_side'
+  )
   const distanceBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Distance', 'cs_distance', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'top', text: 'Top' },
-          { value: 'right', text: 'Right' },
-          { value: 'bottom', text: 'Bottom' },
-          { value: 'left', text: 'Left' },
-        ],
-        'cs_distance_side'
-      ),
+      cs_distance_s,
       _.createInput('number', ['cs-num-input'], 'cs_distance', '', '', (e) =>
         changeStyle(
-          _.getNode('#cs_distance_side').value,
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          cs_distance_s.value,
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -414,22 +421,24 @@ function createPositionForm() {
       ),
     ]
   )
+  // overflow
+  const cs_overflow_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'overflow', text: 'Over Flow' },
+      { value: 'overflow-y', text: 'Over Flow Y' },
+      { value: 'overflow-x', text: 'Over Flow X' },
+    ],
+    'cs_overflow'
+  )
   const overFlowBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Over-Flow', 'cs_overflow', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'overflow', text: 'Over Flow' },
-          { value: 'overflow-y', text: 'Over Flow-Y' },
-          { value: 'overflow-x', text: 'Over Flow-X' },
-        ],
-        'cs_overflow'
-      ),
+      cs_overflow_s,
       _.createSelect(
         ['cs-select'],
         '',
@@ -440,10 +449,11 @@ function createPositionForm() {
           { value: 'visible', text: 'Visible' },
         ],
         'cs_overflow_style',
-        (e) => changeStyle(_.getNode('#cs_overflow').value, e.target.value)
+        (e) => changeStyle(cs_overflow_s.value, e.target.value)
       ),
     ]
   )
+  // transform
   let transformList = ['translate']
   const transformBox = _.createElement(
     'div',
@@ -475,7 +485,7 @@ function createPositionForm() {
             ['inline-btn', 'text-primary'],
             '',
             function (e) {
-              const key = _.getNode('#cs_transform_type').value
+              const key = _.getNodeById('cs_transform_type').value
               if (transformList.findIndex((one) => one === key) !== -1) return
               transformList.push(key)
               e.target.parentElement.parentElement.appendChild(
@@ -678,21 +688,18 @@ function createPositionForm() {
 // font-family / font-size / font-style / font-weight
 // line-height / letter-spacing / color / text-decoration / text-align / text-shadow
 function createTypographyForm() {
-  const fsBox = _.createElement(
+  const fontSizeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Font-size', 'cs_font_size', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_font_size', '', '', (e) =>
-        changeStyle(
-          'font-size',
-          `${e.target.value}${_.getNode('#unit_selector').value}`
-        )
+        changeStyle('font-size', `${e.target.value}${unitSelector.value}`)
       ),
     ]
   )
-  const ffBox = _.createElement(
+  const fontFamilyBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -719,7 +726,7 @@ function createTypographyForm() {
       ),
     ]
   )
-  const fStyleBox = _.createElement(
+  const fontStyleBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -738,7 +745,7 @@ function createTypographyForm() {
       ),
     ]
   )
-  const fwBox = _.createElement(
+  const fontWeightBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -749,7 +756,7 @@ function createTypographyForm() {
       ),
     ]
   )
-  const lineHBox = _.createElement(
+  const lineHeightBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -758,12 +765,12 @@ function createTypographyForm() {
       _.createInput('number', ['cs-num-input'], 'cs_line_height', '', '', (e) =>
         changeStyle(
           'line-height',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
   )
-  const letterSpcBox = _.createElement(
+  const letterSpacingBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -778,7 +785,7 @@ function createTypographyForm() {
         (e) =>
           changeStyle(
             'letter-spacing',
-            `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+            `${parseInt(e.target.value)}${unitSelector.value}`
           )
       ),
     ]
@@ -817,28 +824,44 @@ function createTypographyForm() {
       ),
     ]
   )
-  const decoTpBox = _.createElement(
+  // text decoration
+  let cs_text_ul_color_ip
+  let cs_text_ul_type_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'dotted', text: 'Dotted' },
+      { value: 'wavy', text: 'Wavy' },
+    ],
+    'cs_underline_type',
+    function (e) {
+      changeStyle(
+        'text-decoration',
+        calTextDecoration(e.target.value, cs_text_ul_color_ip.value)
+      )
+    }
+  )
+  const decoTypeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Text Decoration Types', 'cs_underline_type', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'dotted', text: 'Dotted' },
-          { value: 'wavy', text: 'Wavy' },
-        ],
-        'cs_underline_type',
-        function (e) {
-          const type = e.target.value
-          const color = _.getNode('#cs_underline_color').value
-          const value = calTextDecoration(type, color)
-          changeStyle('text-decoration', value)
-        }
-      ),
+      cs_text_ul_type_s,
     ]
+  )
+  cs_text_ul_color_ip = _.createInput(
+    'color',
+    ['cs-color-input'],
+    'cs_underline_color',
+    { value: '#000000' },
+    '',
+    function (e) {
+      changeStyle(
+        'text-decoration',
+        calTextDecoration(cs_text_ul_type_s.value, e.target.value)
+      )
+    }
   )
   const decoColorBox = _.createElement(
     'div',
@@ -848,21 +871,10 @@ function createTypographyForm() {
       _.createLabel('Text Decoration Color', 'cs_underline_color', [
         'cs-label',
       ]),
-      _.createInput(
-        'color',
-        ['cs-color-input'],
-        'cs_underline_color',
-        { value: '#000000' },
-        '',
-        function (e) {
-          const type = _.getNode('#cs_underline_type').value
-          const color = e.target.value
-          const value = calTextDecoration(type, color)
-          changeStyle('text-decoration', value)
-        }
-      ),
+      cs_text_ul_color_ip,
     ]
   )
+  // align
   const textAlignBox = _.createElement(
     'div',
     '',
@@ -883,17 +895,14 @@ function createTypographyForm() {
       ),
     ]
   )
-  const textIdtBox = _.createElement(
+  const textIndentBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_text_idt', '', '', (e) =>
-        changeStyle(
-          'text-indent',
-          `${e.target.value}${_.getNode('#unit_selector').value}`
-        )
+        changeStyle('text-indent', `${e.target.value}${unitSelector.value}`)
       ),
     ]
   )
@@ -994,18 +1003,18 @@ function createTypographyForm() {
     '',
     ['styler-box'],
     [
-      fsBox,
-      ffBox,
-      fStyleBox,
-      fwBox,
-      letterSpcBox,
-      lineHBox,
+      fontSizeBox,
+      fontFamilyBox,
+      fontStyleBox,
+      fontWeightBox,
+      letterSpacingBox,
+      lineHeightBox,
       colorBox,
       textDecoBox,
-      decoTpBox,
+      decoTypeBox,
       decoColorBox,
       textAlignBox,
-      textIdtBox,
+      textIndentBox,
       writingModeBox,
       textShadowBox,
     ]
@@ -1017,46 +1026,75 @@ function createTypographyForm() {
 // background-image / background-position / background-repeat / background-size / background-clip
 // background-attachment
 function createBackgroundForm() {
+  let cs_bg_color_ip
+  let cs_opacity_ip
+  cs_bg_color_ip = _.createInput(
+    'color',
+    ['cs-color-input'],
+    'cs_background',
+    { value: '#000000' },
+    '',
+    function (e) {
+      let opacity = Math.min(Math.max(parseInt(cs_opacity_ip.value), 1), 10)
+      changeStyle(
+        'background-color',
+        `rgba(${hexToRgb(e.target.value)},${opacity / 10})`
+      )
+    }
+  )
+  cs_opacity_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
+    'cs_bg_opacity',
+    { value: 10 },
+    '',
+    function (e) {
+      let opacity = Math.min(Math.max(parseInt(e.target.value), 1), 10)
+      changeStyle(
+        'background-color',
+        `rgba(${hexToRgb(cs_bg_color_ip.value)},${opacity / 10})`
+      )
+    }
+  )
   const bgBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
     [
       _.createLabel('Background', 'cs_background', ['cs-label']),
-      _.createInput(
-        'color',
-        ['cs-color-input'],
-        'cs_background',
-        { value: '#000000' },
-        '',
-        function (e) {
-          let opacity = Math.min(
-            Math.max(parseInt(_.getNode('#cs_bg_opacity').value), 1),
-            10
-          )
-          changeStyle(
-            'background-color',
-            `rgba(${hexToRgb(e.target.value)},${opacity / 10})`
-          )
-        }
-      ),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_bg_opacity',
-        { value: 10 },
-        '',
-        function (e) {
-          let opacity = Math.min(Math.max(parseInt(e.target.value), 1), 10)
-          changeStyle(
-            'background-color',
-            `rgba(${hexToRgb(_.getNode('#cs_background').value)},${
-              opacity / 10
-            })`
-          )
-        }
-      ),
+      cs_bg_color_ip,
+      cs_opacity_ip,
     ]
+  )
+  // gradient
+  const cs_bg_type_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'linear', text: 'Liner Gradient' },
+      { value: 'radial', text: 'Radial Gradient' },
+    ],
+    'cs_bg_type'
+  )
+  const cs_bg_gradient_deg_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
+    'cs_grd_deg',
+    {
+      value: 45,
+      min: 0,
+      max: 360,
+    },
+    '',
+    (e) =>
+      changeStyle(
+        'background',
+        calGrdValue(
+          _.getNodeById('cs_bg_type').value,
+          _.getAllNodes('.bg-grd-color'),
+          _.getNodeById('cs_grd_deg').value
+        )
+      )
   )
   function createGrdColorIp() {
     return _.createInput(
@@ -1071,9 +1109,9 @@ function createBackgroundForm() {
         changeStyle(
           'background',
           calGrdValue(
-            _.getNode('#cs_bg_type').value,
-            _.getNode('#cs_grd_deg').value,
-            _.getAllNodes('.bg-grd-color')
+            _.getNodeById('cs_bg_type').value,
+            _.getAllNodes('.bg-grd-color'),
+            _.getNodeById('cs_grd_deg').value
           )
         )
     )
@@ -1084,40 +1122,14 @@ function createBackgroundForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Gradient', 'cs_bg_type', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'linear', text: 'Liner Gradient' },
-          { value: 'radial', text: 'Radial Gradient' },
-        ],
-        'cs_bg_type'
-      ),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_grd_deg',
-        {
-          value: 45,
-          min: 0,
-          max: 360,
-        },
-        '',
-        function (e) {
-          const colorNodes = _.getAllNodes('.bg-grd-color')
-          const value = calGrdValue(
-            _.getNode('#cs_bg_type').value,
-            parseInt(e.target.value),
-            colorNodes
-          )
-          changeStyle('background', value)
-        }
-      ),
+      cs_bg_type_s,
+      cs_bg_gradient_deg_ip,
       createGrdColorIp(),
       createGrdColorIp(),
       createGrdColorIp(),
     ]
   )
+  // bg image
   const bgImgBox = _.createElement(
     'div',
     '',
@@ -1143,7 +1155,7 @@ function createBackgroundForm() {
       _.createInput('number', ['cs-num-input'], 'cs_bg_size', '', '', (e) =>
         changeStyle(
           'background-size',
-          `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`
+          `${parseInt(e.target.value)}${unitSelector.value}`
         )
       ),
     ]
@@ -1169,7 +1181,7 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgRpBox = _.createElement(
+  const bgRepeatBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -1191,7 +1203,7 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgPstBox = _.createElement(
+  const bgPositionBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -1245,7 +1257,7 @@ function createBackgroundForm() {
       ),
     ]
   )
-  const bgAttachBox = _.createElement(
+  const bgAttachmentBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -1266,11 +1278,7 @@ function createBackgroundForm() {
       ),
     ]
   )
-  // to add -webkit- for text-image and others??????????????????????
-  // to add -webkit- for text-image and others??????????????????????
-  // to add -webkit- for text-image and others??????????????????????
-  // to add -webkit- for text-image and others??????????????????????
-  // to add -webkit- for text-image and others??????????????????????
+
   return _.createElement(
     '',
     '',
@@ -1282,9 +1290,9 @@ function createBackgroundForm() {
       bgSizeBox,
       bgSizeAutoBox,
       bgClipBox,
-      bgAttachBox,
-      bgPstBox,
-      bgRpBox,
+      bgAttachmentBox,
+      bgPositionBox,
+      bgRepeatBox,
     ]
   )
 }
@@ -1300,129 +1308,124 @@ function createBackgroundForm() {
 
 function createBorderAndOutlinesForm() {
   //  here boo is border or outline
+  let cs_boo_type_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'border', text: 'Border' },
+      { value: 'outline', text: 'Outline' },
+    ],
+    'cs_bOOChooser',
+    (e) =>
+      (_.getNodeById('bOOChooser').textContent = e.target.value.toUpperCase())
+  )
+  let cs_boo_color_ip
+  let cs_boo_style_s
+  let cs_boo_width_ip
+  let cs_boo_side_s
+
   const bOOBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('BORDER', 'cs_bOOChooser', ['cs-label'], 'bOOChooser'),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'border', text: 'Border' },
-          { value: 'outline', text: 'Outline' },
-        ],
-        'cs_bOOChooser',
-        (e) =>
-          (_.getNode('#bOOChooser').textContent = e.target.value.toUpperCase())
-      ),
+      cs_boo_type_s,
     ]
+  )
+  cs_boo_width_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
+    'cs_boo_width',
+    { value: 2 },
+    '',
+    function (e) {
+      const [key, value] = manageBOO(
+        cs_boo_type_s.value,
+        cs_boo_side_s.value,
+        cs_boo_style_s.value,
+        `${parseInt(e.target.value)}${unitSelector.value}`,
+        cs_boo_color_ip.value
+      )
+      changeStyle(key, value)
+    }
   )
   const bOOWidthBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
+    [_.createLabel('Width', 'cs_boo_width', ['cs-label']), cs_boo_width_ip]
+  )
+  cs_boo_style_s = _.createSelect(
+    ['cs-select'],
+    '',
     [
-      _.createLabel('Width', 'cs_boo_width', ['cs-label']),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_boo_width',
-        { value: 2 },
-        '',
-        function (e) {
-          const [key, value] = manageBOO(
-            _.getNode('#cs_bOOChooser').value,
-            _.getNode('#cs_boo_side').value,
-            _.getNode('#cs_boo_type').value,
-            `${parseInt(e.target.value)}${_.getNode('#unit_selector').value}`,
-            _.getNode('#cs_boo_color').value
-          )
-          changeStyle(key, value)
-        }
-      ),
-    ]
+      { value: 'solid', text: 'Solid' },
+      { value: 'dotted', text: 'Dots' },
+      { value: 'dashed', text: 'Dash' },
+      { value: 'double', text: 'Double' },
+      { value: 'ridge', text: 'Ridge' },
+    ],
+    'cs_boo_type',
+    function (e) {
+      const [key, value] = manageBOO(
+        cs_boo_type_s.value,
+        cs_boo_side_s.value,
+        e.target.value,
+        `${parseInt(cs_boo_width_ip.value)}${unitSelector.value}`,
+        cs_boo_color_ip.value
+      )
+      changeStyle(key, value)
+    }
   )
   const bOOTypeBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
-    [
-      _.createLabel('Style', 'cs_boo_type', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'solid', text: 'Solid' },
-          { value: 'dotted', text: 'Dots' },
-          { value: 'dashed', text: 'Dash' },
-          { value: 'double', text: 'Double' },
-          { value: 'ridge', text: 'Ridge' },
-        ],
-        'cs_boo_type',
-        function (e) {
-          const [key, value] = manageBOO(
-            _.getNode('#cs_bOOChooser').value,
-            _.getNode('#cs_boo_side').value,
-            e.target.value,
-            `${parseInt(_.getNode('#cs_boo_width').value)}${
-              _.getNode('#unit_selector').value
-            }`,
-            _.getNode('#cs_boo_color').value
-          )
-          changeStyle(key, value)
-        }
-      ),
-    ]
+    [_.createLabel('Style', 'cs_boo_type', ['cs-label']), cs_boo_style_s]
+  )
+  cs_boo_color_ip = _.createInput(
+    'color',
+    ['cs-color-input'],
+    'cs_boo_color',
+    { value: '#000000' },
+    '',
+    function (e) {
+      const [key, value] = manageBOO(
+        cs_boo_type_s.value,
+        cs_boo_side_s.value,
+        cs_boo_style_s.value,
+        `${parseInt(cs_boo_width_ip.value)}${unitSelector.value}`,
+        e.target.value
+      )
+      changeStyle(key, value)
+    }
   )
   const bOOColorBox = _.createElement(
     'div',
     '',
     ['cs-cb-gp'],
+    [_.createLabel('Color', 'cs_boo_color', ['cs-label']), cs_boo_color_ip]
+  )
+  cs_boo_side_s = _.createSelect(
+    ['cs-select'],
+    '',
     [
-      _.createLabel('Color', 'cs_boo_color', ['cs-label']),
-      _.createInput(
-        'color',
-        ['cs-color-input'],
-        'cs_boo_color',
-        { value: '#000000' },
-        '',
-        function (e) {
-          const [key, value] = manageBOO(
-            _.getNode('#cs_bOOChooser').value,
-            _.getNode('#cs_boo_side').value,
-            _.getNode('#cs_boo_type').value,
-            `${parseInt(_.getNode('#cs_boo_width').value)}${
-              _.getNode('#unit_selector').value
-            }`,
-            e.target.value
-          )
-          changeStyle(key, value)
-        }
-      ),
-    ]
+      { value: '', text: 'All side' },
+      { value: 'right', text: 'right' },
+      { value: 'top', text: 'top' },
+      { value: 'bottom', text: 'bottom' },
+      { value: 'left', text: 'left' },
+    ],
+    'cs_boo_side'
   )
   const bOOSideBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
-    [
-      _.createLabel('Side', 'cs_boo_side', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: '', text: 'All side' },
-          { value: 'right', text: 'right' },
-          { value: 'top', text: 'top' },
-          { value: 'bottom', text: 'bottom' },
-          { value: 'left', text: 'left' },
-        ],
-        'cs_boo_side'
-      ),
-    ]
+    [_.createLabel('Side', 'cs_boo_side', ['cs-label']), cs_boo_side_s]
   )
+  // remove boo
   const rmBorderBox = _.createElement(
     'div',
     '',
@@ -1445,6 +1448,25 @@ function createBorderAndOutlinesForm() {
       ),
     ]
   )
+  // radius
+  let cs_border_radius_1_ip
+  let cs_border_radius_2_ip
+  let cs_border_radius_3_ip
+  let cs_border_radius_4_ip
+  function createBRIp() {
+    return _.createInput('number', ['cs-num-input'], '', '', '', function () {
+      const unit = unitSelector.value
+      const one = `${cs_border_radius_1_ip.value}${unit}`
+      const two = `${cs_border_radius_2_ip.value}${unit}`
+      const three = `${cs_border_radius_3_ip.value}${unit}`
+      const four = `${cs_border_radius_4_ip.value}${unit}`
+      changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
+    })
+  }
+  cs_border_radius_1_ip = createBRIp()
+  cs_border_radius_2_ip = createBRIp()
+  cs_border_radius_3_ip = createBRIp()
+  cs_border_radius_4_ip = createBRIp()
   const borderRadiusBox = _.createElement(
     'div',
     '',
@@ -1456,66 +1478,10 @@ function createBorderAndOutlinesForm() {
         '',
         ['cs-ip-gp'],
         [
-          _.createInput(
-            'number',
-            ['cs-num-input'],
-            'cs_border_r_one',
-            '',
-            '',
-            function (e) {
-              const unit = _.getNode('#unit_selector').value
-              const one = `${e.target.value}${unit}`
-              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
-              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
-              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
-              changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
-            }
-          ),
-          _.createInput(
-            'number',
-            ['cs-num-input'],
-            'cs_border_r_two',
-            '',
-            '',
-            function (e) {
-              const unit = _.getNode('#unit_selector').value
-              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
-              const two = `${e.target.value}${unit}`
-              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
-              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
-              changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
-            }
-          ),
-          _.createInput(
-            'number',
-            ['cs-num-input'],
-            'cs_border_r_three',
-            '',
-            '',
-            function (e) {
-              const unit = _.getNode('#unit_selector').value
-              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
-              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
-              const three = `${e.target.value}${unit}`
-              const four = `${_.getNode('#cs_border_r_four').value}${unit}`
-              changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
-            }
-          ),
-          _.createInput(
-            'number',
-            ['cs-num-input'],
-            'cs_border_r_four',
-            '',
-            '',
-            function (e) {
-              const unit = _.getNode('#unit_selector').value
-              const one = `${_.getNode('#cs_border_r_one').value}${unit}`
-              const two = `${_.getNode('#cs_border_r_two').value}${unit}`
-              const three = `${_.getNode('#cs_border_r_three').value}${unit}`
-              const four = `${e.target.value}${unit}`
-              changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
-            }
-          ),
+          cs_border_radius_1_ip,
+          cs_border_radius_2_ip,
+          cs_border_radius_3_ip,
+          cs_border_radius_4_ip,
         ]
       ),
     ]
@@ -1606,31 +1572,51 @@ function createMiscellaneousForm() {
       ),
     ]
   )
+  // backdrop
+  const cs_bd_filter_type_s = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'blur', text: 'Blur' },
+      { value: 'invert', text: 'Invert' },
+      { value: 'sepia', text: 'Sepia' },
+    ],
+    'cs_bd_filter_tp'
+  )
   const backdropFilterBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
       _.createLabel('Backdrop Filter', 'cs_bd_filter', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'blur', text: 'Blur' },
-          { value: 'invert', text: 'Invert' },
-          { value: 'sepia', text: 'Sepia' },
-        ],
-        'cs_bd_filter_tp'
-      ),
+      cs_bd_filter_type_s,
       _.createInput('number', ['cs-num-input'], 'cs_bd_filter', '', '', (e) =>
         changeStyle(
           'backdrop-filter',
-          `${_.getNode('#cs_bd_filter_tp').value}(${parseInt(e.target.value)}${
-            _.getNode('#unit_selector').value
+          `${cs_bd_filter_tp.value}(${parseInt(e.target.value)}${
+            unitSelector.value
           })`
         )
       ),
     ]
+  )
+  // filter
+  const cs_filter_tp = _.createSelect(
+    ['cs-select'],
+    '',
+    [
+      { value: 'blur', text: 'Blur' },
+      { value: 'brightness', text: 'Brightness' },
+      { value: 'contrast', text: 'Contrast' },
+      { value: 'drop-shadow', text: 'Drop Shadow' },
+      { value: 'grayscale', text: 'Gray Scale' },
+      { value: 'hue-rotate', text: 'Hue Rotate' },
+      { value: 'invert', text: 'Invert' },
+      { value: 'opacity', text: 'Opacity' },
+      { value: 'saturate', text: 'Saturate' },
+      { value: 'sepia', text: 'Sepia' },
+    ],
+    'cs_filter_tp'
   )
   const filterBox = _.createElement(
     'div',
@@ -1638,28 +1624,12 @@ function createMiscellaneousForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Filter', 'cs_filter', ['cs-label']),
-      _.createSelect(
-        ['cs-select'],
-        '',
-        [
-          { value: 'blur', text: 'Blur' },
-          { value: 'brightness', text: 'Brightness' },
-          { value: 'contrast', text: 'Contrast' },
-          { value: 'drop-shadow', text: 'Drop Shadow' },
-          { value: 'grayscale', text: 'Gray Scale' },
-          { value: 'hue-rotate', text: 'Hue Rotate' },
-          { value: 'invert', text: 'Invert' },
-          { value: 'opacity', text: 'Opacity' },
-          { value: 'saturate', text: 'Saturate' },
-          { value: 'sepia', text: 'Sepia' },
-        ],
-        'cs_filter_tp'
-      ),
+      cs_filter_tp,
       _.createInput('number', ['cs-num-input'], 'cs_filter', '', '', (e) =>
         changeStyle(
           'filter',
-          `${_.getNode('#cs_filter_tp').value}(${parseInt(e.target.value)}${
-            _.getNode('#unit_selector').value
+          `${cs_filter_tp.value}(${parseInt(e.target.value)}${
+            unitSelector.value
           })`
         )
       ),
@@ -1755,6 +1725,7 @@ function createMiscellaneousForm() {
       ]
     )
   }
+  // transition
   const transitionBox = _.createElement(
     'div',
     '',
@@ -1798,7 +1769,14 @@ function createMiscellaneousForm() {
           '',
           { min: 0, value: 3 },
           '',
-          () => changeStyle('transition', calTransitionValues())
+          () =>
+            changeStyle(
+              'transition',
+              calTransitionValues(
+                _.getAllNodes('.cs-trans-prd'),
+                _.getAllNodes('.cs-trans-ef')
+              )
+            )
         ),
         _.createSelect(
           ['cs-select', 'cs-trans-ef'],
@@ -1831,7 +1809,14 @@ function createMiscellaneousForm() {
             },
           ],
           '',
-          () => changeStyle('transition', calTransitionValues())
+          () =>
+            changeStyle(
+              'transition',
+              calTransitionValues(
+                _.getAllNodes('.cs-trans-prd'),
+                _.getAllNodes('.cs-trans-ef')
+              )
+            )
         ),
         removeParentBtn(),
       ]
@@ -1859,7 +1844,8 @@ function createMiscellaneousForm() {
 // justify-content ( center , start ,space-between, space-around , space-evenly )
 // align-items ( stretch , center , start , end )
 // align-self ( stretch , center , start , end )
-// ---- grid ------------- update later ----------- //
+
+// ---- grid ------------- need to make familiar update----------- //
 function createDisplayForm() {
   const displayBox = _.createElement(
     'div',
@@ -2114,7 +2100,7 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdTempColsBox = _.createElement(
+  const cusGridTempColsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -2177,7 +2163,7 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdTempRowsBox = _.createElement(
+  const cusGridTempRowsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -2195,7 +2181,7 @@ function createDisplayForm() {
       ),
     ]
   )
-  const rdyGrdColsBox = _.createElement(
+  const readyGridColsBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -2244,7 +2230,7 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdColBox = _.createElement(
+  const cusGridColBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -2255,7 +2241,7 @@ function createDisplayForm() {
       ),
     ]
   )
-  const cusGrdRowBox = _.createElement(
+  const cusGridRowBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
@@ -2266,156 +2252,50 @@ function createDisplayForm() {
       ),
     ]
   )
-  const grdColStartBox = _.createElement(
-    'div',
+  // grid column start
+  let cs_grid_col_or_row_ip
+  let cs_grid_col_or_row_c
+  const cs_grid_col_or_row_s = _.createSelect(['cs-select'], '', [
+    { value: 'gid-column-start', text: 'Grid-col-start' },
+    { value: 'gid-column-end', text: 'Grid-col-end' },
+    { value: 'gid-row-start', text: 'Grid-row-start' },
+    { value: 'gid-row-end', text: 'Grid-row-end' },
+  ])
+  cs_grid_col_or_row_ip = _.createInput(
+    'number',
+    ['cs-num-input'],
     '',
-    ['cs-ip-gp'],
-    [
-      _.createLabel('Grid-col-start', 'cs_grd_col_start', ['cs-label']),
-
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_grd_col_start',
-        { value: 2 },
-        '',
-        (e) =>
-          changeStyle(
-            'grid-col-start',
-            `${_.getNode('#cs_grd_col_span_start').checked ? 'span ' : ''},${
-              e.target.value
-            }`
-          )
-      ),
-      _.createLabel('span !', 'cs_grd_col_span_start', ['cs-label']),
-      _.createInput(
-        'checkbox',
-        ['cs-checkbox'],
-        'cs_grd_col_span_start',
-        '',
-        '',
-        (e) =>
-          changeStyle(
-            'grid-col-start',
-            `${e.target.checked ? 'span ' : ''}${parseInt(
-              _.getNode('#cs_grd_col_start').value
-            )}`
-          )
-      ),
-    ]
+    { value: 2 },
+    '',
+    (e) =>
+      changeStyle(
+        cs_grid_col_or_row_s.value,
+        `${cs_grid_col_or_row_c.checked ? 'span ' : ''}${e.target.value}`
+      )
   )
-  const grdColEndBox = _.createElement(
-    'div',
+  cs_grid_col_or_row_c = _.createInput(
+    'checkbox',
+    ['cs-checkbox'],
+    'cs_grd_span',
     '',
-    ['cs-ip-gp'],
-    [
-      _.createLabel('Grid-col-end', 'cs_grd_col_end', ['cs-label']),
-
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_grd_col_end',
-        { value: 2 },
-        '',
-        (e) =>
-          changeStyle(
-            'grid-col-end',
-            `${_.getNode('#cs_grd_col_span_end').checked ? 'span ' : ''},${
-              e.target.value
-            }`
-          )
-      ),
-      _.createLabel('span !', 'cs_grd_col_span_end', ['cs-label']),
-      _.createInput(
-        'checkbox',
-        ['cs-checkbox'],
-        'cs_grd_col_span_end',
-        '',
-        '',
-        (e) =>
-          changeStyle(
-            'grid-col-end',
-            `${e.target.checked ? 'span ' : ''}${parseInt(
-              _.getNode('#cs_grd_col_end').value
-            )}`
-          )
-      ),
-    ]
+    '',
+    (e) =>
+      changeStyle(
+        cs_grid_col_or_row_s.value,
+        `${e.target.checked ? 'span ' : ''}${parseInt(
+          cs_grid_col_or_row_ip.value
+        )}`
+      )
   )
-  const grdRowStartBox = _.createElement(
+  const grdColOrRowBox = _.createElement(
     'div',
     '',
     ['cs-ip-gp'],
     [
-      _.createLabel('Grid-row-start', 'cs_grd_row_start', ['cs-label']),
-
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_grd_row_start',
-        { value: 2 },
-        '',
-        (e) =>
-          changeStyle(
-            'grid-row-start',
-            `${_.getNode('#cs_grd_row_span_start').checked ? 'span ' : ''},${
-              e.target.value
-            }`
-          )
-      ),
-      _.createLabel('span !', 'cs_grd_row_span_start', ['cs-label']),
-      _.createInput(
-        'checkbox',
-        ['cs-checkbox'],
-        'cs_grd_row_span_start',
-        '',
-        '',
-        (e) =>
-          changeStyle(
-            'grid-row-start',
-            `${e.target.checked ? 'span ' : ''}${parseInt(
-              _.getNode('#cs_grd_row_start').value
-            )}`
-          )
-      ),
-    ]
-  )
-  const grdRowEndBox = _.createElement(
-    'div',
-    '',
-    ['cs-ip-gp'],
-    [
-      _.createLabel('Grid-row-end', 'cs_grd_row_end', ['cs-label']),
-
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_grd_row_end',
-        { value: 2 },
-        '',
-        (e) =>
-          changeStyle(
-            'grid-row-end',
-            `${_.getNode('#cs_grd_row_span_end').checked ? 'span ' : ''},${
-              e.target.value
-            }`
-          )
-      ),
-      _.createLabel('span !', 'cs_grd_row_span_end', ['cs-label']),
-      _.createInput(
-        'checkbox',
-        ['cs-checkbox'],
-        'cs_grd_row_span_end',
-        '',
-        '',
-        (e) =>
-          changeStyle(
-            'grid-row-end',
-            `${e.target.checked ? 'span ' : ''}${parseInt(
-              _.getNode('#cs_grd_row_end').value
-            )}`
-          )
-      ),
+      cs_grid_col_or_row_s,
+      cs_grid_col_or_row_ip,
+      cs_grid_col_or_row_c,
+      _.createLabel('span', 'cs_grd_span', ['cs-label']),
     ]
   )
   return _.createElement(
@@ -2433,16 +2313,13 @@ function createDisplayForm() {
       justifySelfBox,
       alignSelfBox,
       readyGridTempColsBox,
-      cusGrdTempColsBox,
+      cusGridTempColsBox,
       readyGridTempRowsBox,
-      cusGrdTempRowsBox,
-      rdyGrdColsBox,
-      cusGrdColBox,
-      cusGrdRowBox,
-      grdColStartBox,
-      grdColEndBox,
-      grdRowStartBox,
-      grdRowEndBox,
+      cusGridTempRowsBox,
+      readyGridColsBox,
+      cusGridColBox,
+      cusGridRowBox,
+      grdColOrRowBox,
     ]
   )
 }
@@ -2455,7 +2332,7 @@ function createAnimationForm() {
     [
       _.createLabel('Name', 'cs_ani_name', ['cs-label']),
       _.createSelect(['cs-select'], '', [], 'cs_ani_name', function () {
-        const name = _.getNode('#cs_ani_name').value
+        const name = _.getNodeById('cs_ani_name').value
         if (!name) return
         const value = calAnimationValue()
         if (!value) return
@@ -2476,7 +2353,7 @@ function createAnimationForm() {
         { value: 20 },
         '',
         function () {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2505,7 +2382,7 @@ function createAnimationForm() {
         ],
         'cs_ani_timing_fn',
         function () {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2527,7 +2404,7 @@ function createAnimationForm() {
         { value: '0' },
         '',
         function () {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2554,7 +2431,7 @@ function createAnimationForm() {
         ],
         'cs_ani_itr_count',
         function (e) {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2580,7 +2457,7 @@ function createAnimationForm() {
         ],
         'cs_ani_direction',
         function () {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2606,7 +2483,7 @@ function createAnimationForm() {
         ],
         'cs_ani_fill_mode',
         function () {
-          const name = _.getNode('#cs_ani_name').value
+          const name = _.getNodeById('cs_ani_name').value
           if (!name) return
           const value = calAnimationValue()
           if (!value) return
@@ -2733,10 +2610,11 @@ function changeSerialStyles(key, value) {
     key.forEach((one, index) => {
       changeAppliedStyes(one, value[index])
     })
-  }, 700)
+  }, 500)
 }
 
 export {
+  unitSelector,
   createUnitSelector,
   createSizingForm,
   createPositionForm,

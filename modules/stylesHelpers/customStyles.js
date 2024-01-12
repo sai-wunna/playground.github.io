@@ -17,7 +17,7 @@ function saveCusStyle(node, media, condition, key, value) {
   }
   customStyles[node][media][condition][key] = value
   // push to doc
-  const existedNode = _.getNode(`#${media}_${condition}_${key}_value`)
+  const existedNode = _.getNodeById(`${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
     return

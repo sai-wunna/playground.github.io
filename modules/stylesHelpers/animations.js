@@ -15,7 +15,7 @@ function addNewAnimation(name) {
 function saveAnimationsStyle(name, kfSelector, key, value) {
   if (animations[name][kfSelector]) {
     if (animations[name][kfSelector][key]) {
-      _.getNode(`#ani_${kfSelector}_${key}_value`).textContent = value
+      _.getNodeById(`ani_${kfSelector}_${key}_value`).textContent = value
     } else {
       _.getNode(`.kfs-${kfSelector}`).appendChild(
         createAnimationInfo(name, kfSelector, key, value)
@@ -53,15 +53,15 @@ function createAnimationForm() {
         placeholder: 'Must provide',
       }),
       _.createButton('Add', ['inline-btn', 'text-primary'], '', function () {
-        const name = `${_.getNode('#cs_add_animation_name').value}`
+        const name = `${_.getNodeById('cs_add_animation_name').value}`
         if (!name) {
           alert.alertMe('invalidInput')
           return
         }
-        if (_.getNode('#cs_ani_name')) {
-          _.createOption(_.getNode('#cs_ani_name'), name, name, name)
+        if (_.getNodeById('cs_ani_name')) {
+          _.createOption(_.getNodeById('cs_ani_name'), name, name, name)
         }
-        _.createOption(_.getNode('#cs_animation_list'), name, name, name)
+        _.createOption(_.getNodeById('cs_animation_list'), name, name, name)
         addNewAnimation(name)
       }),
     ]
@@ -100,9 +100,9 @@ function createAnimationForm() {
       animationsSelect,
       _.createButton('Del', ['inline-btn', 'text-danger'], '', function (e) {
         e.preventDefault()
-        const name = _.getNode('#cs_animation_list').value
+        const name = _.getNodeById('cs_animation_list').value
         if (!name) return
-        _.getNode(`#${name}`).remove()
+        _.getNodeById(`${name}`).remove()
         deleteAnimation(name)
         _.getNode(`.animation-info`).innerHTML = ''
         for (const key in animations) {

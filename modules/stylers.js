@@ -10,7 +10,7 @@ import {
   createDisplayForm,
   createMiscellaneousForm,
   createAnimationForm,
-  createUnitSelector,
+  unitSelector,
 } from './stylesHelpers/stylerBoxCreator.js'
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
@@ -30,12 +30,12 @@ import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 const _ = Document()
 const alert = Alert()
 
-const stylesBoxChooser = _.getNode('#styles_box_chooser')
+const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
-const media_chooser = _.getNode('#style_screen_chooser')
-const pseudo_class_chooser = _.getNode('#style_pseudo_class_chooser')
-const switch_css_mode_chooser = _.getNode('#switch_css_mode')
-const save_media_styles = _.getNode('#save_media_styles')
+const media_chooser = _.getNodeById('style_screen_chooser')
+const pseudo_class_chooser = _.getNodeById('style_pseudo_class_chooser')
+const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
+const save_media_styles = _.getNodeById('save_media_styles')
 
 let isStyleChanged = false
 const sizingBox = createSizingForm()
@@ -123,7 +123,7 @@ function changeAppliedStyes(key, value) {
       alert.alertMe('invalidInput')
       return
     }
-    const name = _.getNode('#cs_animation_list').value
+    const name = _.getNodeById('cs_animation_list').value
     if (!name) {
       alert.alertMe('noSelectedAnimation')
       return
@@ -132,7 +132,7 @@ function changeAppliedStyes(key, value) {
       name,
       Math.max(
         Math.min(
-          parseInt(_.getNode('#cs_add_animation_kf_selector').value),
+          parseInt(_.getNodeById('cs_add_animation_kf_selector').value),
           100
         ),
         0
@@ -143,10 +143,10 @@ function changeAppliedStyes(key, value) {
   } else if (mode === 'normal') {
     saveCusStyle(selectedNode, media, condition, key, value)
   } else if (mode === 'predefined') {
-    const ele = _.getNode('#predefined_element').value
+    const ele = _.getNodeById('predefined_element').value
     changePredStyle(ele, condition, key, value)
   } else {
-    const name = _.getNode('#class_name_list').value
+    const name = _.getNodeById('class_name_list').value
     if (!name) {
       alert.alertMe('noSelectedCN')
       return
@@ -157,7 +157,7 @@ function changeAppliedStyes(key, value) {
 }
 
 function appliedLatestStyles(animations, predefined, classNames, customStyles) {
-  _.getNode('#my_styles').textContent = buildCss(
+  _.getNodeById('my_styles').textContent = buildCss(
     animations,
     predefined,
     classNames,
@@ -173,7 +173,7 @@ function appliedLatestStyles(animations, predefined, classNames, customStyles) {
 }
 
 // initial load to page ___________
-_.appendChildrenTo(stylesBoxHolder, [createUnitSelector(), sizingBox])
+_.appendChildrenTo(stylesBoxHolder, [unitSelector, sizingBox])
 createTargetStyleInfoBox('#app')
 
 export { changeAppliedStyes }

@@ -35,17 +35,13 @@ function calTextDecoration(type, color) {
   return value
 }
 
-function calGrdValue() {
-  const type = _.getNode('#cs_bg_type').value
-
+function calGrdValue(type, colorNodes, deg) {
   const colors = []
-  _.getAllNodes('.bg-grd-color').forEach((cNode) => {
+  colorNodes.forEach((cNode) => {
     colors.push(cNode.value)
   })
   if (type === 'linear') {
-    return `linear-gradient(${_.getNode('#cs_grd_deg').value}deg, ${colors.join(
-      ','
-    )})`
+    return `linear-gradient(${deg}deg, ${colors.join(',')})`
   } else {
     return `radial-gradient(${colors.join(',')})`
   }
@@ -61,9 +57,7 @@ function manageBOO(baseKey, side, type, value, color) {
   return [key, `${value} ${type} ${color}`]
 }
 
-function calTransitionValues() {
-  const prdNodes = _.getAllNodes('.cs-trans-prd')
-  const efNodes = _.getAllNodes('.cs-trans-ef')
+function calTransitionValues(prdNodes, efNodes) {
   let value = ''
   _.getAllNodes('.cs-trans-name').forEach((one, idx) => {
     value += ` ${one.value} ${prdNodes[idx].value / 10}s ${
@@ -109,7 +103,7 @@ function calTextShadowValue() {
 }
 
 function calTransformValue(transformList) {
-  const unit = _.getNode('#unit_selector').value
+  const unit = _.getNodeById('unit_selector').value
   let value = ''
   if (transformList.includes('translate')) {
     const values = []
@@ -163,8 +157,8 @@ function calAniTimeLineValue() {
   let value
   const valuesInput = _.getAllNodes('.ani-tl-view-arg-value')
   const values = [valuesInput[0].value, valuesInput[1].value]
-  const type = _.getNode('#cs_ani_timeline_view').value
-  const unit = _.getNode('#unit_selector').value
+  const type = _.getNodeById('cs_ani_timeline_view').value
+  const unit = _.getNodeById('unit_selector').value
   if (type.startsWith('v_')) {
     if (type === 'v_single_inset') {
       value = `${values[0]}${unit}`
@@ -187,27 +181,27 @@ function calAniTimeLineValue() {
 
 function calAnimationValue() {
   let value = ''
-  const duration = parseInt(_.getNode('#cs_ani_duration').value)
+  const duration = parseInt(_.getNodeById('cs_ani_duration').value)
   if (duration) {
     value += `${duration / 10}s `
   }
-  const timingFn = _.getNode('#cs_ani_timing_fn').value
+  const timingFn = _.getNodeById('cs_ani_timing_fn').value
   if (timingFn) {
     value += `${timingFn} `
   }
-  const delayTime = parseInt(_.getNode('#cs_ani_delay').value)
+  const delayTime = parseInt(_.getNodeById('cs_ani_delay').value)
   if (delayTime) {
     value += `${delayTime}s `
   }
-  const iterationCount = _.getNode('#cs_ani_itr_count').value
+  const iterationCount = _.getNodeById('cs_ani_itr_count').value
   if (iterationCount) {
     value += `${iterationCount} `
   }
-  const direction = _.getNode('#cs_ani_direction').value
+  const direction = _.getNodeById('cs_ani_direction').value
   if (direction) {
     value += `${direction} `
   }
-  const fillNode = _.getNode('#cs_ani_fill_mode').value
+  const fillNode = _.getNodeById('cs_ani_fill_mode').value
   if (fillNode) {
     value += `${fillNode} `
   }

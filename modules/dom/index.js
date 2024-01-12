@@ -8,8 +8,14 @@ class Doc {
   getNode(node) {
     return this._.querySelector(node)
   }
+  getNodeById(id) {
+    return this._.getElementById(id)
+  }
   getNodeOn(parent, node) {
     return parent.querySelector(node)
+  }
+  getNodeByIdOn(parent, id) {
+    return parent.querySelector(`#${id}`)
   }
   getAllNodes(node) {
     return this._.querySelectorAll(node)
@@ -43,6 +49,19 @@ class Doc {
   }
   cnContains(ele, cl) {
     return ele.classList.contains(cl)
+  }
+  // toggleCN(ele, cn, opt) {
+  //   if (opt) {
+  //     ele.classList.toggle(cn)
+  //   } else {
+  //     ele.classList.toggle(cn, opt)
+  //   }
+  // }
+  toggleCN(ele, ...args) {
+    ele.classList.toggle(args.join(','))
+  }
+  replaceCN(ele, o, n) {
+    ele.classList.replace(o, n)
   }
 
   createFragment(children = []) {

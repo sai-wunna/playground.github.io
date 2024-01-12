@@ -42,7 +42,7 @@ function removePredefinedStyle(ele, condition, key) {
 // data manipulation done
 
 function changePredStyle(ele, condition, key, value) {
-  const appliedStyle = _.getNode(`#${ele}_${condition}_${key.trim()}_value`)
+  const appliedStyle = _.getNodeById(`${ele}_${condition}_${key.trim()}_value`)
   if (appliedStyle) {
     appliedStyle.textContent = value
   } else {
@@ -80,7 +80,7 @@ function createPredStyleInfoFrag(ele) {
   const styles = predefinedStyles[ele]
   const stylesFrags = _.createFragment()
 
-  for (let [condition,cStyles] of Object.entries(styles)) {
+  for (let [condition, cStyles] of Object.entries(styles)) {
     const box = createConditionBox(ele, condition, cStyles)
     stylesFrags.appendChild(box)
   }

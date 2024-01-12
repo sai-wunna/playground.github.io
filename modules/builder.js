@@ -16,12 +16,12 @@ function buildWeb(author, about, title, styles, app) {
 }
 
 function prepareProduction() {
-  const app = _.getNode('#app').cloneNode(true)
+  const app = _.getNodeById('app').cloneNode(true)
 
   const appWrapper = _.createElement('', '', [], [app])
 
   const modifiedClassnames = {}
-  for (let [cn, values] of Object.entries(classNames)) {
+  for (const [cn, values] of Object.entries(classNames)) {
     const newCn = cn.slice(4)
     modifiedClassnames[newCn] = values
     appWrapper.querySelectorAll(`.${cn}`).forEach((node) => {
@@ -31,14 +31,14 @@ function prepareProduction() {
   }
 
   const modifiedCustomStyles = {}
-  for (let [id, values] of Object.entries(customStyles)) {
+  for (const [id, values] of Object.entries(customStyles)) {
     const newCn = random.string()
     modifiedCustomStyles[newCn] = values
     appWrapper.querySelector(id).classList.add(newCn)
     appWrapper.querySelector(id).removeAttribute('id')
   }
 
-  let styles = buildProductionCss(
+  const styles = buildProductionCss(
     animations,
     predefinedStyles,
     modifiedClassnames,
@@ -90,10 +90,10 @@ function downloadForm() {
       }),
       _.createButton('Download', ['btn', 'text-primary'], '', (e) => {
         alert.__start('Building . . .')
-        const title = _.getNode('#title_of_web').value || 'Beautiful Day'
-        const author = _.getNode('#author_of_web').value || 'Anonymous'
+        const title = _.getNodeById('title_of_web').value || 'Beautiful Day'
+        const author = _.getNodeById('author_of_web').value || 'Anonymous'
         const about =
-          _.getNode('#about_of_web').value ||
+          _.getNodeById('about_of_web').value ||
           'something beautiful has been born here'
         const { styles, app } = prepareProduction()
         const file = buildWeb(author, about, title, styles, app)

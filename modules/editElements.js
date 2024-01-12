@@ -21,7 +21,7 @@ const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
 _.on('click', getEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(getEditFormBtn, 1000)
-  _.getNode('#edit_form')?.remove()
+  _.getNodeById('edit_form')?.remove()
   if (validator.isInvalidTextInput(selectedNode)) {
     alert.alertMe('unEditable')
     return
@@ -44,5 +44,5 @@ _.on('click', getEditFormBtn, (e) => {
 _.on('click', removeEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(removeEditFormBtn, 1000)
-  _.getNode('#edit_form')?.remove()
+  _.getNodeById('edit_form')?.remove()
 })
