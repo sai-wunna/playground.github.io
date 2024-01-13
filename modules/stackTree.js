@@ -16,8 +16,6 @@ const element_pointer = _.getNodeById('element_pointer')
 const appNode = _.getNode('.app-node')
 const isInsertBefore = _.getNodeById('beforeOrAfter')
 
-const tree = {}
-// here we need to build tree in js and show them only when request
 let selectedNode = '#app'
 let selectedTreeNode = '#children'
 
@@ -41,9 +39,10 @@ function addTableStack(tableId, thData, tbData, tfData) {
   function createTRNode(data, trId) {
     const fragment = _.createFragment()
     data.forEach((one) => {
+      let text = one.text || one.heading || 'td'
       fragment.appendChild(
         _.createButton(
-          one.text || one.heading || 'td',
+          text.slice(0, 5),
           ['stack-node'],
           '',
           (e, id) => {
@@ -292,18 +291,14 @@ function createTreeNode(id, name, children) {
         name,
         ['stack-node'],
         '',
-        (e, id) => {
-          selectNode(e, id)
-        },
+        (e, id) => selectNode(e, id),
         `#${id}`
       ),
       _.createButton(
         'Del',
         ['stack-node-delete', 'text-danger'],
         '',
-        (e, id) => {
-          removeNode(e, id)
-        },
+        (e, id) => removeNode(e, id),
         `#${id}`
       ),
       childrenBox,

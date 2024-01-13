@@ -33,7 +33,15 @@ function editLinkForm(node) {
   let link
   if (target.href.startsWith(`http`)) {
     type = 1
-    link = target.href
+    if (
+      target.href.startsWith(
+        'https://sai-wunna.github.io/playground.github.io/'
+      )
+    ) {
+      link = target.href.split('io/')[2]
+    } else {
+      link = target.href
+    }
   } else if (target.href.startsWith(`+`)) {
     type = 3
     link = target.href.split(':')[1]
@@ -203,7 +211,7 @@ function editBlockQuoteForm(node) {
     'Update',
     ['btn', 'btn-sm', 'text-primary'],
     '',
-    function (e) {
+    function () {
       target.cite = citeIp.value
       target.textContent = contentIp.value
     }

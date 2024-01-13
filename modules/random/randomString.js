@@ -1,27 +1,22 @@
 class URS {
   #alphabets = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  #numbers = '0123456789'
-  #createdStrings = []
+  #created = []
 
   constructor(exceptions = []) {
-    this.#createdStrings = [...exceptions]
+    this.#created = [...exceptions]
   }
 
   generate(length = 5) {
     let str = ''
 
     const get = () => {
-      let string = ''
-      for (let i = 0; i < length; i++) {
-        if (i % 2 === 0) {
-          string += this.#randomAlphaIdx()
-        } else {
-          string += this.#randomNumIdx()
-        }
-      }
-      if (this.#createdStrings.includes(string)) {
+      let string = `${this.#randomAlphaIdx()}${Math.random()
+        .toString(36)
+        .substring(2, length + 1)}`
+
+      if (this.#created.includes(string)) {
         string = this.#randomAlphaIdx() + string.slice(1)
-        if (this.#createdStrings.includes(string)) {
+        if (this.#created.includes(string)) {
           string = get()
         }
       }
@@ -29,7 +24,7 @@ class URS {
     }
 
     str = get()
-    this.#createdStrings.push(str)
+    this.#created.push(str)
     return str
   }
 
@@ -40,17 +35,12 @@ class URS {
     return this.#alphabets[idx]
   }
 
-  #randomNumIdx() {
-    const idx = parseInt((Math.random() * 9).toFixed(0))
-    return this.#numbers[idx]
-  }
-
   addNewAlphabets(alphabets) {
     this.#alphabets += alphabets.trim()
   }
 
   addExceptions(ecp) {
-    this.#createdStrings = [...this.#createdStrings, ...ecp]
+    this.#created = [...this.#created, ...ecp]
   }
 }
 

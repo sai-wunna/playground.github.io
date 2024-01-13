@@ -20,7 +20,6 @@ function addNewClassName(name) {
 function saveCNStyle(name, media, condition, key, value) {
   classNames[name][media][condition][key] = value
 
-  // push to doc
   const existedNode = _.getNodeById(`${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
@@ -78,12 +77,12 @@ function createCNInfoShower(cn) {
     const mediaBox = _.createElement('', '', [`${mediaType}-screen`])
 
     conditionTypes.forEach((conditionType) => {
-      const stylesInfoBox = _.createFragment()
+      const stylesInfoFragment = _.createFragment()
       const styles = className[mediaType][conditionType]
 
       if (Object.keys(styles).length !== 0) {
         for (let [key, value] of Object.entries(styles)) {
-          stylesInfoBox.appendChild(
+          stylesInfoFragment.appendChild(
             createStyleInfo(cn, mediaType, conditionType, key, value)
           )
         }
@@ -99,7 +98,7 @@ function createCNInfoShower(cn) {
               '',
               '',
               [`${mediaType}-screen-${conditionType}-styles`],
-              [stylesInfoBox]
+              [stylesInfoFragment]
             ),
           ]
         )
@@ -136,7 +135,7 @@ function createCNForm() {
     ],
     [
       _.createButton('Del', ['inline-btn', 'text-danger'], '', function () {
-        const name = _.getNode('#class_name_list').value
+        const name = _.getNodeById('class_name_list').value
         if (!name) return
         _.getNodeById(`${name}`).remove()
         _.getNode('.class-names-box').lastChild.remove()
@@ -153,14 +152,14 @@ function createCNForm() {
       selectCN,
       _.createInput('', ['cs-text-input'], 'add_new_cn'),
       _.createButton('Add', ['inline-btn'], '', function (e) {
-        let name = _.getNode('#add_new_cn').value
+        let name = _.getNodeById('add_new_cn').value
         if (!name) {
           alert.alertMe('invalidInput')
           return
         }
         name = `prv-${name.trim().split(' ').join('-')}`
         addNewClassName(name)
-        _.createOption(_.getNode('#class_name_list'), name, name, name)
+        _.createOption(_.getNodeById('class_name_list'), name, name, name)
       }),
     ]
   )

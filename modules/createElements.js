@@ -1,23 +1,14 @@
 import Document from './dom/index.js'
 import Alert from './alert.js'
+import DeployElement from './cefHelpers/deployElement.js'
 import {
-  deployAudioFigureBox,
-  deployBlock,
-  deployBlockQuote,
-  deployButton,
-  deployHeading,
-  deployImage,
-  deployImageFigureBox,
-  deployLineBreaker,
-  deployLink,
-  deployList,
-  deployOption,
-  deployParagraph,
-  deploySelection,
-  deployTable,
-  deployText,
-} from './cefHelpers/deployElement.js'
-import { selectedNode } from './stackTree.js'
+  addFigureStack,
+  addListStack,
+  addNewStack,
+  addSelectionStack,
+  addTableStack,
+  selectedNode,
+} from './stackTree.js'
 import {
   manageListData,
   manageTData,
@@ -28,16 +19,24 @@ import { lockBtn } from './helpers/lockBtn.js'
 import Validator from './validators/index.js'
 
 const _ = Document()
-const validator = Validator()
-const alert = Alert()
-const forms = CEF()
-
 const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
 const element_form_box = _.getNode('.element-form')
-const addBeforeOrAfter = _.getNodeById('beforeOrAfter')
+const isInsertBefore = _.getNodeById('beforeOrAfter')
 
-// ------------------------- select and add -------------------
+const validator = Validator()
+const alert = Alert()
+const forms = CEF()
+const deploy = new DeployElement(
+  addNewStack,
+  addTableStack,
+  addListStack,
+  addSelectionStack,
+  addFigureStack,
+  isInsertBefore
+)
+
+// ---------------------- select and add -------------------
 
 _.on('change', selectElementBtn, (e) => {
   e.preventDefault()
@@ -87,26 +86,32 @@ _.on('click', add_element_btn, (e) => {
     alert.alertMe('unAppendAble')
     return
   }
+  // deployment starts
   if (value === 'block') {
     const text = _.getNodeById('new_block').value
-    deployBlock(text, addBeforeOrAfter)
+    deploy.block(text, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'image') {
     const src = _.getNodeById('new_image').value
     const alt = _.getNodeById('new_alt').value
-    deployImage(src, alt, addBeforeOrAfter)
+    deploy.image(src, alt, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'heading') {
     const type = _.getNodeById('new_header').value
     const text = _.getNodeById('new_h_content').value
-    deployHeading(type, text, addBeforeOrAfter)
+    deploy.heading(type, text, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'link') {
     const url = _.getNodeById('new_link').value.split(' ').join('')
     const type = _.getNodeById('link_type').value
     const text = _.getNodeById('new_link_name').value
     const title = _.getNodeById('new_title').value
-    deployLink(type, url, text, title, addBeforeOrAfter)
+    deploy.link(type, url, text, title, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'paragraph') {
     const text = _.getNodeById('new_para').value
-    deployParagraph(text, addBeforeOrAfter)
+    deploy.paragraph(text, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'list') {
     const type = _.getNodeById('list_type').value
     let lists = []
@@ -114,10 +119,12 @@ _.on('click', add_element_btn, (e) => {
       lists.push(item.value)
     })
     lists = manageListData(lists)
-    deployList(type, lists, addBeforeOrAfter)
+    deploy.list(type, lists, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'span') {
     const text = _.getNodeById('new_text').value
-    deployText(text, addBeforeOrAfter)
+    deploy.text(text, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'table') {
     const hData = []
     const bData = []
@@ -126,19 +133,23 @@ _.on('click', add_element_btn, (e) => {
     _.getAllNodes('.c-t-b-cell').forEach((cell) => bData.push(cell.value))
     _.getAllNodes('.c-t-f-cell').forEach((cell) => fData.push(cell.value))
     const [thData, tbData, tfData] = manageTData(hData, bData, fData)
-    deployTable(thData, tbData, tfData, addBeforeOrAfter)
+    deploy.table(thData, tbData, tfData, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'selection') {
     const options = []
     const values = []
     _.getAllNodes('.option-data').forEach((opt) => options.push(opt.value))
     _.getAllNodes('.option-value').forEach((value) => values.push(value.value))
-    deploySelection(manageSelectData(options, values), addBeforeOrAfter)
+    deploy.selection(manageSelectData(options, values), selectedNode)
+    // ------------------------------------------------
   } else if (value === 'option') {
     const optValue = _.getNodeById('new_opt_value').value
     const optText = _.getNodeById('new_opt_text').value
-    deployOption(optValue, optText, addBeforeOrAfter)
+    deploy.option(optValue, optText, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'button') {
-    deployButton(_.getNodeById('new_button').value, addBeforeOrAfter)
+    deploy.button(_.getNodeById('new_button').value, selectedNode)
+    // ------------------------------------------------
   } else if (value === 'figure') {
     const type = _.getNodeById('new_img_or_audio').value
     let caption = _.getNodeById('new_caption').value
@@ -146,25 +157,21 @@ _.on('click', add_element_btn, (e) => {
     if (type === 'image_box') {
       const src = _.getNodeById('new_image').value
       const alt = _.getNodeById('new_image_alt').value
-      deployImageFigureBox(
-        { src, alt, caption },
-        captionFirstOrNot,
-        addBeforeOrAfter
-      )
+      deploy.imageFigure({ src, alt, caption }, captionFirstOrNot, selectedNode)
+      // ------------------------------------------------
     } else {
       const src = _.getNodeById('new_audio').value
-      deployAudioFigureBox(
-        { src, caption },
-        captionFirstOrNot,
-        addBeforeOrAfter
-      )
+      deploy.audioFigure({ src, caption }, captionFirstOrNot, selectedNode)
+      // ------------------------------------------------
     }
   } else if (value === 'blockquote') {
     const cite = _.getNodeById('new_bq_cite').value
     const text = _.getNodeById('new_bq_content').value
-    deployBlockQuote(cite, text, addBeforeOrAfter)
+    deploy.blockQuote(cite, text, selectedNode)
+    // ------------------------------------------------
   } else if (['br', 'hr'].includes(value)) {
-    deployLineBreaker(value, addBeforeOrAfter)
+    deploy.lineBreaker(value, selectedNode)
+    // ------------------------------------------------
   }
 })
 // initialize

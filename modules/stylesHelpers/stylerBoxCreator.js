@@ -29,7 +29,7 @@ const unitSelector = createUnitSelector()
 
 function createSizingForm() {
   const widthBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -40,7 +40,7 @@ function createSizingForm() {
     ]
   )
   const minWidthBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -54,7 +54,7 @@ function createSizingForm() {
     ]
   )
   const maxWidthBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -68,7 +68,7 @@ function createSizingForm() {
     ]
   )
   const autoWidthBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -79,7 +79,7 @@ function createSizingForm() {
     ]
   )
   const heightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -93,7 +93,7 @@ function createSizingForm() {
     ]
   )
   const minHeightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -107,7 +107,7 @@ function createSizingForm() {
     ]
   )
   const maxHeightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -121,7 +121,7 @@ function createSizingForm() {
     ]
   )
   const autoHeightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -137,7 +137,7 @@ function createSizingForm() {
     ]
   )
   const boxSizingBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -190,7 +190,7 @@ function createSizingForm() {
     }
   )
   const gapBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [_.createLabel('Gap', '', ['cs-label']), cs_gap_y_ip, cs_gap_x_ip]
@@ -211,7 +211,7 @@ function createSizingForm() {
     'cs_margin_side'
   )
   const marginBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -249,7 +249,7 @@ function createSizingForm() {
     'cs_padding_side'
   )
   const paddingBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -325,7 +325,7 @@ function createSizingForm() {
 
 function createPositionForm() {
   const positionBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -347,7 +347,7 @@ function createPositionForm() {
     ]
   )
   const floatBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -380,7 +380,7 @@ function createPositionForm() {
     'cs_distance_side'
   )
   const distanceBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -395,7 +395,7 @@ function createPositionForm() {
     ]
   )
   const zIndexBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -406,7 +406,7 @@ function createPositionForm() {
     ]
   )
   const zIndexAutoBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -433,7 +433,7 @@ function createPositionForm() {
     'cs_overflow'
   )
   const overFlowBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -456,12 +456,12 @@ function createPositionForm() {
   // transform
   let transformList = ['translate']
   const transformBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-lg-gp'],
     [
       _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -517,7 +517,7 @@ function createPositionForm() {
     }
     if (type === 'translate') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -539,7 +539,7 @@ function createPositionForm() {
       )
     } else if (type === 'rotate') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -557,7 +557,7 @@ function createPositionForm() {
       )
     } else if (type === 'scale') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -583,7 +583,7 @@ function createPositionForm() {
       )
     } else if (type === 'skew') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -599,7 +599,7 @@ function createPositionForm() {
       )
     } else if (type === 'perspective') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -612,7 +612,7 @@ function createPositionForm() {
       )
     } else if (type === 'rotate3d') {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -640,7 +640,7 @@ function createPositionForm() {
       )
     } else {
       return _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -689,7 +689,7 @@ function createPositionForm() {
 // line-height / letter-spacing / color / text-decoration / text-align / text-shadow
 function createTypographyForm() {
   const fontSizeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -700,7 +700,7 @@ function createTypographyForm() {
     ]
   )
   const fontFamilyBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -727,7 +727,7 @@ function createTypographyForm() {
     ]
   )
   const fontStyleBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -746,7 +746,7 @@ function createTypographyForm() {
     ]
   )
   const fontWeightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -757,7 +757,7 @@ function createTypographyForm() {
     ]
   )
   const lineHeightBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -771,7 +771,7 @@ function createTypographyForm() {
     ]
   )
   const letterSpacingBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -791,7 +791,7 @@ function createTypographyForm() {
     ]
   )
   const colorBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -807,7 +807,7 @@ function createTypographyForm() {
     ]
   )
   const textDecoBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -842,7 +842,7 @@ function createTypographyForm() {
     }
   )
   const decoTypeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -864,7 +864,7 @@ function createTypographyForm() {
     }
   )
   const decoColorBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -876,7 +876,7 @@ function createTypographyForm() {
   )
   // align
   const textAlignBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -896,7 +896,7 @@ function createTypographyForm() {
     ]
   )
   const textIndentBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -907,7 +907,7 @@ function createTypographyForm() {
     ]
   )
   const writingModeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -926,12 +926,12 @@ function createTypographyForm() {
     ]
   )
   const textShadowBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-lg-gp'],
     [
       _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -950,7 +950,7 @@ function createTypographyForm() {
   )
   function createTextShadowValue() {
     return _.createElement(
-      'div',
+      '',
       '',
       ['cs-ip-gp'],
       [
@@ -1057,7 +1057,7 @@ function createBackgroundForm() {
     }
   )
   const bgBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -1117,7 +1117,7 @@ function createBackgroundForm() {
     )
   }
   const bgGradientBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1131,7 +1131,7 @@ function createBackgroundForm() {
   )
   // bg image
   const bgImgBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1147,7 +1147,7 @@ function createBackgroundForm() {
     ]
   )
   const bgSizeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1161,7 +1161,7 @@ function createBackgroundForm() {
     ]
   )
   const bgSizeAutoBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1182,7 +1182,7 @@ function createBackgroundForm() {
     ]
   )
   const bgRepeatBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1204,7 +1204,7 @@ function createBackgroundForm() {
     ]
   )
   const bgPositionBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1229,7 +1229,7 @@ function createBackgroundForm() {
     ]
   )
   const bgClipBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1258,7 +1258,7 @@ function createBackgroundForm() {
     ]
   )
   const bgAttachmentBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1325,7 +1325,7 @@ function createBorderAndOutlinesForm() {
   let cs_boo_side_s
 
   const bOOBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1351,7 +1351,7 @@ function createBorderAndOutlinesForm() {
     }
   )
   const bOOWidthBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [_.createLabel('Width', 'cs_boo_width', ['cs-label']), cs_boo_width_ip]
@@ -1379,7 +1379,7 @@ function createBorderAndOutlinesForm() {
     }
   )
   const bOOTypeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [_.createLabel('Style', 'cs_boo_type', ['cs-label']), cs_boo_style_s]
@@ -1402,7 +1402,7 @@ function createBorderAndOutlinesForm() {
     }
   )
   const bOOColorBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [_.createLabel('Color', 'cs_boo_color', ['cs-label']), cs_boo_color_ip]
@@ -1420,14 +1420,14 @@ function createBorderAndOutlinesForm() {
     'cs_boo_side'
   )
   const bOOSideBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [_.createLabel('Side', 'cs_boo_side', ['cs-label']), cs_boo_side_s]
   )
   // remove boo
   const rmBorderBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -1438,7 +1438,7 @@ function createBorderAndOutlinesForm() {
     ]
   )
   const rmOutlineBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-cb-gp'],
     [
@@ -1468,13 +1468,13 @@ function createBorderAndOutlinesForm() {
   cs_border_radius_3_ip = createBRIp()
   cs_border_radius_4_ip = createBRIp()
   const borderRadiusBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-lg-gp'],
     [
       _.createLabel('Border Radius', '', ['cs-label']),
       _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -1512,7 +1512,7 @@ function createBorderAndOutlinesForm() {
 
 function createMiscellaneousForm() {
   const opacityBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1532,7 +1532,7 @@ function createMiscellaneousForm() {
     ]
   )
   const visibilityBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1551,7 +1551,7 @@ function createMiscellaneousForm() {
     ]
   )
   const cursorBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1584,7 +1584,7 @@ function createMiscellaneousForm() {
     'cs_bd_filter_tp'
   )
   const backdropFilterBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1619,7 +1619,7 @@ function createMiscellaneousForm() {
     'cs_filter_tp'
   )
   const filterBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1635,13 +1635,31 @@ function createMiscellaneousForm() {
       ),
     ]
   )
+  const scrollBehaviorBox = _.createElement(
+    '',
+    '',
+    ['cs-ip-gp'],
+    [
+      _.createLabel('Scroll-behavior', 'cs_scroll_behave', ['cs-label']),
+      _.createSelect(
+        ['cs-select'],
+        '',
+        [
+          { value: 'auto', text: 'Auto' },
+          { value: 'smooth', text: 'Smooth' },
+        ],
+        'cs_scroll_behave',
+        (e) => changeStyle('scroll-behavior', e.target.value)
+      ),
+    ]
+  )
   const boxShadowBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-lg-gp'],
     [
       _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -1659,13 +1677,13 @@ function createMiscellaneousForm() {
           ),
         ]
       ),
-      _.createElement('div', '', ['cs-ip-gp']),
+      _.createElement('', '', ['cs-ip-gp']),
       boxShadowValueForm(),
     ]
   )
   function boxShadowValueForm() {
     return _.createElement(
-      'div',
+      '',
       '',
       ['cs-ip-gp'],
       [
@@ -1727,12 +1745,12 @@ function createMiscellaneousForm() {
   }
   // transition
   const transitionBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-lg-gp'],
     [
       _.createElement(
-        'div',
+        '',
         '',
         ['cs-ip-gp'],
         [
@@ -1756,7 +1774,7 @@ function createMiscellaneousForm() {
   )
   function transitionValuesForm() {
     return _.createElement(
-      'div',
+      '',
       '',
       ['cs-ip-gp'],
       [
@@ -1833,6 +1851,7 @@ function createMiscellaneousForm() {
       cursorBox,
       backdropFilterBox,
       filterBox,
+      scrollBehaviorBox,
       boxShadowBox,
       transitionBox,
     ]
@@ -1848,7 +1867,7 @@ function createMiscellaneousForm() {
 // ---- grid ------------- need to make familiar update----------- //
 function createDisplayForm() {
   const displayBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1870,7 +1889,7 @@ function createDisplayForm() {
     ]
   )
   const flexBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1881,7 +1900,7 @@ function createDisplayForm() {
     ]
   )
   const flexDirectionBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1901,7 +1920,7 @@ function createDisplayForm() {
     ]
   )
   const flexWrapBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1920,7 +1939,7 @@ function createDisplayForm() {
     ]
   )
   const justifyContentBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1943,7 +1962,7 @@ function createDisplayForm() {
     ]
   )
   const alignItemsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1970,7 +1989,7 @@ function createDisplayForm() {
     ]
   )
   const alignContentBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -1998,7 +2017,7 @@ function createDisplayForm() {
     ]
   )
   const alignSelfBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2025,7 +2044,7 @@ function createDisplayForm() {
     ]
   )
   const justifySelfBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2054,7 +2073,7 @@ function createDisplayForm() {
     ]
   )
   const readyGridTempColsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2101,7 +2120,7 @@ function createDisplayForm() {
     ]
   )
   const cusGridTempColsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2119,7 +2138,7 @@ function createDisplayForm() {
     ]
   )
   const readyGridTempRowsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2164,7 +2183,7 @@ function createDisplayForm() {
     ]
   )
   const cusGridTempRowsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2182,7 +2201,7 @@ function createDisplayForm() {
     ]
   )
   const readyGridColsBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2231,7 +2250,7 @@ function createDisplayForm() {
     ]
   )
   const cusGridColBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2242,7 +2261,7 @@ function createDisplayForm() {
     ]
   )
   const cusGridRowBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2288,7 +2307,7 @@ function createDisplayForm() {
       )
   )
   const grdColOrRowBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2326,7 +2345,7 @@ function createDisplayForm() {
 
 function createAnimationForm() {
   const aniNameBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2341,7 +2360,7 @@ function createAnimationForm() {
     ]
   )
   const aniDurationBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2363,7 +2382,7 @@ function createAnimationForm() {
     ]
   )
   const aniTimingFnBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2392,7 +2411,7 @@ function createAnimationForm() {
     ]
   )
   const aniDelayBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2414,7 +2433,7 @@ function createAnimationForm() {
     ]
   )
   const aniIterationCountBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2441,7 +2460,7 @@ function createAnimationForm() {
     ]
   )
   const aniDirectionBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [
@@ -2467,7 +2486,7 @@ function createAnimationForm() {
     ]
   )
   const aniFillModeBox = _.createElement(
-    'div',
+    '',
     '',
     ['cs-ip-gp'],
     [

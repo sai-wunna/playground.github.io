@@ -5,6 +5,7 @@ class Doc {
     this._ = document
     this.helper = helper
   }
+
   getNode(node) {
     return this._.querySelector(node)
   }
@@ -13,9 +14,6 @@ class Doc {
   }
   getNodeOn(parent, node) {
     return parent.querySelector(node)
-  }
-  getNodeByIdOn(parent, id) {
-    return parent.querySelector(`#${id}`)
   }
   getAllNodes(node) {
     return this._.querySelectorAll(node)

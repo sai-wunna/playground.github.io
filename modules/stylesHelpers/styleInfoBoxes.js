@@ -18,9 +18,9 @@ const alert = Alert()
 
 function createTargetStyleInfoBox(selectedNode) {
   const styleInfoHolder = _.getNode('.styled-info')
-  styleInfoHolder.lastChild.remove()
+
   _.getNodeById('switch_css_mode')[0].selected = true
-  const styleInfo = createCusStyleInfoShower(selectedNode)
+  const box = createCusStyleInfoShower(selectedNode)
   function createCNSelect() {
     const select = _.createSelect(
       ['cs-select'],
@@ -90,35 +90,34 @@ function createTargetStyleInfoBox(selectedNode) {
       ]
     )
   }
-  styleInfo.appendChild(createClassListBox())
-  styleInfoHolder.appendChild(styleInfo)
+  box.appendChild(createClassListBox())
+  styleInfoHolder.replaceChild(box, styleInfoHolder.lastChild)
 }
 
 function createAnimationsBox() {
   const styleInfoHolder = _.getNode('.styled-info')
-  styleInfoHolder.lastChild.remove()
+
   const fragment = _.createFragment()
   for (const key in animations) {
     fragment.appendChild(animationInfoShower(key))
     break
   }
 
-  styleInfoHolder.appendChild(
-    _.createElement(
-      '',
-      '',
-      ['animation-box'],
-      [
-        _.createElement('', '', ['animation-form'], [createAnimationForm()]),
-        _.createElement('', '', ['animation-info'], [fragment]),
-      ]
-    )
+  const box = _.createElement(
+    '',
+    '',
+    ['animation-box'],
+    [
+      _.createElement('', '', ['animation-form'], [createAnimationForm()]),
+      _.createElement('', '', ['animation-info'], [fragment]),
+    ]
   )
+
+  styleInfoHolder.replaceChild(box, styleInfoHolder.lastChild)
 }
 
 function createPredefinedStylesBox(selectedEle) {
   const styleInfoHolder = _.getNode('.styled-info')
-  styleInfoHolder.lastChild.remove()
 
   const pred_tool_box = _.createElement(
     '',
@@ -130,6 +129,7 @@ function createPredefinedStylesBox(selectedEle) {
         '',
         [
           { value: 'all', text: '* ( any type of elements inside body )' },
+          { value: 'body', text: 'Body ' },
           { value: 'button', text: 'Button' },
           { value: 'link', text: 'Link' },
           { value: 'h1', text: 'Heading One' },
@@ -162,28 +162,25 @@ function createPredefinedStylesBox(selectedEle) {
       ),
     ]
   )
-
-  styleInfoHolder.appendChild(
-    _.createElement(
-      '',
-      '',
-      ['predefined-styles-box'],
-      [
-        pred_tool_box,
-        _.createElement(
-          '',
-          '',
-          ['predefined-styles-info'],
-          [createPredStyleInfoFrag(selectedEle)]
-        ),
-      ]
-    )
+  const box = _.createElement(
+    '',
+    '',
+    ['predefined-styles-box'],
+    [
+      pred_tool_box,
+      _.createElement(
+        '',
+        '',
+        ['predefined-styles-info'],
+        [createPredStyleInfoFrag(selectedEle)]
+      ),
+    ]
   )
+  styleInfoHolder.replaceChild(box, styleInfoHolder.lastChild)
 }
 
 function createClassNamesBox(cn = '') {
   const styleInfoHolder = _.getNode('.styled-info')
-  styleInfoHolder.lastChild.remove()
 
   const fragment = _.createFragment()
   if (Object.keys(classNames).length !== 0) {
@@ -194,9 +191,13 @@ function createClassNamesBox(cn = '') {
   } else {
     fragment.appendChild(createCNInfoShower(cn))
   }
-  styleInfoHolder.appendChild(
-    _.createElement('', '', ['class-names-box'], [createCNForm(), fragment])
+  const box = _.createElement(
+    '',
+    '',
+    ['class-names-box'],
+    [createCNForm(), fragment]
   )
+  styleInfoHolder.replaceChild(box, styleInfoHolder.lastChild)
 }
 
 export {
