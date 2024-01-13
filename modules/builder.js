@@ -25,8 +25,8 @@ function buildProduction() {
     if (
       a.href.startsWith('https://sai-wunna.github.io/playground.github.io/')
     ) {
-      console.log(lockedIds)
       lockedIds.push(a.href.split('.io/')[2])
+      console.log(lockedIds)
     }
   })
 
