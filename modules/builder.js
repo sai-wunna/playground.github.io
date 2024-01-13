@@ -25,6 +25,7 @@ function buildProduction() {
     if (
       a.href.startsWith('https://sai-wunna.github.io/playground.github.io/')
     ) {
+      console.log(lockedIds)
       lockedIds.push(a.href.split('.io/')[2])
     }
   })
@@ -45,12 +46,14 @@ function buildProduction() {
     modifiedCustomStyles[newCn] = values
     appWrapper.querySelector(id).classList.add(newCn)
     if (!lockedIds.includes(id)) {
+      console.log(id)
       appWrapper.querySelector(id).removeAttribute('id')
     }
   }
 
   appWrapper.querySelectorAll('[id]').forEach((ele) => {
     if (!lockedIds.includes(ele.id)) {
+      console.log(ele)
       ele.removeAttribute('id')
     }
   })
