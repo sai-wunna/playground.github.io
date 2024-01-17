@@ -35,7 +35,7 @@ const stylesBoxHolder = _.getNode('.stylers')
 const media_chooser = _.getNodeById('style_screen_chooser')
 const pseudo_class_chooser = _.getNodeById('style_pseudo_class_chooser')
 const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
-const save_media_styles = _.getNodeById('save_media_styles')
+const save_styles_btn = _.getNodeById('save_media_styles')
 
 let isStyleChanged = false
 const sizingBox = createSizingForm()
@@ -74,7 +74,7 @@ _.on('change', stylesBoxChooser, (e) => {
       animationBox ||= createAnimationForm()
       const select = animationBox.querySelector('#cs_ani_name')
       select.innerHTML = ''
-      for (let animation in animations) {
+      for (const [animation, _] in Object.entries(animations)) {
         _.createOption(select, animation, animation)
       }
       box = animationBox
@@ -85,15 +85,15 @@ _.on('change', stylesBoxChooser, (e) => {
   _.getNode('.styler-box').replaceWith(box)
 })
 
-_.on('click', save_media_styles, (e) => {
+_.on('click', save_styles_btn, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
     alert.alertMe('noUpdate')
     return
   }
-  save_media_styles.disabled = true
+  save_styles_btn.disabled = true
   isStyleChanged = false
-  save_media_styles.textContent = 'Applying .'
+  save_styles_btn.textContent = 'Applying .'
   appliedLatestStyles(animations, predefinedStyles, classNames, customStyles)
 })
 
@@ -163,10 +163,10 @@ function appliedLatestStyles(animations, predefined, classNames, customStyles) {
     classNames,
     customStyles
   )
-  save_media_styles.textContent = '. Done .'
+  save_styles_btn.textContent = '. Done .'
   let timerId = setTimeout(() => {
-    save_media_styles.textContent = 'apply all'
-    save_media_styles.disabled = false
+    save_styles_btn.textContent = 'apply all'
+    save_styles_btn.disabled = false
   }, 1000)
   pointOutTheEle(selectedNode)
   return () => clearTimeout(timerId)

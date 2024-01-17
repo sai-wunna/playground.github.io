@@ -7,6 +7,15 @@ const alert = Alert()
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}
 
+function insertAnimation(data) {
+  for (const key in animations) {
+    delete animations[key]
+  }
+  for (const [k, v] of Object.entries(data)) {
+    animations[k] = v
+  }
+}
+
 function addNewAnimation(name) {
   let newName = name || `animation_${new Date().getTime()}`
   animations[newName] = {}
@@ -201,4 +210,5 @@ export {
   createAnimationInfo,
   createAnimationKFSBox,
   animationInfoShower,
+  insertAnimation,
 }

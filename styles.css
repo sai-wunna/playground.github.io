@@ -174,10 +174,18 @@
   justify-content: space-between;
 }
 
+.flex-direction-column {
+  flex-direction: column;
+}
+
 /* bootstrap's css -----------------------______________________--------------- */
 
 body {
   scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 #wrapper {
@@ -190,7 +198,7 @@ body {
 #main_nav_box {
   position: fixed;
   overflow-x: hidden;
-  z-index: 1100;
+  z-index: 3000;
   top: -42px;
   right: 0;
   background-color: rgb(149, 149, 185);
@@ -597,7 +605,7 @@ body {
   border-right: 6px solid rgb(214, 0, 0);
   background-color: rgb(255, 206, 206);
   transition: top 0.5s ease-in-out;
-  z-index: 2000;
+  z-index: 10000;
 }
 .progress-alert {
   position: fixed;
@@ -613,7 +621,7 @@ body {
   border-left: 6px solid rgb(0, 46, 251);
   background-color: rgb(206, 207, 255);
   transition: top 0.5s ease-in-out;
-  z-index: 2100;
+  z-index: 10000;
 }
 /* experience -------------- */
 
@@ -628,6 +636,89 @@ body {
   background-color: #e3e3e3;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.929);
   z-index: 2000;
+}
+
+.save-file-type {
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  color: rgb(69, 69, 182);
+}
+
+.insert-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  z-index: 2500;
+  background: #00000067;
+}
+
+.insert-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 1200px;
+  height: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgb(121, 121, 121);
+  border-radius: 20px;
+}
+
+.prebuild-webs-box {
+  height: 95%;
+  padding: 10px;
+}
+
+.available-prebuilt-webs {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  border-radius: 20px;
+}
+
+.drag-drop-box {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed white;
+  border-radius: 5%;
+  transition: 1s;
+  transform: scale(0.9);
+}
+
+.drag-drop-box p {
+  color: white;
+  font-size: 24px;
+}
+
+.confirm-insert-box {
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.insert-warning {
+  border: 3px solid rgb(255, 206, 206);
+  border-left: 6px solid rgb(214, 0, 0);
+  background-color: rgb(255, 206, 206);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.insert-info {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+.dragging {
+  border-radius: 25%;
 }
 
 #app_wrapper {

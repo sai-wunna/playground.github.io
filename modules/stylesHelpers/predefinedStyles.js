@@ -23,6 +23,15 @@ const predefinedStyles = {
   hr: {},
 }
 
+function insertPredefinedStyles(data) {
+  for (const key in predefinedStyles) {
+    delete predefinedStyles[key]
+  }
+  for (const [k, v] of Object.entries(data)) {
+    predefinedStyles[k] = v
+  }
+}
+
 function savePredefinedStyles(ele, condition, key, value) {
   if (predefinedStyles[ele][condition]) {
     predefinedStyles[ele][condition][key] = value
@@ -117,4 +126,5 @@ export {
   createPredStyleInfoFrag,
   savePredefinedStyles,
   changePredStyle,
+  insertPredefinedStyles,
 }

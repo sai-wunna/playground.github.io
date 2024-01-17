@@ -2,8 +2,11 @@ import Document from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { downloadForm } from './builder.js'
+import { createInsertBox } from './insertPrebuild.js'
+import Alert from './alert.js'
 
 const _ = Document()
+const alert = Alert()
 
 const element_create_wrapper = _.getNode('.create-element-form-wrapper')
 const elements_opener_btn = _.getNode('.elements_opener')
@@ -22,6 +25,7 @@ const editor_opener_btn = _.getNode('.editor_opener')
 const editorCloseBtn = _.getNode('.close-editor-wrapper')
 
 const download_form_btn = _.getNode('.download_form_opener')
+const insert_wrapper_btn = _.getNode('.add_prebuilt_web_opener')
 
 _.on('click', elements_opener_btn, (e) => {
   e.preventDefault()
@@ -107,10 +111,23 @@ _.on('click', editor_wrapper, (e) => {
 
 _.on('click', download_form_btn, (e) => {
   e.preventDefault()
+  lockBtn(download_form_btn)
   const existed = _.getNode('.download-form')
   if (existed) {
     existed.remove()
   } else {
     _.appendChild(downloadForm())
+  }
+})
+
+_.on('click', insert_wrapper_btn, (e) => {
+  e.preventDefault()
+  lockBtn(insert_wrapper_btn)
+  const existed = _.getNode('.insert-wrapper')
+  if (existed) {
+    existed.remove()
+  } else {
+    alert.alertMe('fileInsertCaution')
+    _.appendChild(createInsertBox())
   }
 })

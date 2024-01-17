@@ -2,19 +2,13 @@ import Document from './dom/index.js'
 import { selectedNode } from './stackTree.js'
 import Validator from './validators/index.js'
 import Alert from './alert.js'
-import {
-  editBlockQuoteForm,
-  editImageForm,
-  editLinkForm,
-  editOptionForm,
-  textNodeForm,
-} from './editHelpers/editFormCreator.js'
+import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
 const _ = Document()
 const alert = Alert()
 const validator = Validator()
-
+const editForms = EditForms()
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
 const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
 
@@ -28,15 +22,15 @@ _.on('click', getEditFormBtn, (e) => {
   }
   let form
   if (selectedNode.startsWith('#img')) {
-    form = editImageForm(selectedNode)
+    form = editForms.imageForm(selectedNode)
   } else if (selectedNode.startsWith('#link')) {
-    form = editLinkForm(selectedNode)
+    form = editForms.linkForm(selectedNode)
   } else if (selectedNode.startsWith('#option')) {
-    form = editOptionForm(selectedNode)
+    form = editForms.optionForm(selectedNode)
   } else if (selectedNode.startsWith('#blockquote')) {
-    form = editBlockQuoteForm(selectedNode)
+    form = editForms.blockQuoteForm(selectedNode)
   } else {
-    form = textNodeForm(selectedNode)
+    form = editForms.textNodeForm(selectedNode)
   }
   _.getNode('.edit-text').appendChild(form)
 })

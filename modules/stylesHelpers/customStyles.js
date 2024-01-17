@@ -7,6 +7,15 @@ const customStyles = {}
 const mediaTypes = ['general', 'medium', 'large']
 const conditionTypes = ['standard', 'hover', 'active', 'focus']
 
+function insertCustomStyles(data) {
+  for (const key in customStyles) {
+    delete customStyles[key]
+  }
+  for (const [k, v] of Object.entries(data)) {
+    customStyles[k] = v
+  }
+}
+
 function saveCusStyle(node, media, condition, key, value) {
   if (!customStyles[node]) {
     customStyles[`${node}`] = {
@@ -106,4 +115,10 @@ function createCusStyleInfoShower(node) {
   return appliedStyles
 }
 
-export { customStyles, saveCusStyle, removeCusStyle, createCusStyleInfoShower }
+export {
+  customStyles,
+  saveCusStyle,
+  removeCusStyle,
+  createCusStyleInfoShower,
+  insertCustomStyles,
+}

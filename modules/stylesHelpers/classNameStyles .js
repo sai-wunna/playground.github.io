@@ -9,6 +9,15 @@ const classNames = {}
 const mediaTypes = ['general', 'medium', 'large']
 const conditionTypes = ['standard', 'hover', 'active', 'focus']
 
+function insertClassNames(data) {
+  for (const key in classNames) {
+    delete classNames[key]
+  }
+  for (const [k, v] of Object.entries(data)) {
+    classNames[k] = v
+  }
+}
+
 function addNewClassName(name) {
   classNames[name] = {
     general: { standard: {}, hover: {}, active: {}, focus: {} },
@@ -172,4 +181,5 @@ export {
   removeClassName,
   createCNForm,
   createCNInfoShower,
+  insertClassNames,
 }

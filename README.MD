@@ -62,10 +62,79 @@
 
 ### Build
 
+- Can download production or JSON to update later
 - Can add author name
 - Change title
 - Add about web content ( meta - better SEO )
-- Can download the final production ( single minify .html file )
+- Can download the final production ( single minify .html or .json file )
+
+### Insert Prebuilt Web
+
+- Can insert already built JSON file ( with rules )
+- All element must provide id
+- First elements must be app root
+- Here is the sample structure
+
+```JSON
+  {
+  "tree": {
+    "tagName": "DIV",
+    "attrs": { "id": "app" },
+    "children": [
+      {
+        "tagName": "FIGURE",
+        "attrs": { "id": "figure_img_1705495635583" },
+        "children": [
+          {
+            "tagName": "IMG",
+            "attrs": {
+              "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHH8mepO4avVq5NJFuruMoqN02xAqm5Jk7IryH9iVuNw&s",
+              "alt": "tree with sunset",
+              "id": "img_1705495635583"
+            },
+            "children": []
+          },
+          {
+            "tagName": "FIGCAPTION",
+            "attrs": { "id": "caption_1705495635583" },
+            "children": ["Tree"]
+          }
+        ]
+      }
+    ]
+  },
+  "info": {
+    "author": "Anonymous",
+    "name": "Something beautiful has been born here"
+  },
+  "styles": {
+    "customStyles": {},
+    "classNames": {},
+    "animations": {},
+    "predefinedStyles": {
+      "all": {},
+      "button": {},
+      "link": {},
+      "h1": {},
+      "h2": {},
+      "h3": {},
+      "h4": {},
+      "h5": {},
+      "h6": {},
+      "block": {},
+      "image": {},
+      "paragraph": {},
+      "list": {},
+      "table": {},
+      "selection": {},
+      "span": {},
+      "figure": {},
+      "hr": {}
+    }
+  }
+}
+
+```
 
 **Currently updating code style and making things better**
 

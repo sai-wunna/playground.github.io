@@ -1,9 +1,6 @@
-import Helper from './Helper.js'
-
 class Doc {
-  constructor(helper) {
+  constructor() {
     this._ = document
-    this.helper = helper
   }
 
   getNode(node) {
@@ -48,19 +45,47 @@ class Doc {
   cnContains(ele, cl) {
     return ele.classList.contains(cl)
   }
-  // toggleCN(ele, cn, opt) {
-  //   if (opt) {
-  //     ele.classList.toggle(cn)
-  //   } else {
-  //     ele.classList.toggle(cn, opt)
-  //   }
-  // }
-  toggleCN(ele, ...args) {
-    ele.classList.toggle(args.join(','))
+  toggleCN(ele, cn, opt) {
+    if (opt) {
+      ele.classList.toggle(cn)
+    } else {
+      ele.classList.toggle(cn, opt)
+    }
   }
   replaceCN(ele, o, n) {
     ele.classList.replace(o, n)
   }
+
+  // ----------------------------------------------
+  createTag(props) {
+    if (typeof props === 'string') {
+      return this.createTNode(props)
+    }
+
+    const { tagName, attrs = {}, children = [], event = {} } = props
+    const ele = this._.createElement(tagName)
+    for (const [k, v] of Object.entries(attrs)) {
+      ele.setAttribute(k, v)
+    }
+
+    for (const child of children) {
+      let cEle
+      if (typeof child === 'object') {
+        cEle = this.createTag(child)
+      } else {
+        cEle = this.createTNode(child)
+      }
+      ele.appendChild(cEle)
+    }
+
+    // not require for current usage
+    // for (const [evt, fn] of Object.entries(event)) {
+    //   ele.addEventListener(evt, (e) => fn(e))
+    // }
+
+    return ele
+  }
+  // ----------------------------------------------
 
   createFragment(children = []) {
     const fragment = this._.createDocumentFragment()
@@ -69,14 +94,15 @@ class Doc {
     })
     return fragment
   }
-
   createInput(type, classList = [], id, options = {}, event, fn, ...args) {
     const input = this.createNode('input')
     input.type = type || 'text'
     if (classList.length > 0) {
       input.className = classList.join(' ')
     }
-    this.helper.manageInputEle(input, input.type, options)
+    for (const [key, value] of Object.entries(options)) {
+      input.setAttribute(key, value)
+    }
     if (id) {
       input.id = id
     }
@@ -611,4 +637,4 @@ class Doc {
   }
 }
 
-export default () => new Doc(new Helper())
+export default () => new Doc()

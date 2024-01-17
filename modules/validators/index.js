@@ -1,6 +1,16 @@
-// uwl = unWritableList / ual => unAppend-ableList
+// iti = invalidTextInputList / ual => unAppend-ableList
 class Validator {
-  uwl = ['selection', 'thead', 'tfoot', 'tbody', 'tr', 'input', 'hr', 'br']
+  iti = [
+    'selection',
+    'table',
+    'thead',
+    'tfoot',
+    'tbody',
+    'tr',
+    'input',
+    'hr',
+    'br',
+  ]
   ual = [
     'img',
     'input',
@@ -22,7 +32,7 @@ class Validator {
 
   isInvalidTextInput(target) {
     const val = this.#untie(target)
-    return this.uwl.includes(val)
+    return this.iti.includes(val)
   }
   isInvalidInsert(target, ele) {
     if (target === '#app' && ele !== 'option') return false
@@ -34,6 +44,27 @@ class Validator {
   isInvalidEleToShow(target) {
     const val = this.#untie(target)
     return ['option', 'br'].includes(val)
+  }
+  isInvalidInsertFile(data) {
+    // roughly
+    if (!(data.tree || data.styles || data.info)) {
+      return true
+    }
+
+    const { tree, styles } = data
+    if (
+      !(
+        tree.attrs.id === 'app' ||
+        styles.classNames ||
+        styles.customStyles ||
+        styles.animations ||
+        styles.predefinedStyles
+      )
+    ) {
+      return true
+    }
+
+    return false
   }
 
   #untie(target) {

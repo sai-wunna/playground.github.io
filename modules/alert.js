@@ -2,28 +2,28 @@ import Document from './dom/index.js'
 const _ = Document()
 
 class Alert {
-  #alertMessages = {}
+  #alertMessages = {
+    invalid: 'Invalid Action',
+    noSelectedAnimation: 'Please create new animation or select from List.',
+    noSelectedCN: 'Please create new className or select from list',
+    noAvailableCN: 'No Class-name has been created',
+    invalidInput: 'Invalid Input',
+    unAppendAble: 'Cannot append to the target element',
+    hidden: 'This element is currently out of sight',
+    unWritable: 'Cannot write or add text to this element',
+    unEditable: 'Cannot edit this element',
+    noUpdate: 'No new added styles found to update',
+    fileOnly: 'Please drop valid .json file',
+    notJson: 'Invalid file type, must be type of .json',
+    invalidFile: 'This file does not meet the requirement',
+    fileInsertCaution: '* Setting up Invalid file will lead to errors *',
+  }
   #countLimit
   #currentCount = 0
   #wrapper
   #progressLoader
 
-  constructor(
-    messages = {
-      invalid: 'Invalid Action',
-      noSelectedAnimation: 'Please create new animation or select from List.',
-      noSelectedCN: 'Please create new className or select from list',
-      noAvailableCN: 'No Class-name has been created',
-      invalidInput: 'Invalid Input',
-      unAppendAble: 'Cannot append to the target element',
-      hidden: 'This element is currently out of sight',
-      unWritable: 'Cannot write or add text to this element',
-      unEditable: 'Cannot edit this element',
-      noUpdate: 'No new added styles found to update',
-    },
-    countLimit = 3
-  ) {
-    this.#alertMessages = messages
+  constructor(countLimit = 3) {
     this.#countLimit = countLimit
     this.#wrapper = _.getNode('#wrapper')
     this.#progressLoader = _.createElement('div', '', ['progress-alert'], [])

@@ -21,7 +21,7 @@ let selectedTreeNode = '#children'
 
 _.on('click', appNode, (e) => {
   e.preventDefault()
-  lockBtn(e.target)
+  lockBtn(appNode)
   setSelectedNodeStyle(appNode)
   selectAppNode()
 })
@@ -387,6 +387,8 @@ function removePointOutTheEle() {
 }
 
 export {
+  selectNode,
+  removeNode,
   addNewStack,
   addTableStack,
   addSelectionStack,

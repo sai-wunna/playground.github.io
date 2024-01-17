@@ -1,16 +1,16 @@
 import Document from '../dom/index.js'
 const _ = Document()
 
-function openNav(wrapper, classList) {
+function openNav(wp, classList) {
   _.getNode('.priority-wrapper-box')?.classList.remove('priority-wrapper-box')
-  wrapper.classList.add(classList)
-  wrapper.classList.add('priority-wrapper-box')
+  wp.classList.add(classList)
+  wp.classList.add('priority-wrapper-box')
 
   return () => clearTimeout(timerId)
 }
 
-function closeNav(wrapper, classList) {
-  wrapper.classList.remove(classList)
+function closeNav(wp, classList) {
+  wp.classList.remove(classList)
   return () => clearTimeout(timerId)
 }
 

@@ -129,7 +129,6 @@ function createPredefinedStylesBox(selectedEle) {
         '',
         [
           { value: 'all', text: '* ( any type of elements inside body )' },
-          { value: 'body', text: 'Body ' },
           { value: 'button', text: 'Button' },
           { value: 'link', text: 'Link' },
           { value: 'h1', text: 'Heading One' },
@@ -140,7 +139,7 @@ function createPredefinedStylesBox(selectedEle) {
           { value: 'h6', text: 'Heading Six' },
           { value: 'block', text: 'Block' },
           { value: 'image', text: 'Image' },
-          { value: 'p', text: 'Paragraph' },
+          { value: 'paragraph', text: 'Paragraph' },
           { value: 'list', text: 'List' },
           { value: 'table', text: 'Table' },
           { value: 'selection', text: 'Selection' },
