@@ -1,4 +1,5 @@
 import Document from '../dom/index.js'
+import errImgReloader from './helpers/imgReloader.js'
 const _ = Document()
 
 class DeployElement {
@@ -33,6 +34,8 @@ class DeployElement {
   image(src, alt, target) {
     const id = `img_${new Date().getTime()}`
     const img = _.createImage(src, alt || `image No . ${time}`, [], id)
+    // in case of error , click to reload
+    errImgReloader(img, src, alt)
     if (this.isInsertBefore.checked && target !== '#app') {
       _.insertBefore([img], target)
     } else {
@@ -164,6 +167,8 @@ class DeployElement {
   imageFigure(data, captionFirstOrNot, target) {
     const imgId = `img_${new Date().getTime()}`
     const image = _.createImage(data.src, data.alt, [], imgId)
+    // in case of error , click to reload
+    errImgReloader(image, data.src, data.alt)
     const stackTraces = []
     const fragment = _.createFragment()
     if (data.caption) {

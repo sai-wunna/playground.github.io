@@ -4,7 +4,7 @@ const _ = Document()
 
 function createUnitSelector() {
   const units = ['px', '%', 'em', 'rem', 'vh', 'vw', 'vmin', 'vmax']
-  const unitSelector = _.createSelect(['cs-select'], '', [], 'unit_selector')
+  const unitSelector = _.createSelect(['cs-select', 'unit-selector'], '', [])
 
   for (let i = 0; i < units.length; i++) {
     const key = units[i]

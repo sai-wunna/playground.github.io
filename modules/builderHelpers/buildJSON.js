@@ -8,7 +8,7 @@ const _ = Document()
 
 function buildVDom(Node) {
   if (Node && Node.nodeType === Node.TEXT_NODE) return Node.nodeValue
-  const tree = { tagName: Node.tagName }
+  const tree = { tagName: Node.tagName.toLowerCase() }
 
   const attrs = {}
   const attributesMap = Node.attributes

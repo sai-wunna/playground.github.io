@@ -25,7 +25,16 @@ import {
 const _ = Document()
 let spamBlocker
 
-const unitSelector = createUnitSelector()
+const unitOne = createUnitSelector()
+const unitTwo = createUnitSelector()
+const unitThree = createUnitSelector()
+const unitFour = createUnitSelector()
+const unitSelectors = _.createElement(
+  '',
+  '',
+  ['cs-ip-gp'],
+  [unitOne, unitTwo, unitThree, unitFour]
+)
 
 function createSizingForm() {
   const widthBox = _.createElement(
@@ -35,7 +44,7 @@ function createSizingForm() {
     [
       _.createLabel('Width', 'cs_width', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_width', '', '', (e) => {
-        changeStyle('width', `${parseInt(e.target.value)}${unitSelector.value}`)
+        changeStyle('width', `${parseInt(e.target.value)}${unitOne.value}`)
       }),
     ]
   )
@@ -46,10 +55,7 @@ function createSizingForm() {
     [
       _.createLabel('Min-Width', 'cs_min_width', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_min_width', '', '', (e) =>
-        changeStyle(
-          'min-width',
-          `${parseInt(e.target.value)}${unitSelector.value}`
-        )
+        changeStyle('min-width', `${parseInt(e.target.value)}${unitOne.value}`)
       ),
     ]
   )
@@ -60,10 +66,7 @@ function createSizingForm() {
     [
       _.createLabel('Max-Width', 'cs_max_width', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_max_width', '', '', (e) =>
-        changeStyle(
-          'max-width',
-          `${parseInt(e.target.value)}${unitSelector.value}`
-        )
+        changeStyle('max-width', `${parseInt(e.target.value)}${unitOne.value}`)
       ),
     ]
   )
@@ -85,10 +88,7 @@ function createSizingForm() {
     [
       _.createLabel('Height', 'cs_height', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_height', '', '', (e) =>
-        changeStyle(
-          'height',
-          `${parseInt(e.target.value)}${unitSelector.value}`
-        )
+        changeStyle('height', `${parseInt(e.target.value)}${unitOne.value}`)
       ),
     ]
   )
@@ -99,10 +99,7 @@ function createSizingForm() {
     [
       _.createLabel('Min-Height', 'cs_min_height', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_min_height', '', '', (e) =>
-        changeStyle(
-          'min-height',
-          `${parseInt(e.target.value)}${unitSelector.value}`
-        )
+        changeStyle('min-height', `${parseInt(e.target.value)}${unitOne.value}`)
       ),
     ]
   )
@@ -113,10 +110,7 @@ function createSizingForm() {
     [
       _.createLabel('Max-Height', 'cs_max_height', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_max_height', '', '', (e) =>
-        changeStyle(
-          'max-height',
-          `${parseInt(e.target.value)}${unitSelector.value}`
-        )
+        changeStyle('max-height', `${parseInt(e.target.value)}${unitOne.value}`)
       ),
     ]
   )
@@ -164,12 +158,10 @@ function createSizingForm() {
     '',
     '',
     function (e) {
-      const unit = unitSelector.value
+      const unit = unitOne.value
       changeStyle(
         'gap',
-        `${e.target.value || 0}${unit} ${
-          _.getNodeById('cs_gap_x').value || 0
-        }${unit}`
+        `${e.target.value || 0}${unit} ${cs_gap_x_ip.value || 0}${unit}`
       )
     }
   )
@@ -180,12 +172,11 @@ function createSizingForm() {
     '',
     '',
     function (e) {
-      const unit = unitSelector.value
       changeStyle(
         'gap',
-        `${_.getNodeById('cs_gap_y').value || 0}${unit} ${
-          e.target.value || 0
-        }${unit}`
+        `${cs_gap_y_ip.value || 0}${unitOne.value} ${e.target.value || 0}${
+          unitTwo.value
+        }`
       )
     }
   )
@@ -228,7 +219,7 @@ function createSizingForm() {
             ...calMNPSideValue(
               cs_margin_side_s.value,
               'margin',
-              `${e.target.value}${unitSelector.value}`
+              `${e.target.value}${unitOne.value}`
             )
           )
         }
@@ -245,6 +236,8 @@ function createSizingForm() {
       { value: 'right', text: 'right' },
       { value: 'bottom', text: 'bottom' },
       { value: 'left', text: 'left' },
+      { value: '0-x', text: '0 x-axis' },
+      { value: 'y-0', text: 'y-axis 0' },
     ],
     'cs_padding_side'
   )
@@ -266,7 +259,7 @@ function createSizingForm() {
             ...calMNPSideValue(
               cs_padding_side_s.value,
               'padding',
-              `${e.target.value}${unitSelector.value}`
+              `${e.target.value}${unitOne.value}`
             )
           )
         }
@@ -389,7 +382,7 @@ function createPositionForm() {
       _.createInput('number', ['cs-num-input'], 'cs_distance', '', '', (e) =>
         changeStyle(
           cs_distance_s.value,
-          `${parseInt(e.target.value)}${unitSelector.value}`
+          `${parseInt(e.target.value)}${unitOne.value}`
         )
       ),
     ]
@@ -498,7 +491,10 @@ function createPositionForm() {
             ['inline-btn', 'text-primary'],
             '',
             function (e) {
-              changeStyle('transform', calTransformValue(transformList))
+              changeStyle(
+                'transform',
+                calTransformValue(transformList, unitOne, unitTwo, unitThree)
+              )
             }
           ),
         ]
@@ -695,7 +691,7 @@ function createTypographyForm() {
     [
       _.createLabel('Font-size', 'cs_font_size', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_font_size', '', '', (e) =>
-        changeStyle('font-size', `${e.target.value}${unitSelector.value}`)
+        changeStyle('font-size', `${e.target.value}${unitOne.value}`)
       ),
     ]
   )
@@ -765,7 +761,7 @@ function createTypographyForm() {
       _.createInput('number', ['cs-num-input'], 'cs_line_height', '', '', (e) =>
         changeStyle(
           'line-height',
-          `${parseInt(e.target.value)}${unitSelector.value}`
+          `${parseInt(e.target.value)}${unitOne.value}`
         )
       ),
     ]
@@ -785,7 +781,7 @@ function createTypographyForm() {
         (e) =>
           changeStyle(
             'letter-spacing',
-            `${parseInt(e.target.value)}${unitSelector.value}`
+            `${parseInt(e.target.value)}${unitOne.value}`
           )
       ),
     ]
@@ -902,7 +898,7 @@ function createTypographyForm() {
     [
       _.createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
       _.createInput('number', ['cs-num-input'], 'cs_text_idt', '', '', (e) =>
-        changeStyle('text-indent', `${e.target.value}${unitSelector.value}`)
+        changeStyle('text-indent', `${e.target.value}${unitOne.value}`)
       ),
     ]
   )
@@ -1090,9 +1086,9 @@ function createBackgroundForm() {
       changeStyle(
         'background',
         calGrdValue(
-          _.getNodeById('cs_bg_type').value,
+          cs_bg_type_s.value,
           _.getAllNodes('.bg-grd-color'),
-          _.getNodeById('cs_grd_deg').value
+          e.target.value
         )
       )
   )
@@ -1109,9 +1105,9 @@ function createBackgroundForm() {
         changeStyle(
           'background',
           calGrdValue(
-            _.getNodeById('cs_bg_type').value,
+            cs_bg_type_s.value,
             _.getAllNodes('.bg-grd-color'),
-            _.getNodeById('cs_grd_deg').value
+            cs_bg_gradient_deg_ip.value
           )
         )
     )
@@ -1155,7 +1151,7 @@ function createBackgroundForm() {
       _.createInput('number', ['cs-num-input'], 'cs_bg_size', '', '', (e) =>
         changeStyle(
           'background-size',
-          `${parseInt(e.target.value)}${unitSelector.value}`
+          `${parseInt(e.target.value)}${unitOne.value}`
         )
       ),
     ]
@@ -1344,7 +1340,7 @@ function createBorderAndOutlinesForm() {
         cs_boo_type_s.value,
         cs_boo_side_s.value,
         cs_boo_style_s.value,
-        `${parseInt(e.target.value)}${unitSelector.value}`,
+        `${parseInt(e.target.value)}${unitOne.value}`,
         cs_boo_color_ip.value
       )
       changeStyle(key, value)
@@ -1372,7 +1368,7 @@ function createBorderAndOutlinesForm() {
         cs_boo_type_s.value,
         cs_boo_side_s.value,
         e.target.value,
-        `${parseInt(cs_boo_width_ip.value)}${unitSelector.value}`,
+        `${parseInt(cs_boo_width_ip.value)}${unitOne.value}`,
         cs_boo_color_ip.value
       )
       changeStyle(key, value)
@@ -1395,7 +1391,7 @@ function createBorderAndOutlinesForm() {
         cs_boo_type_s.value,
         cs_boo_side_s.value,
         cs_boo_style_s.value,
-        `${parseInt(cs_boo_width_ip.value)}${unitSelector.value}`,
+        `${parseInt(cs_boo_width_ip.value)}${unitOne.value}`,
         e.target.value
       )
       changeStyle(key, value)
@@ -1455,11 +1451,10 @@ function createBorderAndOutlinesForm() {
   let cs_border_radius_4_ip
   function createBRIp() {
     return _.createInput('number', ['cs-num-input'], '', '', '', function () {
-      const unit = unitSelector.value
-      const one = `${cs_border_radius_1_ip.value}${unit}`
-      const two = `${cs_border_radius_2_ip.value}${unit}`
-      const three = `${cs_border_radius_3_ip.value}${unit}`
-      const four = `${cs_border_radius_4_ip.value}${unit}`
+      const one = `${cs_border_radius_1_ip.value}${unitOne.value}`
+      const two = `${cs_border_radius_2_ip.value}${unitTwo.value}`
+      const three = `${cs_border_radius_3_ip.value}${unitThree.value}`
+      const four = `${cs_border_radius_4_ip.value}${unitFour.value}`
       changeStyle('border-radius', `${one} ${two} ${three} ${four}`)
     })
   }
@@ -1594,7 +1589,7 @@ function createMiscellaneousForm() {
         changeStyle(
           'backdrop-filter',
           `${cs_bd_filter_tp.value}(${parseInt(e.target.value)}${
-            unitSelector.value
+            unitOne.value
           })`
         )
       ),
@@ -1628,9 +1623,7 @@ function createMiscellaneousForm() {
       _.createInput('number', ['cs-num-input'], 'cs_filter', '', '', (e) =>
         changeStyle(
           'filter',
-          `${cs_filter_tp.value}(${parseInt(e.target.value)}${
-            unitSelector.value
-          })`
+          `${cs_filter_tp.value}(${parseInt(e.target.value)}${unitOne.value})`
         )
       ),
     ]
@@ -2131,7 +2124,7 @@ function createDisplayForm() {
         '',
         ['cs-text-input'],
         'cs_cus_grd_temp_cols',
-        '',
+        { disabled: true },
         '',
         (e) => changeStyle('grid-template-columns', e.target.value)
       ),
@@ -2194,7 +2187,7 @@ function createDisplayForm() {
         '',
         ['cs-text-input'],
         'cs_cus_grd_temp_rows',
-        '',
+        { disabled: true },
         '',
         (e) => changeStyle('grid-template-rows', e.target.value)
       ),
@@ -2255,8 +2248,14 @@ function createDisplayForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Custom grid-column', 'cs_cus_grd_col', ['cs-label']),
-      _.createInput('', ['cs-text-input'], 'cs_cus_grd_col', '', '', (e) =>
-        changeStyle('grid-column', e.target.value)
+
+      _.createInput(
+        '',
+        ['cs-text-input'],
+        'cs_cus_grd_col',
+        { disabled: true },
+        '',
+        (e) => changeStyle('grid-column', e.target.value)
       ),
     ]
   )
@@ -2266,8 +2265,13 @@ function createDisplayForm() {
     ['cs-ip-gp'],
     [
       _.createLabel('Custom grid-row', 'cs_cus_grd_row', ['cs-label']),
-      _.createInput('', ['cs-text-input'], 'cs_cus_grd_row', '', '', (e) =>
-        changeStyle('grid-row', e.target.value)
+      _.createInput(
+        '',
+        ['cs-text-input'],
+        'cs_cus_grd_row',
+        { disabled: true },
+        '',
+        (e) => changeStyle('grid-row', e.target.value)
       ),
     ]
   )
@@ -2633,8 +2637,7 @@ function changeSerialStyles(key, value) {
 }
 
 export {
-  unitSelector,
-  createUnitSelector,
+  unitSelectors,
   createSizingForm,
   createPositionForm,
   createTypographyForm,

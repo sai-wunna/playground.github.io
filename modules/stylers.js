@@ -10,7 +10,7 @@ import {
   createDisplayForm,
   createMiscellaneousForm,
   createAnimationForm,
-  unitSelector,
+  unitSelectors,
 } from './stylesHelpers/stylerBoxCreator.js'
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
@@ -173,7 +173,7 @@ function appliedLatestStyles(animations, predefined, classNames, customStyles) {
 }
 
 // initial load to page ___________
-_.appendChildrenTo(stylesBoxHolder, [unitSelector, sizingBox])
+_.appendChildrenTo(stylesBoxHolder, [unitSelectors, sizingBox])
 createTargetStyleInfoBox('#app')
 
 export { changeAppliedStyes }

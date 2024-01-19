@@ -114,7 +114,7 @@ _.on('click', confirmInsertBtn, (e) => {
 
   app = controllerTree = styles = null
   confirmInsertBtn.textContent = '- - - - - - - -'
-  fileInfo.textContent = ''
+  fileInfo.textContent = '-'
 
   alert.__end('* Ready to go *')
 })

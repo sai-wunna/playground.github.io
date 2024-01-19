@@ -132,7 +132,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     [tableHeader, tableBody, tableFooter],
     `${tableId}_c`
   )
-  tableStacks.style.backgroundColor = random.color()
+  tableStacks.style.backgroundColor = 'rgba(0, 0, 0, 0.109)'
   const tableNode = _.createElement(
     'div',
     '',
@@ -281,7 +281,7 @@ function createTreeNode(id, name, children) {
   if (children) {
     childrenBox.appendChild(children)
   }
-  childrenBox.style.backgroundColor = random.color()
+  childrenBox.style.backgroundColor = 'rgba(0, 0, 0, 0.109)'
   return _.createElement(
     'div',
     '',

@@ -20,7 +20,7 @@ const confirmInsertBtn = _.createButton(
   'insert_web_confirm_btn'
 )
 
-const fileInfo = _.createSpan('', ['insert-info'])
+const fileInfo = _.createSpan('-', ['insert-info'])
 
 function createInsertWrapper() {
   return _.createElement(
@@ -33,6 +33,7 @@ function createInsertWrapper() {
         '',
         ['insert-box', 'd-flex', 'flex-direction-column'],
         [
+          fileInfo,
           _.createElement(
             '',
             '',
@@ -55,7 +56,6 @@ function createInsertWrapper() {
               _.createSpan('Current project will be removed !', [
                 'insert-warning',
               ]),
-              fileInfo,
               confirmInsertBtn,
             ]
           ),

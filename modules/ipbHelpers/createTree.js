@@ -119,7 +119,7 @@ function createTableController(data) {
     `${id}_c`
   )
 
-  tableStacks.style.backgroundColor = random.color()
+  tableStacks.style.backgroundColor = 'rgba(0, 0, 0, 0.109)'
 
   return _.createElement(
     'div',
@@ -163,7 +163,7 @@ function createControllers(eleData) {
     }
 
     const childBox = _.createElement('', '', '', [], `${id}_c`)
-    childBox.style.background = random.color()
+    childBox.style.background = 'rgba(0, 0, 0, 0.109)'
     for (const child of children) {
       if (typeof child === 'object') {
         const childEle = createControllers(child)
@@ -172,12 +172,17 @@ function createControllers(eleData) {
       }
     }
 
+    let text
+    if (typeof children[0] === 'string') {
+      text = `${tagName}-${children[0].slice(0, 5)}...`
+    }
+
     return _.createElement(
       '',
       '',
       ['stack-node-box'],
       [
-        _.createButton(tagName, ['stack-node'], '', (e) =>
+        _.createButton(text || tagName, ['stack-node'], '', (e) =>
           selectNode(e, `#${id}`)
         ),
         _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) =>

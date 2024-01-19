@@ -59,8 +59,8 @@ function manageBOO(baseKey, side, type, value, color) {
 
 function calTransitionValues(prdNodes, efNodes) {
   let value = ''
-  _.getAllNodes('.cs-trans-name').forEach((one, idx) => {
-    value += ` ${one.value} ${prdNodes[idx].value / 10}s ${
+  _.getAllNodes('.cs-trans-name').forEach((name, idx) => {
+    value += ` ${name.value} ${prdNodes[idx].value / 10}s ${
       efNodes[idx].value
     } ${idx < prdNodes.length - 1 ? ',' : ''}`
   })
@@ -102,15 +102,14 @@ function calTextShadowValue() {
   return value
 }
 
-function calTransformValue(transformList) {
-  const unit = _.getNodeById('unit_selector').value
+function calTransformValue(transformList, unitOne, unitTwo, unitThree) {
   let value = ''
   if (transformList.includes('translate')) {
     const values = []
     _.getAllNodes('.cs-trans-translate-value').forEach((one) => {
       values.push(parseInt(one.value))
     })
-    value += `translate(${values[0]}${unit}, ${values[1]}${unit}) `
+    value += `translate(${values[0]}${unitOne.value}, ${values[1]}${unitTwo.value}) `
   }
   if (transformList.includes('rotate')) {
     value += `rotate(${parseInt(
@@ -132,23 +131,23 @@ function calTransformValue(transformList) {
     value += `skew(${values[0]}deg, ${values[1]}deg) `
   }
   if (transformList.includes('perspective')) {
-    value += `perspective(${parseInt(
-      _.getNode('.cs-trans-pov-value').value
-    )}${unit}) `
+    value += `perspective(${parseInt(_.getNode('.cs-trans-pov-value').value)}${
+      unitOne.value
+    }) `
   }
   if (transformList.includes('translate3d')) {
     const values = []
     _.getAllNodes('.cs-trans-translate3d-value').forEach((one) => {
       values.push(parseInt(one.value))
     })
-    value += `translate3d(${values[0]}${unit}, ${values[1]}${unit}, ${values[2]}${unit}) `
+    value += `translate3d(${values[0]}${unitOne.value}, ${values[1]}${unitTwo.value}, ${values[2]}${unitThree.value}) `
   }
   if (transformList.includes('rotate3d')) {
     const values = []
     _.getAllNodes('.cs-trans-rotate3d-value').forEach((one) => {
       values.push(parseInt(one.value))
     })
-    value += `rotate3d(${values[0]}${unit}, ${values[1]}${unit}, ${values[2]}${unit})`
+    value += `rotate3d(${values[0]}${unitOne.value}, ${values[1]}${unitTwo.value}, ${values[2]}${unitThree.value})`
   }
   return value
 }
