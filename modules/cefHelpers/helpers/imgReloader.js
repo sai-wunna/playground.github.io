@@ -1,3 +1,5 @@
+'use strict'
+
 function imgLoadError(e) {
   e.target.classList.add('img-load-error')
   e.target.style.cursor = 'pointer'
@@ -8,7 +10,7 @@ function imgLoadError(e) {
 function imgReload(e, src) {
   e.target.src = src
 }
-/// here to add title
+
 function imgLoaded(e, alt) {
   e.target.removeEventListener('error', imgLoadError)
   e.target.removeEventListener('click', imgReload)

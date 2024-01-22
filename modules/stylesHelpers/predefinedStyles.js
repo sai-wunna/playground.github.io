@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from '../dom/index.js'
 
 const _ = Document()

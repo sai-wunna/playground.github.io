@@ -1,8 +1,8 @@
-import Document from '../dom/index.js'
+'use strict'
 
 class CreateElementForms {
-  constructor() {
-    this._ = Document()
+  constructor(doc) {
+    this._ = doc
   }
   createBlockForm() {
     const label = this._.createLabel('Content', 'new_block', ['form-label'])
@@ -521,4 +521,4 @@ class CreateElementForms {
   }
 }
 
-export default () => new CreateElementForms()
+export default (doc) => new CreateElementForms(doc)

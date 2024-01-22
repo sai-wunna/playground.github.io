@@ -1,12 +1,13 @@
+'use strict'
 import Document from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import { downloadForm } from './builder.js'
+import { downloadForm } from './download.js'
 import { createInsertBox } from './insertPrebuild.js'
 import Alert from './alert.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 
 const element_create_wrapper = _.getNode('.create-element-form-wrapper')
 const elements_opener_btn = _.getNode('.elements_opener')
@@ -90,22 +91,18 @@ function setPriorityWrapper(wp) {
 }
 
 _.on('click', element_create_wrapper, (e) => {
-  if (e.target.classList.contains('close-create-elements-wrapper')) return
   setPriorityWrapper(element_create_wrapper)
 })
 
 _.on('click', style_tools_wrapper, (e) => {
-  if (e.target.classList.contains('close-tools-wrapper')) return
   setPriorityWrapper(style_tools_wrapper)
 })
 
 _.on('click', stacks_wrapper, (e) => {
-  if (e.target.classList.contains('close-stacks-wrapper')) return
   setPriorityWrapper(stacks_wrapper)
 })
 
 _.on('click', editor_wrapper, (e) => {
-  if (e.target.classList.contains('close-editor-wrapper')) return
   setPriorityWrapper(editor_wrapper)
 })
 
@@ -131,3 +128,5 @@ _.on('click', insert_wrapper_btn, (e) => {
     _.appendChild(createInsertBox())
   }
 })
+
+export default 'navigators joined'

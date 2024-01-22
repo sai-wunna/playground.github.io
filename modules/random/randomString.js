@@ -1,3 +1,5 @@
+'use strict'
+
 class URS {
   #alphabets = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   #created = []

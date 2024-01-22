@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from '../dom/index.js'
 import { createCusStyleInfoShower } from './customStyles.js'
 import {
@@ -14,7 +16,7 @@ import {
 import Alert from '../alert.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 
 function createTargetStyleInfoBox(selectedNode) {
   const styleInfoHolder = _.getNode('.styled-info')

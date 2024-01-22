@@ -12,7 +12,6 @@
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 /* form-select */
 .form-select {
   display: block;
@@ -251,13 +250,17 @@ body {
 }
 .element-form-box {
   display: flex;
+  height: 90%;
+  min-height: 540px;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 5px 0;
   gap: 5px;
 }
 .element-form {
   padding: 5px;
-  height: 490px;
+  height: 100%;
   overflow: auto;
   overflow-x: scroll;
   width: 100%;
@@ -306,9 +309,16 @@ body {
   width: 100%;
   padding: 5px;
   height: 100%;
-  overflow-y: auto;
+  overflow: auto;
 }
 /* styler-box css ------------------------------------------- */
+.unit-selector-box {
+  position: sticky;
+  top: -7px;
+  margin: 0 !important;
+  padding: 0 0 5px 0;
+  background-color: rgb(199, 217, 218);
+}
 .cs-ip-gp {
   display: flex;
   gap: 10px;
@@ -393,7 +403,6 @@ body {
   outline: 1px solid rgb(205, 96, 96);
 }
 /* styler-box css ------------------------------------------- */
-
 .styled-info {
   height: 100%;
   min-width: 600px;

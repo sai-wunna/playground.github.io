@@ -1,5 +1,5 @@
+'use strict'
 import Document from './dom/index.js'
-import Random from './random/index.js'
 import Validator from './validators/index.js'
 import Alert from './alert.js'
 import { lockBtn } from './helpers/lockBtn.js'
@@ -7,8 +7,7 @@ import { removeCusStyle } from './stylesHelpers/customStyles.js'
 import { createTargetStyleInfoBox } from './stylesHelpers/styleInfoBoxes.js'
 
 const _ = Document()
-const random = Random()
-const alert = Alert()
+const alert = Alert(_)
 const validator = Validator()
 
 const high_light_ele = _.getNodeById('high_light_ele')
@@ -385,6 +384,9 @@ function pointOutTheEle(ele) {
 function removePointOutTheEle() {
   element_pointer.style.display = 'none'
 }
+
+// initialize
+createTargetStyleInfoBox('#app')
 
 export {
   selectNode,

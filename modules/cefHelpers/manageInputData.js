@@ -1,3 +1,5 @@
+'use strict'
+
 function manageListData(lists) {
   const newList = []
   lists.forEach((list, index) => {

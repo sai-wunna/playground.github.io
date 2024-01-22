@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from '../dom/index.js'
 import Random from '../random/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'

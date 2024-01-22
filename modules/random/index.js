@@ -1,3 +1,4 @@
+'use strict'
 import URC from './randomColor.js'
 import URS from './randomString.js'
 

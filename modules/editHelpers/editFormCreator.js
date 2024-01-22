@@ -1,20 +1,23 @@
-import Document from '../dom/index.js'
-const _ = Document()
+'use strict'
 
 class EditForms {
+  constructor(doc) {
+    this._ = doc
+  }
+
   imageForm(node) {
-    const target = _.getNode(node)
-    const srcLb = _.createLabel('Source', 'edit_src', ['form-label'])
-    const srcIp = _.createInput('', ['form-control'], 'edit_src', {
+    const target = this._.getNode(node)
+    const srcLb = this._.createLabel('Source', 'edit_src', ['form-label'])
+    const srcIp = this._.createInput('', ['form-control'], 'edit_src', {
       value: target.src,
     })
-    const altLb = _.createLabel('Description about image', 'edit_alt', [
+    const altLb = this._.createLabel('Description about image', 'edit_alt', [
       'form-label',
     ])
-    const altIp = _.createInput('', ['form-control'], 'edit_alt', {
+    const altIp = this._.createInput('', ['form-control'], 'edit_alt', {
       value: target.alt,
     })
-    const updateBtn = _.createButton(
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -24,7 +27,7 @@ class EditForms {
         target.alt = altIp.value
       }
     )
-    return _.createForm(
+    return this._.createForm(
       [],
       [srcLb, srcIp, altLb, altIp, updateBtn],
       'edit_form'
@@ -32,7 +35,7 @@ class EditForms {
   }
 
   linkForm(node) {
-    const target = _.getNode(node)
+    const target = this._.getNode(node)
     let type
     let link
     if (target.href.startsWith(`http`)) {
@@ -54,12 +57,19 @@ class EditForms {
       link = target.href.split(':')[1]
     }
 
-    const LinkLb = _.createLabel('URL', 'edit_link', ['form-label'])
-    const linkIp = _.createInput('', ['form-control', 'my-2'], 'edit_link', {
-      value: link,
-    })
-    const nameLb = _.createLabel('Link Name', 'edit_link_name', ['form-label'])
-    const nameIp = _.createInput(
+    const LinkLb = this._.createLabel('URL', 'edit_link', ['form-label'])
+    const linkIp = this._.createInput(
+      '',
+      ['form-control', 'my-2'],
+      'edit_link',
+      {
+        value: link,
+      }
+    )
+    const nameLb = this._.createLabel('Link Name', 'edit_link_name', [
+      'form-label',
+    ])
+    const nameIp = this._.createInput(
       '',
       ['form-control', 'my-2'],
       'edit_link_name',
@@ -67,14 +77,21 @@ class EditForms {
         value: target.textContent,
       }
     )
-    const titleLb = _.createLabel('Title for more information', 'edit_title', [
-      'form-label',
-    ])
-    const titleIp = _.createInput('', ['form-control', 'my-1'], 'edit_title', {
-      value: target.title,
-    })
+    const titleLb = this._.createLabel(
+      'Title for more information',
+      'edit_title',
+      ['form-label']
+    )
+    const titleIp = this._.createInput(
+      '',
+      ['form-control', 'my-1'],
+      'edit_title',
+      {
+        value: target.title,
+      }
+    )
 
-    const select = _.createSelect(
+    const select = this._.createSelect(
       ['form-select'],
       '',
       [
@@ -93,11 +110,11 @@ class EditForms {
         } else {
           newPlaceholder = '+123 456 789 012'
         }
-        _.getNodeById('edit_link').placeholder = newPlaceholder
+        this._.getNodeById('edit_link').placeholder = newPlaceholder
       },
       ''
     )
-    const updateBtn = _.createButton(
+    const updateBtn = this._.createButton(
       'update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -116,7 +133,7 @@ class EditForms {
         target.title = titleIp.value
       }
     )
-    return _.createForm(
+    return this._.createForm(
       [],
       [select, LinkLb, linkIp, nameLb, nameIp, titleLb, titleIp, updateBtn],
       'edit_form'
@@ -124,18 +141,32 @@ class EditForms {
   }
 
   optionForm(node) {
-    const target = _.getNode(node)
-    const valueLb = _.createLabel('Value', 'edit_opt_value', ['form-label'])
-    const valueIp = _.createInput('', ['form-control'], 'edit_opt_value', {
+    const target = this._.getNode(node)
+    const valueLb = this._.createLabel('Value', 'edit_opt_value', [
+      'form-label',
+    ])
+    const valueIp = this._.createInput('', ['form-control'], 'edit_opt_value', {
       value: target.value,
     })
-    const valueBox = _.createElement('', '', ['cs-ip-gp'], [valueLb, valueIp])
-    const optionLb = _.createLabel('Option', 'edit_opt_text', ['form-label'])
-    const optionIp = _.createInput('', ['form-control'], 'edit_opt_text', {
+    const valueBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [valueLb, valueIp]
+    )
+    const optionLb = this._.createLabel('Option', 'edit_opt_text', [
+      'form-label',
+    ])
+    const optionIp = this._.createInput('', ['form-control'], 'edit_opt_text', {
       value: target.textContent,
     })
-    const textBox = _.createElement('', '', ['cs-ip-gp'], [optionLb, optionIp])
-    const updateBtn = _.createButton(
+    const textBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [optionLb, optionIp]
+    )
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -144,21 +175,21 @@ class EditForms {
         target.textContent = optionIp.value
       }
     )
-    return _.createForm([], [valueBox, textBox, updateBtn], 'edit_form')
+    return this._.createForm([], [valueBox, textBox, updateBtn], 'edit_form')
   }
 
   textNodeForm(node) {
-    const childNodes = _.getNode(node).childNodes
-    const fragment = _.createFragment()
+    const childNodes = this._.getNode(node).childNodes
+    const fragment = this._.createFragment()
     let spamBlocker
 
-    function createEditBox(node) {
-      return _.createElement(
+    const createEditBox = (node) => {
+      return this._.createElement(
         'div',
         '',
         ['my-1', 'd-flex'],
         [
-          _.createTextArea(
+          this._.createTextArea(
             '',
             ['form-control'],
             {
@@ -173,7 +204,7 @@ class EditForms {
             },
             ''
           ),
-          _.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
+          this._.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
             e.target.parentElement.remove()
             node.remove()
           }),
@@ -181,20 +212,21 @@ class EditForms {
       )
     }
 
-    const addTNForm = _.createElement(
+    const addTNForm = this._.createElement(
       'div',
       '',
       ['my-1', 'd-flex'],
       [
-        _.createInput('', ['form-control'], 'new_text_node', {
+        this._.createInput('', ['form-control'], 'new_text_node', {
           placeholder: 'new text node ... ... ...',
         }),
-        _.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
-          const textNode = _.createTNode(
-            _.getNodeById('new_text_node').value || 'text node has been added.'
+        this._.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
+          const textNode = this._.createTNode(
+            this._.getNodeById('new_text_node').value ||
+              'text node has been added.'
           )
-          _.getNode(node).appendChild(textNode)
-          _.getNodeById('edit_form').appendChild(createEditBox(textNode))
+          this._.getNode(node).appendChild(textNode)
+          this._.getNodeById('edit_form').appendChild(createEditBox(textNode))
         }),
       ]
     )
@@ -203,29 +235,31 @@ class EditForms {
       if (child.nodeType !== Node.TEXT_NODE) return
       fragment.appendChild(createEditBox(child))
     })
-    return _.createForm([], [addTNForm, fragment], 'edit_form')
+    return this._.createForm([], [addTNForm, fragment], 'edit_form')
   }
 
   blockQuoteForm(node) {
-    const target = _.getNode(node)
-    const citeLb = _.createLabel('Cite', 'edit_cite', ['form-label'])
-    const citeIp = _.createInput('', ['form-control'], 'edit_cite', {
+    const target = this._.getNode(node)
+    const citeLb = this._.createLabel('Cite', 'edit_cite', ['form-label'])
+    const citeIp = this._.createInput('', ['form-control'], 'edit_cite', {
       value: target.cite,
     })
-    const contentLb = _.createLabel('Content', 'edit_content', ['form-label'])
-    const contentIp = _.createInput('', ['form-control'], 'edit_content', {
+    const contentLb = this._.createLabel('Content', 'edit_content', [
+      'form-label',
+    ])
+    const contentIp = this._.createInput('', ['form-control'], 'edit_content', {
       value: target.textContent,
     })
-    const updateBtn = _.createButton(
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
-      function () {
+      () => {
         target.cite = citeIp.value
         target.textContent = contentIp.value
       }
     )
-    return _.createForm(
+    return this._.createForm(
       [],
       [citeLb, citeIp, contentLb, contentIp, updateBtn],
       'edit_form'
@@ -233,4 +267,4 @@ class EditForms {
   }
 }
 
-export default () => new EditForms()
+export default (doc) => new EditForms(doc)

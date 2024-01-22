@@ -1,8 +1,10 @@
+'use strict'
+
 import Alert from '../alert.js'
 import Document from '../dom/index.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
 

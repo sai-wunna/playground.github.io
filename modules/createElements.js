@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from './dom/index.js'
 import Alert from './alert.js'
 import DeployElement from './cefHelpers/deployElement.js'
@@ -25,9 +27,10 @@ const element_form_box = _.getNode('.element-form')
 const isInsertBefore = _.getNodeById('beforeOrAfter')
 
 const validator = Validator()
-const alert = Alert()
-const forms = CEF()
-const deploy = new DeployElement(
+const alert = Alert(_)
+const forms = CEF(_)
+const deploy = DeployElement(
+  _,
   addNewStack,
   addTableStack,
   addListStack,
@@ -176,3 +179,5 @@ _.on('click', add_element_btn, (e) => {
 })
 // initialize
 element_form_box.appendChild(forms.createBlockForm())
+
+export default 'create forms joined'

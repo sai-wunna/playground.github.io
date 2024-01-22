@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from './dom/index.js'
 import { selectedNode } from './stackTree.js'
 import Validator from './validators/index.js'
@@ -6,9 +8,9 @@ import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
+const editForms = EditForms(_)
 const validator = Validator()
-const editForms = EditForms()
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
 const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
 
@@ -40,3 +42,5 @@ _.on('click', removeEditFormBtn, (e) => {
   lockBtn(removeEditFormBtn, 1000)
   _.getNodeById('edit_form')?.remove()
 })
+
+export default 'edit forms joined'

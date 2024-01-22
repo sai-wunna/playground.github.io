@@ -1,34 +1,29 @@
+'use strict'
 import Document from './dom/index.js'
 import { pointOutTheEle, selectedNode } from './stackTree.js'
 import Alert from './alert.js'
 import {
-  createBackgroundForm,
-  createBorderAndOutlinesForm,
-  createPositionForm,
-  createSizingForm,
-  createTypographyForm,
-  createDisplayForm,
-  createMiscellaneousForm,
-  createAnimationForm,
   unitSelectors,
+  StylerBoxCreator,
 } from './stylesHelpers/stylerBoxCreator.js'
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
 import { buildCss } from './stylesHelpers/buildCss.js'
+import {
+  changePredStyle,
+  predefinedStyles,
+} from './stylesHelpers/predefinedStyles.js'
+import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 import {
   createAnimationsBox,
   createClassNamesBox,
   createPredefinedStylesBox,
   createTargetStyleInfoBox,
 } from './stylesHelpers/styleInfoBoxes.js'
-import {
-  changePredStyle,
-  predefinedStyles,
-} from './stylesHelpers/predefinedStyles.js'
-import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
+const stylerBoxCreator = new StylerBoxCreator(_, changeAppliedStyes)
 
 const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
@@ -38,53 +33,79 @@ const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
 const save_styles_btn = _.getNodeById('save_media_styles')
 
 let isStyleChanged = false
-const sizingBox = createSizingForm()
-let positionBox
-let typographyBox
-let backgroundBox
-let bNOBox
-let miscellaneousBox
-let displayBox
-let animationBox
 
-_.on('change', stylesBoxChooser, (e) => {
-  const type = e.target.value
-  let box
+function handleStylerBoxes() {
+  const sizingBox = stylerBoxCreator.createSizingForm()
+  let positionBox
+  let typographyBox
+  let backgroundBox
+  let bNOBox
+  let miscellaneousBox
+  let displayBox
+  let animationBox
 
-  switch (type) {
-    case 'sizing':
-      box = sizingBox
-      break
-    case 'position':
-      box = positionBox ||= createPositionForm()
-      break
-    case 'typography':
-      box = typographyBox ||= createTypographyForm()
-      break
-    case 'background':
-      box = backgroundBox ||= createBackgroundForm()
-      break
-    case 'border_n_outlines':
-      box = bNOBox ||= createBorderAndOutlinesForm()
-      break
-    case 'display':
-      box = displayBox ||= createDisplayForm()
-      break
-    case 'animation':
-      animationBox ||= createAnimationForm()
-      const select = animationBox.querySelector('#cs_ani_name')
-      select.innerHTML = ''
-      for (const [animation, _] in Object.entries(animations)) {
-        _.createOption(select, animation, animation)
-      }
-      box = animationBox
-      break
-    default:
-      box = miscellaneousBox ||= createMiscellaneousForm()
+  _.appendChildrenTo(stylesBoxHolder, [unitSelectors, sizingBox])
+
+  return (e) => {
+    const type = e.target.value
+    let box
+
+    switch (type) {
+      case 'sizing':
+        box = sizingBox
+        break
+      case 'position':
+        box = positionBox ||= stylerBoxCreator.createPositionForm()
+        break
+      case 'typography':
+        box = typographyBox ||= stylerBoxCreator.createTypographyForm()
+        break
+      case 'background':
+        box = backgroundBox ||= stylerBoxCreator.createBackgroundForm()
+        break
+      case 'border_n_outlines':
+        box = bNOBox ||= stylerBoxCreator.createBorderAndOutlinesForm()
+        break
+      case 'display':
+        box = displayBox ||= stylerBoxCreator.createDisplayForm()
+        break
+      case 'animation':
+        animationBox ||= stylerBoxCreator.createAnimationForm()
+        const select = animationBox.querySelector('#cs_ani_name')
+        select.innerHTML = ''
+        for (const animation in animations) {
+          _.createOption(select, animation, animation)
+        }
+        box = animationBox
+        break
+      default:
+        box = miscellaneousBox ||= stylerBoxCreator.createMiscellaneousForm()
+    }
+    _.getNode('.styler-box').replaceWith(box)
   }
-  _.getNode('.styler-box').replaceWith(box)
-})
+}
 
+const handleBoxChange = handleStylerBoxes()
+
+_.on('change', stylesBoxChooser, (e) => handleBoxChange(e))
+
+// styler box end
+
+function appliedLatestStyles(animations, predefined, classNames, customStyles) {
+  _.getNodeById('my_styles').textContent = buildCss(
+    animations,
+    predefined,
+    classNames,
+    customStyles
+  )
+  save_styles_btn.textContent = '. Done .'
+  let timerId = setTimeout(() => {
+    save_styles_btn.textContent = 'apply all'
+    save_styles_btn.disabled = false
+  }, 1000)
+  pointOutTheEle(selectedNode)
+  return () => clearTimeout(timerId)
+}
 _.on('click', save_styles_btn, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
@@ -96,8 +117,6 @@ _.on('click', save_styles_btn, (e) => {
   save_styles_btn.textContent = 'Applying .'
   appliedLatestStyles(animations, predefinedStyles, classNames, customStyles)
 })
-
-// ----------- for styling mode
 
 _.on('change', switch_css_mode_chooser, (e) => {
   e.preventDefault()
@@ -112,6 +131,7 @@ _.on('change', switch_css_mode_chooser, (e) => {
     createClassNamesBox()
   }
 })
+// ----------- styling mode end
 
 function changeAppliedStyes(key, value) {
   const mode = switch_css_mode_chooser.value
@@ -156,24 +176,4 @@ function changeAppliedStyes(key, value) {
   isStyleChanged = true
 }
 
-function appliedLatestStyles(animations, predefined, classNames, customStyles) {
-  _.getNodeById('my_styles').textContent = buildCss(
-    animations,
-    predefined,
-    classNames,
-    customStyles
-  )
-  save_styles_btn.textContent = '. Done .'
-  let timerId = setTimeout(() => {
-    save_styles_btn.textContent = 'apply all'
-    save_styles_btn.disabled = false
-  }, 1000)
-  pointOutTheEle(selectedNode)
-  return () => clearTimeout(timerId)
-}
-
-// initial load to page ___________
-_.appendChildrenTo(stylesBoxHolder, [unitSelectors, sizingBox])
-createTargetStyleInfoBox('#app')
-
-export { changeAppliedStyes }
+export default 'styler joined'

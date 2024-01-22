@@ -1,3 +1,4 @@
+'use strict'
 import Alert from './alert.js'
 import Document from './dom/index.js'
 import { lockBtn } from './helpers/lockBtn.js'
@@ -16,7 +17,7 @@ import { buildCss } from './stylesHelpers/buildCss.js'
 import Validators from './validators/index.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 const validator = Validators()
 
 let app

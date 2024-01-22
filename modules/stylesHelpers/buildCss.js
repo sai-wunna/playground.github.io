@@ -1,3 +1,5 @@
+'use strict'
+
 // { name : { general : { standard : { color : red }}}}
 
 function convertToKeyFrames(animations) {

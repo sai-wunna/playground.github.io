@@ -1,10 +1,12 @@
+'use strict'
+
 import Document from './dom/index.js'
 import Alert from './alert.js'
 import downloadJSON from './builderHelpers/buildJSON.js'
 import downloadWeb from './builderHelpers/buildWeb.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 
 // download form -------------
 

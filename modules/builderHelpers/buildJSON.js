@@ -1,3 +1,5 @@
+'use strict'
+
 import Document from '../dom/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'
 import { classNames } from '../stylesHelpers/classNameStyles .js'

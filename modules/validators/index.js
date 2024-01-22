@@ -1,3 +1,5 @@
+'use strict'
+
 // iti = invalidTextInputList / ual => unAppend-ableList
 class Validator {
   iti = [

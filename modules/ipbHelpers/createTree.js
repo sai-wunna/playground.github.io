@@ -1,11 +1,11 @@
+'use strict'
+
 import Document from '../dom/index.js'
 import Alert from '../alert.js'
-import Random from '../random/index.js'
 import { removeNode, selectNode } from '../stackTree.js'
 
-const random = Random()
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 
 function createTableController(data) {
   const {

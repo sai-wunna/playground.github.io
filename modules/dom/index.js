@@ -1,6 +1,8 @@
+'use strict'
+
 class Doc {
-  constructor() {
-    this._ = document
+  constructor(doc = document) {
+    this._ = doc
   }
 
   getNode(node) {
@@ -94,6 +96,7 @@ class Doc {
     })
     return fragment
   }
+
   createInput(type, classList = [], id, options = {}, event, fn, ...args) {
     const input = this.createNode('input')
     input.type = type || 'text'
@@ -637,4 +640,4 @@ class Doc {
   }
 }
 
-export default () => new Doc()
+export default (doc) => new Doc(doc)

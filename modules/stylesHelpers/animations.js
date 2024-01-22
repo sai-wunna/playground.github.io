@@ -1,8 +1,10 @@
+'use strict'
+
 import Alert from '../alert.js'
 import Document from '../dom/index.js'
 
 const _ = Document()
-const alert = Alert()
+const alert = Alert(_)
 
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}

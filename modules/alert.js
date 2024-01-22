@@ -1,5 +1,4 @@
-import Document from './dom/index.js'
-const _ = Document()
+'use strict'
 
 class Alert {
   #alertMessages = {
@@ -23,16 +22,22 @@ class Alert {
   #wrapper
   #progressLoader
 
-  constructor(countLimit = 3) {
+  constructor(doc, countLimit = 3) {
+    this._ = doc
     this.#countLimit = countLimit
-    this.#wrapper = _.getNode('#wrapper')
-    this.#progressLoader = _.createElement('div', '', ['progress-alert'], [])
+    this.#wrapper = this._.getNode('#wrapper')
+    this.#progressLoader = this._.createElement(
+      'div',
+      '',
+      ['progress-alert'],
+      []
+    )
   }
 
   alertMe(type = 'invalid', period = 3000) {
     if (this.#currentCount >= this.#countLimit) return
     this.#currentCount += 1
-    const alertBox = _.createElement('div', this.#alertMessages[type], [
+    const alertBox = this._.createElement('div', this.#alertMessages[type], [
       'custom-alert-box',
     ])
     this.#wrapper.appendChild(alertBox)
@@ -71,4 +76,4 @@ class Alert {
   }
 }
 
-export default (countLimit) => new Alert(countLimit)
+export default (doc, countLimit) => new Alert(doc, countLimit)
