@@ -1,12 +1,20 @@
 'use strict'
+import Alert from './alert.js'
+import document from './dom/index.js'
 
-import cef from './createElements.js'
-import editors from './editElements.js'
-import navigators from './navs.js'
-import stylers from './stylers.js'
+const alert = Alert(document())
 
-console.log(stylers)
-console.log(editors)
-console.log(cef)
-console.log(navigators)
+;(async () => {
+  alert.__start('Loading')
+  const cef = await import('./createElements.js')
+  const editors = await import('./editElements.js')
+  const navigators = await import('./navs.js')
+  const stylers = await import('./stylers.js')
+  console.log(stylers.default)
+  console.log(editors.default)
+  console.log(cef.default)
+  console.log(navigators.default)
+  alert.__end('Ready to go')
+})()
+
 console.log('%cHello World', 'color: blue; font-size: 32px;')

@@ -49,17 +49,17 @@ class Validator {
   }
   isInvalidInsertFile(data) {
     // roughly
-    if (!(data.tree || data.styles || data.info)) {
+    if (!(data.tree && data.styles && data.info)) {
       return true
     }
 
     const { tree, styles } = data
     if (
       !(
-        tree.attrs.id === 'app' ||
-        styles.classNames ||
-        styles.customStyles ||
-        styles.animations ||
+        tree.attrs.id === 'app' &&
+        styles.classNames &&
+        styles.customStyles &&
+        styles.animations &&
         styles.predefinedStyles
       )
     ) {

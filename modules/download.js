@@ -2,8 +2,8 @@
 
 import Document from './dom/index.js'
 import Alert from './alert.js'
-import downloadJSON from './builderHelpers/buildJSON.js'
-import downloadWeb from './builderHelpers/buildWeb.js'
+import downloadJSON from './downloadHelpers/buildJSON.js'
+import downloadWeb from './downloadHelpers/buildWeb.js'
 
 const _ = Document()
 const alert = Alert(_)
@@ -31,9 +31,6 @@ function downloadForm() {
     '',
     ['download-form'],
     [
-      _.createButton('', ['btn', 'btn-close', 'float-end'], '', (e) =>
-        e.target.parentElement.remove()
-      ),
       _.createLabel('Title Of The Website', 'title_of_web', ['form-label']),
       titleIp,
       _.createLabel('Something about Your Website', 'about_of_web', [

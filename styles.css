@@ -37,7 +37,7 @@
 
 .form-label {
   display: block;
-  width: 50%;
+  width: 100%;
   margin-bottom: 0.5rem;
 }
 
@@ -152,7 +152,9 @@
 .mx-1 {
   margin: 0 5px;
 }
-
+.m-1 {
+  margin: 5px;
+}
 .d-none {
   display: none;
 }
@@ -179,12 +181,26 @@
 
 /* bootstrap's css -----------------------______________________--------------- */
 
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #575757;
+}
+
 body {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  scrollbar-width: thin;
 }
 
 #wrapper {
@@ -200,7 +216,7 @@ body {
   z-index: 3000;
   top: -42px;
   right: 0;
-  background-color: rgb(149, 149, 185);
+  background-color: rgb(89, 89, 111);
   padding: 10px 20px;
   transition: top 0.3s ease-in-out;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.403);
@@ -289,6 +305,18 @@ body {
 /* opened condition */
 .open-tools-wrapper {
   display: block;
+}
+.styling-config-wrapper {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  min-width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 .styler-tools-wrapper h5 {
   margin: 5px 10px;

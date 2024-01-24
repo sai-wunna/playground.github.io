@@ -1,7 +1,8 @@
 'use strict'
+
 import Document from './dom/index.js'
-import { pointOutTheEle, selectedNode } from './stackTree.js'
 import Alert from './alert.js'
+import { pointOutTheEle, selectedNode } from './stackTree.js'
 import {
   unitSelectors,
   StylerBoxCreator,
@@ -20,6 +21,8 @@ import {
   createPredefinedStylesBox,
   createTargetStyleInfoBox,
 } from './stylesHelpers/styleInfoBoxes.js'
+import { lockBtn } from './helpers/lockBtn.js'
+import { createConfigureBox } from './stylesHelpers/configStyling.js'
 
 const _ = Document()
 const alert = Alert(_)
@@ -29,8 +32,10 @@ const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
 const media_chooser = _.getNodeById('style_screen_chooser')
 const pseudo_class_chooser = _.getNodeById('style_pseudo_class_chooser')
+const pseudo_effect_on = _.getNodeById('pseudo_effect_on')
 const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
 const save_styles_btn = _.getNodeById('save_media_styles')
+const styles_config_btn = _.getNodeById('styles_config_btn')
 
 let isStyleChanged = false
 
@@ -175,5 +180,15 @@ function changeAppliedStyes(key, value) {
   }
   isStyleChanged = true
 }
+// configure media-queries( && styling for more to come --)
+_.on('click', styles_config_btn, (e) => {
+  e.preventDefault()
+  lockBtn(styles_config_btn)
+  if (_.getNode('.styling-config-wrapper')) {
+    _.getNode('.styling-config-wrapper').remove()
+  } else {
+    _.appendChild(createConfigureBox())
+  }
+})
 
 export default 'styler joined'

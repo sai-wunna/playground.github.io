@@ -1,6 +1,6 @@
 'use strict'
 
-// { name : { general : { standard : { color : red }}}}
+import { mediaQueries } from './configStyling.js  '
 
 function convertToKeyFrames(animations) {
   let keyFrames = ''
@@ -91,10 +91,10 @@ function buildCss(animations, predefined, classNames, customStyles) {
   )
   stylesString += `${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
   if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: 769px) and (max-width: 1024px){${cnMdStyles}${cusMdStyles}} `
+    stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
   }
   if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: 1025px){${cnLgStyles}${cusLgStyles}}`
+    stylesString += `@media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}${cusLgStyles}}`
   }
   return stylesString
 }
@@ -133,10 +133,10 @@ function buildProductionCss(animations, predefined, classNames, customStyles) {
   )
   stylesString += `body{scroll-behavior : smooth;margin : 0;padding:0;box-sizing:border-box;overflow-x : hidden;}${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
   if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: 769px) and (max-width: 1024px){${cnMdStyles}${cusMdStyles}} `
+    stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
   }
   if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: 1025px){${cnLgStyles}${cusLgStyles}}`
+    stylesString += `@media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}${cusLgStyles}}`
   }
   return stylesString
 }
