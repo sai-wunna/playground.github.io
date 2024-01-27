@@ -13,7 +13,12 @@ import { insertCustomStyles } from './stylesHelpers/customStyles.js'
 import { insertClassNames } from './stylesHelpers/classNameStyles .js'
 import { insertPredefinedStyles } from './stylesHelpers/predefinedStyles.js'
 import { buildApp, buildElementTree } from './ipbHelpers/createTree.js'
-import { buildCss } from './stylesHelpers/buildCss.js'
+import {
+  buildAnimationCssString,
+  buildClassNamesString,
+  buildCustomStylesString,
+  buildPredefinedStylesString,
+} from './stylesHelpers/buildCss.js'
 import Validators from './validators/index.js'
 
 const _ = Document()
@@ -102,16 +107,26 @@ _.on('click', confirmInsertBtn, async (e) => {
   _.getNodeById('app_wrapper').replaceChild(app, oldApp)
   oldTree.appendChild(controllerTree)
 
-  insertAnimation(styles.animations)
-  insertClassNames(styles.classNames)
-  insertCustomStyles(styles.customStyles)
-  insertPredefinedStyles(styles.predefinedStyles)
-  _.getNodeById('my_styles').textContent = await buildCss(
-    styles.animations,
-    styles.predefinedStyles,
-    styles.classNames,
-    styles.customStyles
+  const { animations, classNames, customStyles, predefinedStyles } = styles
+
+  insertAnimation(animations)
+  insertClassNames(classNames)
+  insertCustomStyles(customStyles)
+  insertPredefinedStyles(predefinedStyles)
+
+  _.getNodeById('my_animations').textContent = await buildAnimationCssString(
+    animations
   )
+
+  _.getNodeById('my_predefined_styles').textContent =
+    await buildPredefinedStylesString(predefinedStyles)
+
+  _.getNodeById('my_custom_styles').textContent = await buildCustomStylesString(
+    customStyles
+  )
+
+  _.getNodeById('my_className_styles').textContent =
+    await buildClassNamesString(classNames)
 
   app = controllerTree = styles = null
   confirmInsertBtn.textContent = '- - - - - - - -'

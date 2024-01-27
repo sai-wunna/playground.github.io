@@ -22,7 +22,7 @@ function convertToCustomCss(styles, production = '') {
   let generalStyles = ''
   let mediumStyles = ''
   let largeStyles = ''
-  const prefix = production ? '.' : ''
+  const prefix = production ? '.' : '#app_wrapper '
 
   for (const [owner, ownerStyles] of Object.entries(styles)) {
     for (const [media, mediaStyles] of Object.entries(ownerStyles)) {
@@ -142,24 +142,27 @@ function convertToPredCss(styles) {
   return css
 }
 
-async function buildCss(animations, predefined, classNames, customStyles) {
-  let stylesString = ''
-  const keyFrames = await convertToKeyFrames(animations)
-  const predefinedStyles = await convertToPredCss(predefined)
+async function buildAnimationCssString(animations) {
+  return await convertToKeyFrames(animations)
+}
+
+async function buildPredefinedStylesString(predefinedStyles) {
+  return await convertToPredCss(predefinedStyles)
+}
+
+async function buildCustomStylesString(customStyles) {
   const [cusGrlStyles, cusMdStyles, cusLgStyles] = await convertToCustomCss(
     customStyles
   )
-  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(classNames)
-  stylesString += `${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
-  if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
-  }
-  if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}${cusLgStyles}}`
-  }
-  return stylesString
+  return `${cusGrlStyles} @media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cusMdStyles}} @media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cusLgStyles}}`
 }
 
+async function buildClassNamesString(classNames) {
+  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(classNames)
+  return `${cnGrlStyles} @media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}} @media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}}`
+}
+
+/// for production ---------------------------- start ----
 function convertToPredProductionCss(styles) {
   let css = ''
 
@@ -207,4 +210,10 @@ async function buildProductionCss(
   return stylesString
 }
 
-export { buildCss, buildProductionCss }
+export {
+  buildAnimationCssString,
+  buildClassNamesString,
+  buildCustomStylesString,
+  buildPredefinedStylesString,
+  buildProductionCss,
+}

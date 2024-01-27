@@ -9,7 +9,12 @@ import {
 } from './stylesHelpers/stylerBoxCreator.js'
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
-import { buildCss } from './stylesHelpers/buildCss.js'
+import {
+  buildAnimationCssString,
+  buildClassNamesString,
+  buildCustomStylesString,
+  buildPredefinedStylesString,
+} from './stylesHelpers/buildCss.js'
 import {
   changePredStyle,
   predefinedStyles,
@@ -38,7 +43,16 @@ const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
 const save_styles_btn = _.getNodeById('save_media_styles')
 const styles_config_btn = _.getNodeById('styles_config_btn')
 
+const animationStyleTag = _.getNodeById('my_animations')
+const predefinedStyleTag = _.getNodeById('my_predefined_styles')
+const customStyleTag = _.getNodeById('my_custom_styles')
+const classNameStyleTag = _.getNodeById('my_className_styles')
+
 let isStyleChanged = false
+let isAnimationChanged = false
+let isPredefinedStylesChanged = false
+let isCustomStylesChanged = false
+let isClassNamesChanged = false
 
 function handleStylerBoxes() {
   const sizingBox = stylerBoxCreator.createSizingForm()
@@ -97,18 +111,29 @@ _.on('change', stylesBoxChooser, (e) => handleBoxChange(e))
 
 // styler box end
 
-async function appliedLatestStyles(
-  animations,
-  predefined,
-  classNames,
-  customStyles
-) {
-  _.getNodeById('my_styles').textContent = await buildCss(
-    animations,
-    predefined,
-    classNames,
-    customStyles
-  )
+async function appliedLatestStyles() {
+  if (isAnimationChanged) {
+    animationStyleTag.textContent = await buildAnimationCssString(animations)
+    isAnimationChanged = false // flag not to update
+  }
+
+  if (isPredefinedStylesChanged) {
+    predefinedStyleTag.textContent = await buildPredefinedStylesString(
+      predefinedStyles
+    )
+    isPredefinedStylesChanged = false // flag not to update
+  }
+
+  if (isCustomStylesChanged) {
+    customStyleTag.textContent = await buildCustomStylesString(customStyles)
+    isCustomStylesChanged = false // flag not to update
+  }
+
+  if (isClassNamesChanged) {
+    classNameStyleTag.textContent = await buildClassNamesString(classNames)
+    isClassNamesChanged = false // flag not to update
+  }
+
   save_styles_btn.textContent = '. Done .'
   let timerId = setTimeout(() => {
     save_styles_btn.textContent = 'apply all'
@@ -117,6 +142,7 @@ async function appliedLatestStyles(
   pointOutTheEle(selectedNode)
   return () => clearTimeout(timerId)
 }
+
 _.on('click', save_styles_btn, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
@@ -126,7 +152,7 @@ _.on('click', save_styles_btn, (e) => {
   save_styles_btn.disabled = true
   isStyleChanged = false
   save_styles_btn.textContent = 'Applying .'
-  appliedLatestStyles(animations, predefinedStyles, classNames, customStyles)
+  appliedLatestStyles()
 })
 
 _.on('change', switch_css_mode_chooser, (e) => {
@@ -171,11 +197,14 @@ function changeAppliedStyes(key, value) {
       key,
       value
     )
+    isAnimationChanged = true // flag to update
   } else if (mode === 'normal') {
     saveCusStyle(selectedNode, media, condition, key, value)
+    isCustomStylesChanged = true // flag to update
   } else if (mode === 'predefined') {
     const ele = _.getNodeById('predefined_element').value
     changePredStyle(ele, condition, key, value)
+    isPredefinedStylesChanged = true // flag to update
   } else {
     const name = _.getNodeById('class_name_list').value
     const interceptor = pseudo_effect_on.value || 'self'
@@ -191,9 +220,11 @@ function changeAppliedStyes(key, value) {
       return
     }
     saveCNStyle(name, media, condition, consumer, key, value)
+    isClassNamesChanged = true // flag to update
   }
   isStyleChanged = true
 }
+
 // configure media-queries( && styling for more to come --)
 _.on('click', styles_config_btn, (e) => {
   e.preventDefault()
