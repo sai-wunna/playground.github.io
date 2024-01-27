@@ -19,6 +19,7 @@ const _ = Document()
 const alert = Alert(_)
 
 function createTargetStyleInfoBox(selectedNode) {
+  const target = _.getNode(selectedNode)
   const styleInfoHolder = _.getNode('.styled-info')
 
   _.getNodeById('switch_css_mode')[0].selected = true
@@ -48,13 +49,13 @@ function createTargetStyleInfoBox(selectedNode) {
           '',
           function (e) {
             e.target.parentElement.remove()
-            _.getNode(selectedNode).classList.remove(name)
+            target.classList.remove(name)
           }
         ),
       ]
     )
   }
-  const appliedClassList = _.getNode(selectedNode).className.split(' ')
+  const appliedClassList = target.className.split(' ')
   const classListFrag = _.createFragment()
   appliedClassList.forEach((cn) => {
     if (!cn) return
@@ -78,7 +79,6 @@ function createTargetStyleInfoBox(selectedNode) {
                 alert.alertMe('noAvailableCN')
                 return
               }
-              const target = _.getNode(selectedNode)
               if (target.classList.contains(name)) return
               target.classList.add(name)
               _.getNode('.applied-classlist').appendChild(
@@ -92,7 +92,7 @@ function createTargetStyleInfoBox(selectedNode) {
       ]
     )
   }
-  box.appendChild(createClassListBox())
+  box.insertBefore(createClassListBox(), box.firstChild)
   styleInfoHolder.replaceChild(box, styleInfoHolder.lastChild)
 }
 

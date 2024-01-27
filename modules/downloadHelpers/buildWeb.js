@@ -15,7 +15,7 @@ function buildWeb(author, about, title, styles, app) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="created on playground" /><meta name="author" content="${author}"/><meta name="description" content="${about}" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`
 }
 
-function buildWebProduction() {
+async function buildWebProduction() {
   const app = _.getNodeById('app').cloneNode(true)
 
   const appWrapper = _.createElement('', '', [], [app])
@@ -56,7 +56,7 @@ function buildWebProduction() {
     }
   })
 
-  const styles = buildProductionCss(
+  const styles = await buildProductionCss(
     animations,
     predefinedStyles,
     modifiedClassnames,
@@ -66,8 +66,8 @@ function buildWebProduction() {
   return { styles, app: app.outerHTML }
 }
 
-function downloadWeb(author, about, title) {
-  const { styles, app } = buildWebProduction()
+async function downloadWeb(author, about, title) {
+  const { styles, app } = await buildWebProduction()
   const content = buildWeb(author, about, title, styles, app)
 
   const fileName = `web_${title.split(' ').join('_')}`

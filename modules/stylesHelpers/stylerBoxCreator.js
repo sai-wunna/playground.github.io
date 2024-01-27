@@ -11,10 +11,9 @@ import KeyValueExtractor from './helper/keyValueExtractor.js'
 
 class StylerBoxCreator {
   #changeAppliedStyes
-  #_
   #calStylesData
   constructor(doc, changeAppliedStyes) {
-    this.#_ = doc
+    this._ = doc
     this.#changeAppliedStyes = changeAppliedStyes.bind(this)
     this.#calStylesData = new KeyValueExtractor(
       doc,
@@ -36,13 +35,13 @@ class StylerBoxCreator {
   // padding / padding-top / padding-bottom / padding-right / padding-left / padding-auto / padding in px-%-em
 
   createSizingForm() {
-    const widthBox = this.#_.createElement(
+    const widthBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Width', 'cs_width', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Width', 'cs_width', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_width',
@@ -57,13 +56,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const minWidthBox = this.#_.createElement(
+    const minWidthBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Min-Width', 'cs_min_width', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Min-Width', 'cs_min_width', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_min_width',
@@ -77,13 +76,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const maxWidthBox = this.#_.createElement(
+    const maxWidthBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Max-Width', 'cs_max_width', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Max-Width', 'cs_max_width', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_max_width',
@@ -97,13 +96,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const autoWidthBox = this.#_.createElement(
+    const autoWidthBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Width Auto !', 'cs_auto_width', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Width Auto !', 'cs_auto_width', ['cs-label']),
+        this._.createInput(
           'checkbox',
           ['cs-checkbox'],
           'cs_auto_width',
@@ -114,13 +113,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const heightBox = this.#_.createElement(
+    const heightBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Height', 'cs_height', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Height', 'cs_height', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_height',
@@ -134,13 +133,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const minHeightBox = this.#_.createElement(
+    const minHeightBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Min-Height', 'cs_min_height', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Min-Height', 'cs_min_height', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_min_height',
@@ -154,13 +153,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const maxHeightBox = this.#_.createElement(
+    const maxHeightBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Max-Height', 'cs_max_height', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Max-Height', 'cs_max_height', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_max_height',
@@ -174,13 +173,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const autoHeightBox = this.#_.createElement(
+    const autoHeightBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Height Auto !', 'cs_auto_height', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Height Auto !', 'cs_auto_height', ['cs-label']),
+        this._.createInput(
           'checkbox',
           ['cs-checkbox'],
           'cs_auto_height',
@@ -191,13 +190,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const boxSizingBox = this.#_.createElement(
+    const boxSizingBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Box sizing', 'cs_bs', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Box sizing', 'cs_bs', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -212,7 +211,7 @@ class StylerBoxCreator {
     // gap
     let cs_gap_x_ip
     let cs_gap_y_ip
-    cs_gap_y_ip = this.#_.createInput(
+    cs_gap_y_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       'cs_gap_y',
@@ -226,7 +225,7 @@ class StylerBoxCreator {
         )
       }
     )
-    cs_gap_x_ip = this.#_.createInput(
+    cs_gap_x_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       'cs_gap_x',
@@ -239,14 +238,32 @@ class StylerBoxCreator {
         )
       }
     )
-    const gapBox = this.#_.createElement(
+    const gapBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
-      [this.#_.createLabel('Gap', '', ['cs-label']), cs_gap_y_ip, cs_gap_x_ip]
+      [this._.createLabel('Gap', '', ['cs-label']), cs_gap_y_ip, cs_gap_x_ip]
     )
     // margin
-    const cs_margin_side_s = this.#_.createSelect(
+    let cs_margin_t_ip, cs_margin_r_ip, cs_margin_b_ip, cs_margin_l_ip
+    const createMarginIp = () =>
+      this._.createInput('number', ['cs-num-input'], '', '', '', () =>
+        this.#changeStyle(
+          'margin',
+          this.#calStylesData.calMinimizeFourInputs(
+            cs_margin_t_ip.value || 0,
+            cs_margin_r_ip.value || 0,
+            cs_margin_b_ip.value || 0,
+            cs_margin_l_ip.value || 0
+          )
+        )
+      )
+    cs_margin_t_ip = createMarginIp()
+    cs_margin_r_ip = createMarginIp()
+    cs_margin_l_ip = createMarginIp()
+    cs_margin_b_ip = createMarginIp()
+    // some margin input styles
+    const cs_margin_side_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -260,32 +277,64 @@ class StylerBoxCreator {
       ],
       'cs_margin_side'
     )
-    const marginBox = this.#_.createElement(
+    const marginBox = this._.createElement(
       '',
       '',
-      ['cs-ip-gp'],
+      ['cs-lg-gp'],
       [
-        this.#_.createLabel('Margin', 'cs_margin', ['cs-label']),
-        cs_margin_side_s,
-        this.#_.createInput(
-          'number',
-          ['cs-num-input'],
-          'cs_margin',
+        this._.createElement(
           '',
           '',
-          (e) => {
-            this.#changeStyle(
-              ...this.#calStylesData.calMarginValue(
-                cs_margin_side_s.value,
-                `${e.target.value}${unitOne.value}`
-              )
-            )
-          }
+          ['cs-ip-gp'],
+          [
+            this._.createLabel('Margin', 'cs_margin', ['cs-label']),
+            cs_margin_side_s,
+            this._.createInput(
+              'number',
+              ['cs-num-input'],
+              'cs_margin',
+              '',
+              '',
+              (e) => {
+                this.#changeStyle(
+                  ...this.#calStylesData.calMarginValue(
+                    cs_margin_side_s.value,
+                    `${e.target.value}${unitOne.value}`
+                  )
+                )
+              }
+            ),
+          ]
+        ),
+        this._.createElement(
+          '',
+          '',
+          ['cs-ip-gp'],
+          [cs_margin_t_ip, cs_margin_r_ip, cs_margin_b_ip, cs_margin_l_ip]
         ),
       ]
     )
+
     // padding
-    const cs_padding_side_s = this.#_.createSelect(
+    let cs_padding_t_ip, cs_padding_r_ip, cs_padding_b_ip, cs_padding_l_ip
+    const createPaddingInput = () =>
+      this._.createInput('number', ['cs-num-input'], '', '', '', (e) => {
+        this.#changeStyle(
+          'padding',
+          this.#calStylesData.calMinimizeFourInputs(
+            cs_padding_t_ip.value || 0,
+            cs_padding_r_ip.value || 0,
+            cs_padding_b_ip.value || 0,
+            cs_padding_l_ip.value || 0
+          )
+        )
+      })
+    cs_padding_t_ip = createPaddingInput()
+    cs_padding_r_ip = createPaddingInput()
+    cs_padding_b_ip = createPaddingInput()
+    cs_padding_l_ip = createPaddingInput()
+    // some padding usages
+    const cs_padding_side_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -299,38 +348,52 @@ class StylerBoxCreator {
       ],
       'cs_padding_side'
     )
-    const paddingBox = this.#_.createElement(
+    const paddingBox = this._.createElement(
       '',
       '',
-      ['cs-ip-gp'],
+      ['cs-lg-gp'],
       [
-        this.#_.createLabel('Padding', 'cs_padding', ['cs-label']),
-        cs_padding_side_s,
-        this.#_.createInput(
-          'number',
-          ['cs-num-input'],
-          'cs_padding',
+        this._.createElement(
           '',
           '',
-          (e) => {
-            this.#changeStyle(
-              ...this.#calStylesData.calPaddingValue(
-                cs_padding_side_s.value,
-                `${e.target.value}${unitOne.value}`
-              )
-            )
-          }
+          ['cs-ip-gp'],
+          [
+            this._.createLabel('Padding', 'cs_padding', ['cs-label']),
+            cs_padding_side_s,
+            this._.createInput(
+              'number',
+              ['cs-num-input'],
+              'cs_padding',
+              '',
+              '',
+              (e) => {
+                this.#changeStyle(
+                  ...this.#calStylesData.calPaddingValue(
+                    cs_padding_side_s.value,
+                    `${e.target.value}${unitOne.value}`
+                  )
+                )
+              }
+            ),
+          ]
+        ),
+        this._.createElement(
+          '',
+          '',
+          ['cs-ip-gp'],
+          [cs_padding_t_ip, cs_padding_r_ip, cs_padding_b_ip, cs_padding_l_ip]
         ),
       ]
     )
+
     // object fit
-    const objectFitBox = this.#_.createElement(
+    const objectFitBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Object-fit', 'cs_obj_fit', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Object-fit', 'cs_obj_fit', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -345,7 +408,7 @@ class StylerBoxCreator {
         ),
       ]
     )
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -374,13 +437,13 @@ class StylerBoxCreator {
   // overflow (visible, hidden,  auto , scroll ) / overflow-x / overflow-y
 
   createPositionForm() {
-    const positionBox = this.#_.createElement(
+    const positionBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Position', 'cs_position', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Position', 'cs_position', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -396,13 +459,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const floatBox = this.#_.createElement(
+    const floatBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Float', 'cs_float', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Float', 'cs_float', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -418,7 +481,7 @@ class StylerBoxCreator {
       ]
     )
     // top left . . .
-    const cs_distance_s = this.#_.createSelect(
+    const cs_distance_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -429,14 +492,14 @@ class StylerBoxCreator {
       ],
       'cs_distance_side'
     )
-    const distanceBox = this.#_.createElement(
+    const distanceBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Distance', 'cs_distance', ['cs-label']),
+        this._.createLabel('Distance', 'cs_distance', ['cs-label']),
         cs_distance_s,
-        this.#_.createInput(
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_distance',
@@ -450,24 +513,24 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const zIndexBox = this.#_.createElement(
+    const zIndexBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Z-index', 'cs_zIndex', ['cs-label']),
-        this.#_.createInput('number', ['cs-select'], 'cs_zIndex', '', '', (e) =>
+        this._.createLabel('Z-index', 'cs_zIndex', ['cs-label']),
+        this._.createInput('number', ['cs-select'], 'cs_zIndex', '', '', (e) =>
           this.#changeStyle('z-index', parseInt(e.target.value))
         ),
       ]
     )
-    const zIndexAutoBox = this.#_.createElement(
+    const zIndexAutoBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Z-index Auto', 'cs_zIndex_auto', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Z-index Auto', 'cs_zIndex_auto', ['cs-label']),
+        this._.createInput(
           'checkbox',
           ['cs-checkbox'],
           'cs_zIndex_auto',
@@ -478,7 +541,7 @@ class StylerBoxCreator {
       ]
     )
     // overflow
-    const cs_overflow_s = this.#_.createSelect(
+    const cs_overflow_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -488,14 +551,14 @@ class StylerBoxCreator {
       ],
       'cs_overflow'
     )
-    const overFlowBox = this.#_.createElement(
+    const overFlowBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Over-Flow', 'cs_overflow', ['cs-label']),
+        this._.createLabel('Over-Flow', 'cs_overflow', ['cs-label']),
         cs_overflow_s,
-        this.#_.createSelect(
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -512,7 +575,7 @@ class StylerBoxCreator {
     // transform
     const transformListForm = (type) => {
       const removeBtn = (key) => {
-        return this.#_.createButton(
+        return this._.createButton(
           'Del',
           ['inline-btn', 'text-danger'],
           '',
@@ -524,19 +587,19 @@ class StylerBoxCreator {
         )
       }
       if (type === 'translate') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Translate', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Translate', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-translate-value'],
               '',
               { value: '-50' }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-translate-value'],
               '',
@@ -546,13 +609,13 @@ class StylerBoxCreator {
           ]
         )
       } else if (type === 'rotate') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Rotate', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Rotate', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-rotate-value'],
               '',
@@ -564,13 +627,13 @@ class StylerBoxCreator {
           ]
         )
       } else if (type === 'scale') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Scale', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Scale', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-scale-value'],
               '',
@@ -578,7 +641,7 @@ class StylerBoxCreator {
                 value: 1.1,
               }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-scale-value'],
               '',
@@ -590,13 +653,13 @@ class StylerBoxCreator {
           ]
         )
       } else if (type === 'skew') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Skew', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Skew', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-skew-value'],
               '',
@@ -604,7 +667,7 @@ class StylerBoxCreator {
                 value: 45,
               }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-skew-value'],
               '',
@@ -616,13 +679,13 @@ class StylerBoxCreator {
           ]
         )
       } else if (type === 'perspective') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Perspective', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Perspective', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-pov-value'],
               '',
@@ -634,25 +697,25 @@ class StylerBoxCreator {
           ]
         )
       } else if (type === 'rotate3d') {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Rotate 3D', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Rotate 3D', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-rotate3d-value'],
               '',
               { value: 10 }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-rotate3d-value'],
               '',
               { value: 30 }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-rotate3d-value'],
               '',
@@ -662,25 +725,25 @@ class StylerBoxCreator {
           ]
         )
       } else {
-        return this.#_.createElement(
+        return this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Translate 3D', '', ['cs-label']),
-            this.#_.createInput(
+            this._.createLabel('Translate 3D', '', ['cs-label']),
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-translate3d-value'],
               '',
               { value: 10 }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-translate3d-value'],
               '',
               { value: 30 }
             ),
-            this.#_.createInput(
+            this._.createInput(
               'number',
               ['cs-num-input', 'cs-trans-translate3d-value'],
               '',
@@ -692,18 +755,18 @@ class StylerBoxCreator {
       }
     }
     let transformList = ['translate']
-    const transformBox = this.#_.createElement(
+    const transformBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Transform', '', ['cs-label']),
-            this.#_.createSelect(
+            this._.createLabel('Transform', '', ['cs-label']),
+            this._.createSelect(
               ['cs-select'],
               '',
               [
@@ -717,12 +780,12 @@ class StylerBoxCreator {
               ],
               'cs_transform_type'
             ),
-            this.#_.createButton(
+            this._.createButton(
               'Add',
               ['inline-btn', 'text-primary'],
               '',
               (e) => {
-                const key = this.#_.getNodeById('cs_transform_type').value
+                const key = this._.getNodeById('cs_transform_type').value
                 if (transformList.findIndex((one) => one === key) !== -1) return
                 transformList.push(key)
                 e.target.parentElement.parentElement.appendChild(
@@ -730,7 +793,7 @@ class StylerBoxCreator {
                 )
               }
             ),
-            this.#_.createButton(
+            this._.createButton(
               'Set Values',
               ['inline-btn', 'text-primary'],
               '',
@@ -747,7 +810,7 @@ class StylerBoxCreator {
       ],
       'transform_box'
     )
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -767,13 +830,13 @@ class StylerBoxCreator {
   // font-family / font-size / font-style / font-weight
   // line-height / letter-spacing / color / text-decoration / text-align / text-shadow
   createTypographyForm() {
-    const fontSizeBox = this.#_.createElement(
+    const fontSizeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Font-size', 'cs_font_size', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Font-size', 'cs_font_size', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_font_size',
@@ -784,13 +847,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const fontFamilyBox = this.#_.createElement(
+    const fontFamilyBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Font-family', 'cs_font_family', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Font-family', 'cs_font_family', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -811,13 +874,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const fontStyleBox = this.#_.createElement(
+    const fontStyleBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Font-style', 'cs_font_style', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Font-style', 'cs_font_style', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -830,13 +893,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const fontWeightBox = this.#_.createElement(
+    const fontWeightBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Font-weight', 'cs_font_weight', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Font-weight', 'cs_font_weight', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_font_weight',
@@ -846,13 +909,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const lineHeightBox = this.#_.createElement(
+    const lineHeightBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Line-height', 'cs_line_height', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Line-height', 'cs_line_height', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_line_height',
@@ -866,15 +929,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const letterSpacingBox = this.#_.createElement(
+    const letterSpacingBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Letter Spacing', 'cs_letter_spacing', [
-          'cs-label',
-        ]),
-        this.#_.createInput(
+        this._.createLabel('Letter Spacing', 'cs_letter_spacing', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_letter_spacing',
@@ -888,13 +949,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const colorBox = this.#_.createElement(
+    const colorBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Color', 'cs_color', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Color', 'cs_color', ['cs-label']),
+        this._.createInput(
           'color',
           ['cs-color-input'],
           'cs_color',
@@ -904,13 +965,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const textDecoBox = this.#_.createElement(
+    const textDecoBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Text Decoration', 'cs_text_deco', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Text Decoration', 'cs_text_deco', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -924,7 +985,7 @@ class StylerBoxCreator {
     )
     // text decoration
     let cs_text_ul_color_ip
-    let cs_text_ul_type_s = this.#_.createSelect(
+    let cs_text_ul_type_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -942,18 +1003,18 @@ class StylerBoxCreator {
         )
       }
     )
-    const decoTypeBox = this.#_.createElement(
+    const decoTypeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Text Decoration Types', 'cs_underline_type', [
+        this._.createLabel('Text Decoration Types', 'cs_underline_type', [
           'cs-label',
         ]),
         cs_text_ul_type_s,
       ]
     )
-    cs_text_ul_color_ip = this.#_.createInput(
+    cs_text_ul_color_ip = this._.createInput(
       'color',
       ['cs-color-input'],
       'cs_underline_color',
@@ -969,25 +1030,25 @@ class StylerBoxCreator {
         )
       }
     )
-    const decoColorBox = this.#_.createElement(
+    const decoColorBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Text Decoration Color', 'cs_underline_color', [
+        this._.createLabel('Text Decoration Color', 'cs_underline_color', [
           'cs-label',
         ]),
         cs_text_ul_color_ip,
       ]
     )
     // align
-    const textAlignBox = this.#_.createElement(
+    const textAlignBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Text align', 'cs_text_align', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Text align', 'cs_text_align', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1001,13 +1062,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const textIndentBox = this.#_.createElement(
+    const textIndentBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Text Indent', 'cs_text_idt', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_text_idt',
@@ -1021,13 +1082,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const writingModeBox = this.#_.createElement(
+    const writingModeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Writing Mode', 'cs_writing_mode', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Writing Mode', 'cs_writing_mode', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1042,12 +1103,12 @@ class StylerBoxCreator {
     )
     // text-shadow
     const createTextShadowValue = () => {
-      return this.#_.createElement(
+      return this._.createElement(
         '',
         '',
         ['cs-ip-gp'],
         [
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-xo'],
             '',
@@ -1059,7 +1120,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calTextShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-yo'],
             '',
@@ -1071,7 +1132,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calTextShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-blur'],
             '',
@@ -1083,7 +1144,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calTextShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'color',
             ['cs-color-input', 'cs-ts-color'],
             '',
@@ -1095,7 +1156,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calTextShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-alpha'],
             '',
@@ -1111,20 +1172,20 @@ class StylerBoxCreator {
         ]
       )
     }
-    const textShadowBox = this.#_.createElement(
+    const textShadowBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Text-Shadow', '', ['cs-label']),
-            this.#_.createButton('Add', ['inline-btn'], '', (e) => {
+            this._.createLabel('Text-Shadow', '', ['cs-label']),
+            this._.createButton('Add', ['inline-btn'], '', (e) => {
               e.preventDefault()
-              if (this.#_.getAllNodes('.cs-ts-xo').length > 2) return
+              if (this._.getAllNodes('.cs-ts-xo').length > 2) return
               e.target.parentElement.parentElement.appendChild(
                 createTextShadowValue()
               )
@@ -1134,7 +1195,7 @@ class StylerBoxCreator {
         createTextShadowValue(),
       ]
     )
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -1164,7 +1225,7 @@ class StylerBoxCreator {
   createBackgroundForm() {
     let cs_bg_color_ip
     let cs_opacity_ip
-    cs_bg_color_ip = this.#_.createInput(
+    cs_bg_color_ip = this._.createInput(
       'color',
       ['cs-color-input'],
       'cs_background',
@@ -1180,7 +1241,7 @@ class StylerBoxCreator {
         )
       }
     )
-    cs_opacity_ip = this.#_.createInput(
+    cs_opacity_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       'cs_bg_opacity',
@@ -1196,18 +1257,18 @@ class StylerBoxCreator {
         )
       }
     )
-    const bgBox = this.#_.createElement(
+    const bgBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Background', 'cs_background', ['cs-label']),
+        this._.createLabel('Background', 'cs_background', ['cs-label']),
         cs_bg_color_ip,
         cs_opacity_ip,
       ]
     )
     // gradient
-    const cs_bg_type_s = this.#_.createSelect(
+    const cs_bg_type_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1216,7 +1277,7 @@ class StylerBoxCreator {
       ],
       'cs_bg_type'
     )
-    const cs_bg_gradient_deg_ip = this.#_.createInput(
+    const cs_bg_gradient_deg_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       'cs_grd_deg',
@@ -1231,13 +1292,13 @@ class StylerBoxCreator {
           'background',
           this.#calStylesData.calGrdValue(
             cs_bg_type_s.value,
-            this.#_.getAllNodes('.bg-grd-color'),
+            this._.getAllNodes('.bg-grd-color'),
             e.target.value
           )
         )
     )
     const createGrdColorIp = () => {
-      return this.#_.createInput(
+      return this._.createInput(
         'color',
         ['cs-color-input', 'bg-grd-color'],
         '',
@@ -1250,18 +1311,18 @@ class StylerBoxCreator {
             'background',
             this.#calStylesData.calGrdValue(
               cs_bg_type_s.value,
-              this.#_.getAllNodes('.bg-grd-color'),
+              this._.getAllNodes('.bg-grd-color'),
               cs_bg_gradient_deg_ip.value
             )
           )
       )
     }
-    const bgGradientBox = this.#_.createElement(
+    const bgGradientBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Gradient', 'cs_bg_type', ['cs-label']),
+        this._.createLabel('Gradient', 'cs_bg_type', ['cs-label']),
         cs_bg_type_s,
         cs_bg_gradient_deg_ip,
         createGrdColorIp(),
@@ -1270,13 +1331,13 @@ class StylerBoxCreator {
       ]
     )
     // bg image
-    const bgImgBox = this.#_.createElement(
+    const bgImgBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Image', 'cs_bg_img', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Background Image', 'cs_bg_img', ['cs-label']),
+        this._.createInput(
           '',
           ['cs-text-input'],
           'cs_bg_img',
@@ -1286,13 +1347,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgSizeBox = this.#_.createElement(
+    const bgSizeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Size', 'cs_bg_size', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Background Size', 'cs_bg_size', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_bg_size',
@@ -1306,17 +1367,15 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgSizeAutoBox = this.#_.createElement(
+    const bgSizeAutoBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel(
-          'Background Size ( predefined )',
-          'cs_bg_size_pre',
-          ['cs-label']
-        ),
-        this.#_.createSelect(
+        this._.createLabel('Background Size ( predefined )', 'cs_bg_size_pre', [
+          'cs-label',
+        ]),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1329,13 +1388,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgRepeatBox = this.#_.createElement(
+    const bgRepeatBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Repeat', 'cs_bg_rp', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Background Repeat', 'cs_bg_rp', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1351,13 +1410,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgPositionBox = this.#_.createElement(
+    const bgPositionBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Position', 'cs_bg_pst', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Background Position', 'cs_bg_pst', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1376,13 +1435,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgClipBox = this.#_.createElement(
+    const bgClipBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Clip', 'cs_bg_clip', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Background Clip', 'cs_bg_clip', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1405,15 +1464,15 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const bgAttachmentBox = this.#_.createElement(
+    const bgAttachmentBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Background Attachment', 'cs_bg_attach', [
+        this._.createLabel('Background Attachment', 'cs_bg_attach', [
           'cs-label',
         ]),
-        this.#_.createSelect(
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1429,7 +1488,7 @@ class StylerBoxCreator {
       ]
     )
 
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -1458,7 +1517,7 @@ class StylerBoxCreator {
 
   createBorderAndOutlinesForm() {
     //  here boo is border or outline
-    let cs_boo_type_s = this.#_.createSelect(
+    let cs_boo_type_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1467,7 +1526,7 @@ class StylerBoxCreator {
       ],
       'cs_bOOChooser',
       (e) =>
-        (this.#_.getNodeById('bOOChooser').textContent =
+        (this._.getNodeById('bOOChooser').textContent =
           e.target.value.toUpperCase())
     )
     let cs_boo_color_ip
@@ -1475,12 +1534,12 @@ class StylerBoxCreator {
     let cs_boo_width_ip
     let cs_boo_side_s
 
-    const bOOBox = this.#_.createElement(
+    const bOOBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel(
+        this._.createLabel(
           'BORDER',
           'cs_bOOChooser',
           ['cs-label'],
@@ -1489,7 +1548,7 @@ class StylerBoxCreator {
         cs_boo_type_s,
       ]
     )
-    cs_boo_width_ip = this.#_.createInput(
+    cs_boo_width_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       'cs_boo_width',
@@ -1506,16 +1565,16 @@ class StylerBoxCreator {
         this.#changeStyle(key, value)
       }
     )
-    const bOOWidthBox = this.#_.createElement(
+    const bOOWidthBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Width', 'cs_boo_width', ['cs-label']),
+        this._.createLabel('Width', 'cs_boo_width', ['cs-label']),
         cs_boo_width_ip,
       ]
     )
-    cs_boo_style_s = this.#_.createSelect(
+    cs_boo_style_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1537,16 +1596,13 @@ class StylerBoxCreator {
         this.#changeStyle(key, value)
       }
     )
-    const bOOTypeBox = this.#_.createElement(
+    const bOOTypeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
-      [
-        this.#_.createLabel('Style', 'cs_boo_type', ['cs-label']),
-        cs_boo_style_s,
-      ]
+      [this._.createLabel('Style', 'cs_boo_type', ['cs-label']), cs_boo_style_s]
     )
-    cs_boo_color_ip = this.#_.createInput(
+    cs_boo_color_ip = this._.createInput(
       'color',
       ['cs-color-input'],
       'cs_boo_color',
@@ -1563,16 +1619,16 @@ class StylerBoxCreator {
         this.#changeStyle(key, value)
       }
     )
-    const bOOColorBox = this.#_.createElement(
+    const bOOColorBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Color', 'cs_boo_color', ['cs-label']),
+        this._.createLabel('Color', 'cs_boo_color', ['cs-label']),
         cs_boo_color_ip,
       ]
     )
-    cs_boo_side_s = this.#_.createSelect(
+    cs_boo_side_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1584,20 +1640,20 @@ class StylerBoxCreator {
       ],
       'cs_boo_side'
     )
-    const bOOSideBox = this.#_.createElement(
+    const bOOSideBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
-      [this.#_.createLabel('Side', 'cs_boo_side', ['cs-label']), cs_boo_side_s]
+      [this._.createLabel('Side', 'cs_boo_side', ['cs-label']), cs_boo_side_s]
     )
     // remove boo
-    const rmBorderBox = this.#_.createElement(
+    const rmBorderBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Remove border', 'cs_rm_border', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Remove border', 'cs_rm_border', ['cs-label']),
+        this._.createInput(
           'checkbox',
           ['cs-checkbox'],
           'cs_rm_border',
@@ -1608,13 +1664,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const rmOutlineBox = this.#_.createElement(
+    const rmOutlineBox = this._.createElement(
       '',
       '',
       ['cs-cb-gp'],
       [
-        this.#_.createLabel('Remove outline', 'cs_rm_outline', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Remove outline', 'cs_rm_outline', ['cs-label']),
+        this._.createInput(
           'checkbox',
           ['cs-checkbox'],
           'cs_rm_outline',
@@ -1634,14 +1690,14 @@ class StylerBoxCreator {
     let cs_border_radius_3_ip
     let cs_border_radius_4_ip
     const createBRIp = () => {
-      return this.#_.createInput('number', ['cs-num-input'], '', '', '', () => {
+      return this._.createInput('number', ['cs-num-input'], '', '', '', () => {
         const r1 = cs_border_radius_1_ip.value || 0
         const r2 = cs_border_radius_2_ip.value || 0
         const r3 = cs_border_radius_3_ip.value || 0
         const r4 = cs_border_radius_4_ip.value || 0
         this.#changeStyle(
           'border-radius',
-          this.#calStylesData.calBorderRadius(r1, r2, r3, r4)
+          this.#calStylesData.calMinimizeFourInputs(r1, r2, r3, r4)
         )
       })
     }
@@ -1649,13 +1705,47 @@ class StylerBoxCreator {
     cs_border_radius_2_ip = createBRIp()
     cs_border_radius_3_ip = createBRIp()
     cs_border_radius_4_ip = createBRIp()
-    const borderRadiusBox = this.#_.createElement(
+    // some common usages
+    const borderRadiusSideS = this._.createSelect(['cs-select'], '', [
+      { value: 'top-left', text: 'Top-left' },
+      { value: 'top-right', text: 'Top-Right' },
+      { value: 'bottom-right', text: 'Bottom-Right' },
+      { value: 'bottom-left', text: 'Bottom-Left' },
+    ])
+    const borderRadiusBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createLabel('Border Radius', '', ['cs-label']),
-        this.#_.createElement(
+        this._.createElement(
+          '',
+          '',
+          ['cs-lg-gp'],
+          [
+            this._.createLabel('Border Radius', '', ['cs-label']),
+            this._.createElement(
+              '',
+              '',
+              ['cs-ip-gp'],
+              [
+                borderRadiusSideS,
+                this._.createInput(
+                  'number',
+                  ['cs-num-input'],
+                  'cs_border_radius',
+                  '',
+                  '',
+                  (e) =>
+                    this.#changeStyle(
+                      `border-${borderRadiusSideS.value}-radius`,
+                      `${e.target.value}${unitOne.value}`
+                    )
+                ),
+              ]
+            ),
+          ]
+        ),
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
@@ -1668,7 +1758,8 @@ class StylerBoxCreator {
         ),
       ]
     )
-    return this.#_.createElement(
+
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -1693,13 +1784,13 @@ class StylerBoxCreator {
   // backdrop-filter ( blur , invert , sepia )
 
   createMiscellaneousForm() {
-    const opacityBox = this.#_.createElement(
+    const opacityBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Opacity 0 - 10', 'cs_opacity', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Opacity 0 - 10', 'cs_opacity', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_opacity',
@@ -1713,13 +1804,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const visibilityBox = this.#_.createElement(
+    const visibilityBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Visibility', 'cs_visibility', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Visibility', 'cs_visibility', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1732,13 +1823,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const cursorBox = this.#_.createElement(
+    const cursorBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Cursor', 'cs_cursor', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Cursor', 'cs_cursor', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1748,6 +1839,7 @@ class StylerBoxCreator {
             { value: 'not-allowed', text: 'Not-allowed' },
             { value: 'zoom-in', text: 'Zoom-in' },
             { value: 'grab', text: 'Grab' },
+            { value: 'pointer', text: 'Pointer' },
           ],
           'cs_cursor',
           (e) => this.#changeStyle('cursor', e.target.value)
@@ -1755,7 +1847,7 @@ class StylerBoxCreator {
       ]
     )
     // backdrop
-    const cs_bd_filter_type_s = this.#_.createSelect(
+    const cs_bd_filter_type_s = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1765,14 +1857,14 @@ class StylerBoxCreator {
       ],
       'cs_bd_filter_tp'
     )
-    const backdropFilterBox = this.#_.createElement(
+    const backdropFilterBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Backdrop Filter', 'cs_bd_filter', ['cs-label']),
+        this._.createLabel('Backdrop Filter', 'cs_bd_filter', ['cs-label']),
         cs_bd_filter_type_s,
-        this.#_.createInput(
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_bd_filter',
@@ -1789,7 +1881,7 @@ class StylerBoxCreator {
       ]
     )
     // filter
-    const cs_filter_tp = this.#_.createSelect(
+    const cs_filter_tp = this._.createSelect(
       ['cs-select'],
       '',
       [
@@ -1806,14 +1898,14 @@ class StylerBoxCreator {
       ],
       'cs_filter_tp'
     )
-    const filterBox = this.#_.createElement(
+    const filterBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Filter', 'cs_filter', ['cs-label']),
+        this._.createLabel('Filter', 'cs_filter', ['cs-label']),
         cs_filter_tp,
-        this.#_.createInput(
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_filter',
@@ -1829,15 +1921,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const scrollBehaviorBox = this.#_.createElement(
+    const scrollBehaviorBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Scroll-behavior', 'cs_scroll_behave', [
-          'cs-label',
-        ]),
-        this.#_.createSelect(
+        this._.createLabel('Scroll-behavior', 'cs_scroll_behave', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -1851,16 +1941,16 @@ class StylerBoxCreator {
     )
     // box shadow
     const boxShadowValueForm = () => {
-      return this.#_.createElement(
+      return this._.createElement(
         '',
         '',
         ['cs-ip-gp'],
         [
-          this.#_.createSelect(['cs-select', 'cs-bs-type'], '', [
+          this._.createSelect(['cs-select', 'cs-bs-type'], '', [
             { value: '', text: 'Out' },
             { value: 'inset', text: 'Inset' },
           ]),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-bs-xo'],
             '',
@@ -1872,7 +1962,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calBoxShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-bs-yo'],
             '',
@@ -1884,7 +1974,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calBoxShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-bs-blur'],
             '',
@@ -1896,7 +1986,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calBoxShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-bs-spr'],
             '',
@@ -1908,7 +1998,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calBoxShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'color',
             ['cs-color-input', 'cs-bs-color'],
             '',
@@ -1920,7 +2010,7 @@ class StylerBoxCreator {
                 this.#calStylesData.calBoxShadowValue()
               )
           ),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-bs-alpha'],
             '',
@@ -1936,23 +2026,23 @@ class StylerBoxCreator {
         ]
       )
     }
-    const boxShadowBox = this.#_.createElement(
+    const boxShadowBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Box-Shadow', '', ['cs-label']),
-            this.#_.createButton(
+            this._.createLabel('Box-Shadow', '', ['cs-label']),
+            this._.createButton(
               'Add',
               ['inline-btn', 'text-primary'],
               '',
               (e) => {
-                if (this.#_.getAllNodes('.cs-bs-type').length > 2) return
+                if (this._.getAllNodes('.cs-bs-type').length > 2) return
                 e.target.parentElement.parentElement.appendChild(
                   boxShadowValueForm()
                 )
@@ -1960,22 +2050,22 @@ class StylerBoxCreator {
             ),
           ]
         ),
-        this.#_.createElement('', '', ['cs-ip-gp']),
+        this._.createElement('', '', ['cs-ip-gp']),
         boxShadowValueForm(),
       ]
     )
     // transition
 
     const transitionValuesForm = () => {
-      return this.#_.createElement(
+      return this._.createElement(
         '',
         '',
         ['cs-ip-gp'],
         [
-          this.#_.createInput('', ['cs-text-input', 'cs-trans-name'], '', {
+          this._.createInput('', ['cs-text-input', 'cs-trans-name'], '', {
             value: 'opacity',
           }),
-          this.#_.createInput(
+          this._.createInput(
             'number',
             ['cs-num-input', 'cs-trans-prd'],
             '',
@@ -1985,12 +2075,12 @@ class StylerBoxCreator {
               this.#changeStyle(
                 'transition',
                 this.#calStylesData.calTransitionValues(
-                  this.#_.getAllNodes('.cs-trans-prd'),
-                  this.#_.getAllNodes('.cs-trans-ef')
+                  this._.getAllNodes('.cs-trans-prd'),
+                  this._.getAllNodes('.cs-trans-ef')
                 )
               )
           ),
-          this.#_.createSelect(
+          this._.createSelect(
             ['cs-select', 'cs-trans-ef'],
             '',
             [
@@ -2025,8 +2115,8 @@ class StylerBoxCreator {
               this.#changeStyle(
                 'transition',
                 this.#calStylesData.calTransitionValues(
-                  this.#_.getAllNodes('.cs-trans-prd'),
-                  this.#_.getAllNodes('.cs-trans-ef')
+                  this._.getAllNodes('.cs-trans-prd'),
+                  this._.getAllNodes('.cs-trans-ef')
                 )
               )
           ),
@@ -2034,23 +2124,23 @@ class StylerBoxCreator {
         ]
       )
     }
-    const transitionBox = this.#_.createElement(
+    const transitionBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Transition', '', ['cs-label']),
-            this.#_.createButton(
+            this._.createLabel('Transition', '', ['cs-label']),
+            this._.createButton(
               'Add',
               ['inline-btn', 'text-primary'],
               '',
               (e) => {
-                if (this.#_.getAllNodes('.cs-trans-name').length > 2) return
+                if (this._.getAllNodes('.cs-trans-name').length > 2) return
                 e.target.parentElement.parentElement.appendChild(
                   transitionValuesForm()
                 )
@@ -2062,20 +2152,20 @@ class StylerBoxCreator {
       ],
       'transition_box'
     )
-    const customStyleKey = this.#_.createInput('', ['cs-text-input'], '', {
+    const customStyleKey = this._.createInput('', ['cs-text-input'], '', {
       required: true,
     })
-    const customStyleValue = this.#_.createInput('', ['cs-text-input'], '', {
+    const customStyleValue = this._.createInput('', ['cs-text-input'], '', {
       required: true,
     })
-    const customStyleInput = this.#_.createElement(
+    const customStyleInput = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
         customStyleKey,
         customStyleValue,
-        this.#_.createButton(
+        this._.createButton(
           'Set custom style',
           ['btn', 'btn-sm', 'text-primary'],
           '',
@@ -2088,7 +2178,7 @@ class StylerBoxCreator {
         ),
       ]
     )
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -2114,13 +2204,13 @@ class StylerBoxCreator {
 
   // ---- grid ------------- need to make familiar update----------- //
   createDisplayForm() {
-    const displayBox = this.#_.createElement(
+    const displayBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Display', 'cs_display', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Display', 'cs_display', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2136,29 +2226,24 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const flexBox = this.#_.createElement(
+    const flexBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Flex', 'cs_flex', ['cs-label']),
-        this.#_.createInput(
-          'number',
-          ['cs-num-input'],
-          'cs_flex',
-          '',
-          '',
-          (e) => this.#changeStyle('flex', parseInt(e.target.value))
+        this._.createLabel('Flex', 'cs_flex', ['cs-label']),
+        this._.createInput('number', ['cs-num-input'], 'cs_flex', '', '', (e) =>
+          this.#changeStyle('flex', parseInt(e.target.value))
         ),
       ]
     )
-    const flexDirectionBox = this.#_.createElement(
+    const flexDirectionBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Flex Direction', 'cs_flex_dir', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Flex Direction', 'cs_flex_dir', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2172,13 +2257,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const flexWrapBox = this.#_.createElement(
+    const flexWrapBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Flex Wrap', 'cs_flex_wrap', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Flex Wrap', 'cs_flex_wrap', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2191,13 +2276,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const justifyContentBox = this.#_.createElement(
+    const justifyContentBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Justify Content', 'cs_justify_cnt', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Justify Content', 'cs_justify_cnt', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2214,13 +2299,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const alignItemsBox = this.#_.createElement(
+    const alignItemsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Align Items', 'cs_algin_items', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Align Items', 'cs_algin_items', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2241,13 +2326,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const alignContentBox = this.#_.createElement(
+    const alignContentBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Align Content', 'cs_align_cnt', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Align Content', 'cs_align_cnt', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2269,13 +2354,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const alignSelfBox = this.#_.createElement(
+    const alignSelfBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Align-self', 'cs_align_self', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Align-self', 'cs_align_self', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2296,13 +2381,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const justifySelfBox = this.#_.createElement(
+    const justifySelfBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Justify-self', 'cs_justify_self', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Justify-self', 'cs_justify_self', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2325,15 +2410,15 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const readyGridTempColsBox = this.#_.createElement(
+    const readyGridTempColsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Grid-template-columns', 'cs_rdy_grd_temp_cols', [
+        this._.createLabel('Grid-template-columns', 'cs_rdy_grd_temp_cols', [
           'cs-label',
         ]),
-        this.#_.createSelect(
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2367,17 +2452,17 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const cusGridTempColsBox = this.#_.createElement(
+    const cusGridTempColsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel(
+        this._.createLabel(
           'Custom grid-template-columns',
           'cs_cus_grd_temp_cols',
           ['cs-label']
         ),
-        this.#_.createInput(
+        this._.createInput(
           '',
           ['cs-text-input'],
           'cs_cus_grd_temp_cols',
@@ -2387,15 +2472,15 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const readyGridTempRowsBox = this.#_.createElement(
+    const readyGridTempRowsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Grid-template-rows', 'cs_rdy_grd_temp_rows', [
+        this._.createLabel('Grid-template-rows', 'cs_rdy_grd_temp_rows', [
           'cs-label',
         ]),
-        this.#_.createSelect(
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2429,17 +2514,17 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const cusGridTempRowsBox = this.#_.createElement(
+    const cusGridTempRowsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel(
+        this._.createLabel(
           'Custom grid-template-rows',
           'cs_cus_grd_temp_rows',
           ['cs-label']
         ),
-        this.#_.createInput(
+        this._.createInput(
           '',
           ['cs-text-input'],
           'cs_cus_grd_temp_rows',
@@ -2449,15 +2534,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const readyGridColsBox = this.#_.createElement(
+    const readyGridColsBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Col & Row Set', 'cs_rdy_grd_col_row', [
-          'cs-label',
-        ]),
-        this.#_.createSelect(
+        this._.createLabel('Col & Row Set', 'cs_rdy_grd_col_row', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2500,16 +2583,16 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const cusGridColBox = this.#_.createElement(
+    const cusGridColBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Custom grid-column', 'cs_cus_grd_col', [
+        this._.createLabel('Custom grid-column', 'cs_cus_grd_col', [
           'cs-label',
         ]),
 
-        this.#_.createInput(
+        this._.createInput(
           '',
           ['cs-text-input'],
           'cs_cus_grd_col',
@@ -2519,13 +2602,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const cusGridRowBox = this.#_.createElement(
+    const cusGridRowBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Custom grid-row', 'cs_cus_grd_row', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Custom grid-row', 'cs_cus_grd_row', ['cs-label']),
+        this._.createInput(
           '',
           ['cs-text-input'],
           'cs_cus_grd_row',
@@ -2538,13 +2621,13 @@ class StylerBoxCreator {
     // grid column start
     let cs_grid_col_or_row_ip
     let cs_grid_col_or_row_c
-    const cs_grid_col_or_row_s = this.#_.createSelect(['cs-select'], '', [
+    const cs_grid_col_or_row_s = this._.createSelect(['cs-select'], '', [
       { value: 'grid-column-start', text: 'Grid-col-start' },
       { value: 'grid-column-end', text: 'Grid-col-end' },
       { value: 'grid-row-start', text: 'Grid-row-start' },
       { value: 'grid-row-end', text: 'Grid-row-end' },
     ])
-    cs_grid_col_or_row_ip = this.#_.createInput(
+    cs_grid_col_or_row_ip = this._.createInput(
       'number',
       ['cs-num-input'],
       '',
@@ -2556,7 +2639,7 @@ class StylerBoxCreator {
           `${cs_grid_col_or_row_c.checked ? 'span ' : ''}${e.target.value}`
         )
     )
-    cs_grid_col_or_row_c = this.#_.createInput(
+    cs_grid_col_or_row_c = this._.createInput(
       'checkbox',
       ['cs-checkbox'],
       'cs_grd_span',
@@ -2570,7 +2653,7 @@ class StylerBoxCreator {
           )}`
         )
     )
-    const grdColOrRowBox = this.#_.createElement(
+    const grdColOrRowBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
@@ -2578,10 +2661,10 @@ class StylerBoxCreator {
         cs_grid_col_or_row_s,
         cs_grid_col_or_row_ip,
         cs_grid_col_or_row_c,
-        this.#_.createLabel('span', 'cs_grd_span', ['cs-label']),
+        this._.createLabel('span', 'cs_grd_span', ['cs-label']),
       ]
     )
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
@@ -2608,14 +2691,30 @@ class StylerBoxCreator {
   }
 
   createAnimationForm() {
-    const aniNameBox = this.#_.createElement(
+    const aniNoneBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Name', 'cs_ani_name', ['cs-label']),
-        this.#_.createSelect(['cs-select'], '', [], 'cs_ani_name', () => {
-          const name = this.#_.getNodeById('cs_ani_name').value
+        this._.createLabel('Remove Animation', 'cs_rm_animation', ['cs-label']),
+        this._.createInput(
+          'checkbox',
+          ['cs-checkbox'],
+          'cs_rm_animation',
+          '',
+          '',
+          () => this.#changeStyle('animation', 'none')
+        ),
+      ]
+    )
+    const aniNameBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Name', 'cs_ani_name', ['cs-label']),
+        this._.createSelect(['cs-select'], '', [], 'cs_ani_name', () => {
+          const name = this._.getNodeById('cs_ani_name').value
           if (!name) return
           const value = this.#calStylesData.calAnimationValue()
           if (!value) return
@@ -2623,20 +2722,20 @@ class StylerBoxCreator {
         }),
       ]
     )
-    const aniDurationBox = this.#_.createElement(
+    const aniDurationBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Duration', 'cs_ani_duration', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Duration', 'cs_ani_duration', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_ani_duration',
           { value: 20 },
           '',
           () => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2645,15 +2744,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniTimingFnBox = this.#_.createElement(
+    const aniTimingFnBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Timing Function', 'cs_ani_timing_fn', [
-          'cs-label',
-        ]),
-        this.#_.createSelect(
+        this._.createLabel('Timing Function', 'cs_ani_timing_fn', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2667,7 +2764,7 @@ class StylerBoxCreator {
           ],
           'cs_ani_timing_fn',
           () => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2676,20 +2773,20 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniDelayBox = this.#_.createElement(
+    const aniDelayBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Delay Time', 'cs_ani_delay', ['cs-label']),
-        this.#_.createInput(
+        this._.createLabel('Delay Time', 'cs_ani_delay', ['cs-label']),
+        this._.createInput(
           'number',
           ['cs-num-input'],
           'cs_ani_delay',
           { value: '0' },
           '',
           () => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2698,15 +2795,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniIterationCountBox = this.#_.createElement(
+    const aniIterationCountBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Iteration Count', 'cs_ani_itr_count', [
-          'cs-label',
-        ]),
-        this.#_.createSelect(
+        this._.createLabel('Iteration Count', 'cs_ani_itr_count', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2718,7 +2813,7 @@ class StylerBoxCreator {
           ],
           'cs_ani_itr_count',
           (e) => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2727,13 +2822,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniDirectionBox = this.#_.createElement(
+    const aniDirectionBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Direction', 'cs_ani_direction', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Direction', 'cs_ani_direction', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2744,7 +2839,7 @@ class StylerBoxCreator {
           ],
           'cs_ani_direction',
           () => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2753,13 +2848,13 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniFillModeBox = this.#_.createElement(
+    const aniFillModeBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Fill Mode', 'cs_ani_fill_mode', ['cs-label']),
-        this.#_.createSelect(
+        this._.createLabel('Fill Mode', 'cs_ani_fill_mode', ['cs-label']),
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2770,7 +2865,7 @@ class StylerBoxCreator {
           ],
           'cs_ani_fill_mode',
           () => {
-            const name = this.#_.getNodeById('cs_ani_name').value
+            const name = this._.getNodeById('cs_ani_name').value
             if (!name) return
             const value = this.#calStylesData.calAnimationValue()
             if (!value) return
@@ -2779,15 +2874,15 @@ class StylerBoxCreator {
         ),
       ]
     )
-    const aniTimeLineScrollBox = this.#_.createElement(
+    const aniTimeLineScrollBox = this._.createElement(
       '',
       '',
       ['cs-ip-gp'],
       [
-        this.#_.createLabel('Timeline Scroll', 'cs_ani_timeLine_scroll', [
+        this._.createLabel('Timeline Scroll', 'cs_ani_timeLine_scroll', [
           'cs-label',
         ]),
-        this.#_.createSelect(
+        this._.createSelect(
           ['cs-select'],
           '',
           [
@@ -2810,20 +2905,20 @@ class StylerBoxCreator {
       ]
     )
 
-    const aniTimelineViewBox = this.#_.createElement(
+    const aniTimelineViewBox = this._.createElement(
       '',
       '',
       ['cs-lg-gp'],
       [
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Timeline View', 'cs_ani_timeline_view', [
+            this._.createLabel('Timeline View', 'cs_ani_timeline_view', [
               'cs-label',
             ]),
-            this.#_.createSelect(
+            this._.createSelect(
               ['cs-select'],
               '',
               [
@@ -2847,7 +2942,7 @@ class StylerBoxCreator {
               ],
               'cs_ani_timeline_view'
             ),
-            this.#_.createButton(
+            this._.createButton(
               'Set',
               ['inline-btn', 'text-primary'],
               '',
@@ -2860,18 +2955,18 @@ class StylerBoxCreator {
             ),
           ]
         ),
-        this.#_.createElement(
+        this._.createElement(
           '',
           '',
           ['cs-ip-gp'],
           [
-            this.#_.createLabel('Cus-1', '', ['cs-label']),
-            this.#_.createInput('number', [
+            this._.createLabel('Cus-1', '', ['cs-label']),
+            this._.createInput('number', [
               'cs-num-input',
               'ani-tl-view-arg-value',
             ]),
-            this.#_.createLabel('Cus-2', '', ['cs-label']),
-            this.#_.createInput('number', [
+            this._.createLabel('Cus-2', '', ['cs-label']),
+            this._.createInput('number', [
               'cs-num-input',
               'ani-tl-view-arg-value',
             ]),
@@ -2880,11 +2975,12 @@ class StylerBoxCreator {
       ]
     )
 
-    return this.#_.createElement(
+    return this._.createElement(
       '',
       '',
       ['styler-box'],
       [
+        aniNoneBox,
         aniNameBox,
         aniDurationBox,
         aniTimingFnBox,

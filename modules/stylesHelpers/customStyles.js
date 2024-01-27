@@ -7,7 +7,6 @@ const _ = Document()
 const customStyles = {}
 
 const mediaTypes = ['general', 'medium', 'large']
-const conditionTypes = ['standard', 'hover', 'active', 'focus']
 
 function insertCustomStyles(data) {
   for (const key in customStyles) {
@@ -20,7 +19,7 @@ function insertCustomStyles(data) {
 
 function saveCusStyle(node, media, condition, key, value) {
   if (!customStyles[node]) {
-    customStyles[`${node}`] = {
+    customStyles[node] = {
       general: { standard: {}, hover: {}, active: {}, focus: {} },
       medium: { standard: {}, hover: {}, active: {}, focus: {} },
       large: { standard: {}, hover: {}, active: {}, focus: {} },
@@ -31,16 +30,31 @@ function saveCusStyle(node, media, condition, key, value) {
   const existedNode = _.getNodeById(`${media}_${condition}_${key}_value`)
   if (existedNode) {
     existedNode.textContent = value
-    return
   } else {
-    _.getNode(`.${media}-screen-${condition}-styles`).appendChild(
-      createStyleInfo(node, media, condition, key, value)
-    )
+    const existedBox = _.getNode(`.${media}-${condition}-styles`)
+    if (existedBox) {
+      existedBox.appendChild(
+        createStyleInfo(node, media, condition, key, value)
+      )
+    } else {
+      _.getNode(`.${media}-screen-styles`).appendChild(
+        createConditionBox(
+          node,
+          media,
+          condition,
+          createStyleInfo(node, media, condition, key, value)
+        )
+      )
+    }
   }
 }
 
 function removeCusStyle(node) {
   delete customStyles[node]
+}
+
+function removeConditionStyles(node, media, condition) {
+  customStyles[node][media][condition] = {}
 }
 
 function removeCusStyleValue(node, media, condition, key) {
@@ -72,49 +86,75 @@ function createStyleInfo(node, media, condition, key, value) {
   )
 }
 
-function createCusStyleInfoShower(node) {
-  const className = customStyles[node] || {
-    general: { standard: {}, hover: {}, active: {}, focus: {} },
-    medium: { standard: {}, hover: {}, active: {}, focus: {} },
-    large: { standard: {}, hover: {}, active: {}, focus: {} },
-  }
-  const appliedStyles = _.createElement('', '', ['applied-styles'], [])
-
-  mediaTypes.forEach((mediaType) => {
-    const header = _.createHeading('h6', `${mediaType} screen size`)
-    const mediaBox = _.createElement('', '', [`${mediaType}-screen`])
-
-    conditionTypes.forEach((conditionType) => {
-      const stylesInfoBox = _.createFragment()
-      const styles = className[mediaType][conditionType]
-
-      if (Object.keys(styles).length !== 0) {
-        for (let [key, value] of Object.entries(styles)) {
-          stylesInfoBox.appendChild(
-            createStyleInfo(node, mediaType, conditionType, key, value)
-          )
+function createConditionBox(node, media, condition, styleInfoFragment) {
+  return _.createElement(
+    '',
+    '',
+    [`${media}-${condition}-styles`],
+    [
+      _.createButton(
+        'Del',
+        ['inline-btn', 'text-danger', 'float-end'],
+        '',
+        (e) => {
+          e.target.parentElement.remove()
+          removeConditionStyles(node, media, condition)
         }
-      }
-      mediaBox.appendChild(
-        _.createElement(
-          '',
-          '',
-          [`${mediaType}-screen-${conditionType}`],
-          [
-            _.createElement('', `${conditionType} -`, ['style-type-label']),
-            _.createElement(
-              '',
-              '',
-              [`${mediaType}-screen-${conditionType}-styles`],
-              [stylesInfoBox]
-            ),
-          ]
+      ),
+      _.createElement('', condition, ['style-type-label']),
+      styleInfoFragment,
+    ]
+  )
+}
+
+function createCusStyleInfoShower(node) {
+  const customStyle = customStyles[node]
+
+  if (!customStyle) {
+    return _.createElement(
+      '',
+      '',
+      ['applied-styles'],
+      [
+        ...mediaTypes.map((media) =>
+          _.createElement(
+            '',
+            '',
+            [`${media}-screen-styles`],
+            [_.createHeading('h6', `${media} Screen`)]
+          )
+        ),
+      ]
+    )
+  }
+
+  const styleFragment = _.createFragment()
+
+  mediaTypes.forEach((media) => {
+    const mediaStyles = customStyle[media]
+    const mediaStyleBox = _.createElement(
+      '',
+      '',
+      [`${media}-screen-styles`],
+      [_.createHeading('h6', `${media} Screen`)]
+    )
+    for (const [condition, conditionStyles] of Object.entries(mediaStyles)) {
+      if (Object.keys(conditionStyles).length < 1) continue
+      const conditionStyleFrag = _.createFragment()
+      for (const [key, value] of Object.entries(conditionStyles)) {
+        conditionStyleFrag.appendChild(
+          createStyleInfo(customStyle, media, condition, key, value)
         )
+      }
+      mediaStyleBox.appendChild(
+        createConditionBox(customStyle, media, condition, conditionStyleFrag)
       )
-    })
-    _.appendChildrenTo(appliedStyles, [header, mediaBox])
+    }
+
+    styleFragment.appendChild(mediaStyleBox)
   })
-  return appliedStyles
+
+  return _.createElement('', '', ['applied-styles'], [styleFragment])
 }
 
 export {

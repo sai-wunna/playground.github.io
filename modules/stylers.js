@@ -32,6 +32,7 @@ const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
 const media_chooser = _.getNodeById('style_screen_chooser')
 const pseudo_class_chooser = _.getNodeById('style_pseudo_class_chooser')
+const style_combinator = _.getNodeById('style_combinator')
 const pseudo_effect_on = _.getNodeById('pseudo_effect_on')
 const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
 const save_styles_btn = _.getNodeById('save_media_styles')
@@ -96,8 +97,13 @@ _.on('change', stylesBoxChooser, (e) => handleBoxChange(e))
 
 // styler box end
 
-function appliedLatestStyles(animations, predefined, classNames, customStyles) {
-  _.getNodeById('my_styles').textContent = buildCss(
+async function appliedLatestStyles(
+  animations,
+  predefined,
+  classNames,
+  customStyles
+) {
+  _.getNodeById('my_styles').textContent = await buildCss(
     animations,
     predefined,
     classNames,
@@ -172,11 +178,19 @@ function changeAppliedStyes(key, value) {
     changePredStyle(ele, condition, key, value)
   } else {
     const name = _.getNodeById('class_name_list').value
+    const interceptor = pseudo_effect_on.value || 'self'
+    const combinator = style_combinator.value
+    let consumer = ''
+    if (condition === 'standard' || interceptor === 'self') {
+      consumer = 'self'
+    } else {
+      consumer = `${combinator}${interceptor}`
+    }
     if (!name) {
       alert.alertMe('noSelectedCN')
       return
     }
-    saveCNStyle(name, media, condition, key, value)
+    saveCNStyle(name, media, condition, consumer, key, value)
   }
   isStyleChanged = true
 }

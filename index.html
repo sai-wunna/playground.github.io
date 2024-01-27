@@ -7,7 +7,10 @@
     <meta name="description" content="Create Web with html and css" />
     <meta name="keywords" content="basic knowledge of html and css" />
     <meta name="author" content="sai wunna" />
-    <style id="my_styles"></style>
+    <style id="my_predefined_styles"></style>
+    <style id="my_animations"></style>
+    <style id="my_className_styles"></style>
+    <style id="my_custom_styles"></style>
     <title>Playground</title>
   </head>
   <body>
@@ -90,14 +93,18 @@
               <option value="active">Active</option>
               <!-- <option value="checked">Checked</option> -->
             </select>
-            <!-- <label for="general_sibling">~</label>
-            <input type="checkbox" id="general_sibling" />
-            <label for="pseudo_effect_on">On</label> -->
-            <!-- <input
+            <select id="style_combinator">
+              <option value=" "></option>
+              <option value="+">+</option>
+              <option value="~">~</option>
+              <option value=">">></option>
+            </select>
+            <label for="pseudo_effect_on">On</label>
+            <input
               type="text"
               id="pseudo_effect_on"
               value="self"
-              title="Provide Id for effect-consumer or leave blank or self" /> -->
+              title="Provide Id for effect-consumer or leave blank or self" />
           </div>
           <button
             class="btn btn-close close-tools-wrapper"

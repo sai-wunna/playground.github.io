@@ -1,6 +1,6 @@
 'use strict'
 
-import { mediaQueries } from './configStyling.js  '
+import { mediaQueries } from './configStyling.js'
 
 function convertToKeyFrames(animations) {
   let keyFrames = ''
@@ -18,11 +18,11 @@ function convertToKeyFrames(animations) {
   return keyFrames
 }
 
-function extractMediaStyles(styles, classNames = '') {
+function convertToCustomCss(styles, production = '') {
   let generalStyles = ''
   let mediumStyles = ''
   let largeStyles = ''
-  let prefix = classNames ? '.' : ''
+  const prefix = production ? '.' : ''
 
   for (const [owner, ownerStyles] of Object.entries(styles)) {
     for (const [media, mediaStyles] of Object.entries(ownerStyles)) {
@@ -58,6 +58,69 @@ function extractMediaStyles(styles, classNames = '') {
   return [generalStyles, mediumStyles, largeStyles]
 }
 
+function convertToCNCss(classNames, production = '') {
+  let generalStyles = ''
+  let mediumStyles = ''
+  let largeStyles = ''
+
+  for (const [cn, properties] of Object.entries(classNames)) {
+    for (const [media, mediaStyles] of Object.entries(properties)) {
+      let mediaStyleString = ''
+      for (const [condition, conditionDetail] of Object.entries(mediaStyles)) {
+        let conditionStyleString = ''
+        if (condition === 'standard') {
+          // set data if only there is
+          if (Object.keys(conditionDetail).length > 0) {
+            conditionStyleString += `.${cn} {`
+            for (const [key, value] of Object.entries(conditionDetail)) {
+              conditionStyleString += `${key} : ${value};`
+            }
+            mediaStyleString += `${conditionStyleString}}`
+          }
+        } else {
+          // pseudo-classes
+          const { self: selfStyles, consumers } = conditionDetail
+          // add if self pseudo effects are there
+          if (Object.keys(selfStyles).length > 0) {
+            let selfStyleString = `.${cn}:${condition} {`
+            for (const [key, value] of Object.entries(selfStyles)) {
+              selfStyleString += `${key}:${value};`
+            }
+            conditionStyleString += `${selfStyleString}}`
+          }
+          // add other effects
+          for (const { consumer, styles: consumingStyles } of consumers) {
+            // check there is valid data
+            if (Object.keys(consumingStyles).length < 1) continue
+
+            const combinator = consumer[0]
+            const interceptor = consumer.slice(1)
+            let consumerStyleString = `.${cn}:${condition} ${combinator} .${
+              production ? interceptor.slice(4) : interceptor
+            } {`
+
+            for (const [key, value] of Object.entries(consumingStyles)) {
+              consumerStyleString += `${key}:${value};`
+            }
+
+            conditionStyleString += `${consumerStyleString}}`
+          }
+          mediaStyleString += `${conditionStyleString}`
+        }
+      }
+      if (media === 'general') {
+        generalStyles += mediaStyleString
+      } else if (media === 'medium') {
+        mediumStyles += mediaStyleString
+      } else {
+        largeStyles += mediaStyleString
+      }
+    }
+  }
+
+  return [generalStyles, mediumStyles, largeStyles]
+}
+
 function convertToPredCss(styles) {
   let css = ''
 
@@ -79,16 +142,14 @@ function convertToPredCss(styles) {
   return css
 }
 
-function buildCss(animations, predefined, classNames, customStyles) {
+async function buildCss(animations, predefined, classNames, customStyles) {
   let stylesString = ''
-  const keyFrames = convertToKeyFrames(animations)
-  const predefinedStyles = convertToPredCss(predefined)
-  const [cusGrlStyles, cusMdStyles, cusLgStyles] =
-    extractMediaStyles(customStyles)
-  const [cnGrlStyles, cnMdStyles, cnLgStyles] = extractMediaStyles(
-    classNames,
-    '_'
+  const keyFrames = await convertToKeyFrames(animations)
+  const predefinedStyles = await convertToPredCss(predefined)
+  const [cusGrlStyles, cusMdStyles, cusLgStyles] = await convertToCustomCss(
+    customStyles
   )
+  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(classNames)
   stylesString += `${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
   if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
     stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
@@ -119,15 +180,20 @@ function convertToPredProductionCss(styles) {
   return css
 }
 
-function buildProductionCss(animations, predefined, classNames, customStyles) {
+async function buildProductionCss(
+  animations,
+  predefined,
+  classNames,
+  customStyles
+) {
   let stylesString = ''
-  const keyFrames = convertToKeyFrames(animations)
-  const predefinedStyles = convertToPredProductionCss(predefined)
-  const [cusGrlStyles, cusMdStyles, cusLgStyles] = extractMediaStyles(
+  const keyFrames = await convertToKeyFrames(animations)
+  const predefinedStyles = await convertToPredProductionCss(predefined)
+  const [cusGrlStyles, cusMdStyles, cusLgStyles] = await convertToCustomCss(
     customStyles,
     '_'
   )
-  const [cnGrlStyles, cnMdStyles, cnLgStyles] = extractMediaStyles(
+  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(
     classNames,
     '_'
   )

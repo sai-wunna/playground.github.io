@@ -7,9 +7,7 @@ const _ = Document()
 const alert = Alert(_)
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
-
 const mediaTypes = ['general', 'medium', 'large']
-const conditionTypes = ['standard', 'hover', 'active', 'focus']
 
 function insertClassNames(data) {
   for (const key in classNames) {
@@ -21,36 +19,120 @@ function insertClassNames(data) {
 }
 
 function addNewClassName(name) {
+  // consumers : [ { consumer : 'prv-header' | '~prv-header' , styles : { }} ]
   classNames[name] = {
-    general: { standard: {}, hover: {}, active: {}, focus: {} },
-    medium: { standard: {}, hover: {}, active: {}, focus: {} },
-    large: { standard: {}, hover: {}, active: {}, focus: {} },
+    general: {
+      standard: {},
+      hover: { self: {}, consumers: [] },
+      active: { self: {}, consumers: [] },
+      focus: { self: {}, consumers: [] },
+    },
+    medium: {
+      standard: {},
+      hover: { self: {}, consumers: [] },
+      active: { self: {}, consumers: [] },
+      focus: { self: {}, consumers: [] },
+    },
+    large: {
+      standard: {},
+      hover: { self: {}, consumers: [] },
+      active: { self: {}, consumers: [] },
+      focus: { self: {}, consumers: [] },
+    },
   }
 }
 
-function saveCNStyle(name, media, condition, key, value) {
-  classNames[name][media][condition][key] = value
+function saveCNStyle(name, media, condition, consumer = 'self', key, value) {
+  if (condition === 'standard') {
+    classNames[name][media].standard[key] = value
+  } else {
+    if (consumer === 'self') {
+      classNames[name][media][condition].self[key] = value
+    } else {
+      if (!classNames[consumer.slice(1)] || name === consumer.slice(1)) {
+        return alert.alertMe('invalidCN')
+      }
+      const consumerIdx = classNames[name][media][
+        condition
+      ].consumers.findIndex((one) => one.consumer === consumer)
+      if (consumerIdx === -1) {
+        classNames[name][media][condition].consumers.push({
+          consumer,
+          styles: { [`${key}`]: value },
+        })
+      } else {
+        classNames[name][media][condition].consumers[consumerIdx].styles[key] =
+          value
+      }
+    }
+  }
+  // state data manipulation done
 
-  const existedNode = _.getNodeById(`${media}_${condition}_${key}_value`)
+  const existedNode = _.getNodeById(
+    `${media}_${condition}_${consumer}_${key.trim()}_value`
+  )
   if (existedNode) {
     existedNode.textContent = value
-    return
   } else {
-    _.getNode(`.${media}-screen-${condition}-styles`).appendChild(
-      createStyleInfo(name, media, condition, key, value)
+    const existedInfoBox = _.getNode(
+      `.${media}-${condition}-${consumer}-styles`
     )
+    const styleInfo = createStyleInfo(
+      name,
+      media,
+      condition,
+      consumer,
+      key,
+      value
+    )
+    if (existedInfoBox) {
+      _.getNode(`.${media}-${condition}-${consumer}-styles`).appendChild(
+        styleInfo
+      )
+    } else {
+      _.getNode(`.${media}-screen-styles`).appendChild(
+        createNewConditionStyleBox(name, media, condition, consumer, styleInfo)
+      )
+    }
   }
+}
+
+function removeConditionStyles(name, media, condition, consumer = 'self') {
+  if (condition === 'standard') {
+    classNames[name][media].standard = {}
+    return null
+  }
+  if (consumer === 'self') {
+    classNames[name][media][condition].self = {}
+    return null
+  }
+  classNames[name][media][condition].consumers = [
+    ...classNames[name][media][condition].consumers.filter(
+      (one) => one.consumer !== consumer
+    ),
+  ]
 }
 
 function removeClassName(name) {
   delete classNames[name]
 }
 
-function removeCNStyle(name, media, condition, key) {
-  delete classNames[name][media][condition][key]
+function removeSingleStyle(name, media, condition, consumer, key) {
+  if (condition === 'standard') {
+    delete classNames[name][media].standard[key]
+    return null
+  }
+  if (consumer === 'self') {
+    delete classNames[name][media][condition].self[key]
+    return null
+  }
+  const consumerIdx = classNames[name][media][condition].consumers.findIndex(
+    (one) => one.consumer === consumer
+  )
+  delete classNames[name][media][condition].consumers[consumerIdx].styles[key]
 }
 
-function createStyleInfo(name, media, condition, key, value) {
+function createStyleInfo(name, media, condition, consumer, key, value) {
   return _.createElement(
     '',
     '',
@@ -60,7 +142,7 @@ function createStyleInfo(name, media, condition, key, value) {
       _.createSpan(
         value,
         ['mx-1', 'css-value'],
-        `${media}_${condition}_${key.trim()}_value`
+        `${media}_${condition}_${consumer}_${key.trim()}_value`
       ),
       _.createButton(
         'Del',
@@ -68,56 +150,154 @@ function createStyleInfo(name, media, condition, key, value) {
         '',
         (e) => {
           e.target.parentElement.remove()
-          removeCNStyle(name, media, condition, key)
+          removeSingleStyle(name, media, condition, consumer, key)
         }
       ),
     ]
   )
 }
 
-function createCNInfoShower(cn) {
-  const className = classNames[cn] || {
-    general: { standard: {}, hover: {}, active: {}, focus: {} },
-    medium: { standard: {}, hover: {}, active: {}, focus: {} },
-    large: { standard: {}, hover: {}, active: {}, focus: {} },
+function createNewConditionStyleBox(
+  name,
+  media,
+  condition,
+  consumer,
+  styleInfoFragment
+) {
+  const styleTypeLabel =
+    condition === 'standard'
+      ? 'Standard'
+      : `${condition} ${consumer === 'self' ? '' : consumer}`
+
+  return _.createElement(
+    '',
+    '',
+    [`${media}-${condition}-${consumer}-styles`],
+    [
+      _.createButton(
+        'Del',
+        ['inline-btn', 'text-danger', 'float-end'],
+        '',
+        (e) => {
+          e.target.parentElement.remove()
+          removeConditionStyles(name, media, condition, consumer)
+        }
+      ),
+      _.createElement('', styleTypeLabel, ['style-type-label']),
+      styleInfoFragment,
+    ]
+  )
+}
+
+function createCNInfoShower(cn = '') {
+  const className = classNames[cn]
+
+  if (!className) {
+    return _.createElement(
+      '',
+      '',
+      ['applied-styles'],
+      [
+        ...mediaTypes.map((media) =>
+          _.createElement(
+            '',
+            '',
+            [`${media}-screen-styles`],
+            [_.createHeading('h6', `${media} Screen`)]
+          )
+        ),
+      ]
+    )
   }
-  const appliedStyles = _.createElement('', '', ['applied-styles'], [])
 
-  mediaTypes.forEach((mediaType) => {
-    const header = _.createHeading('h6', `${mediaType} screen size`)
-    const mediaBox = _.createElement('', '', [`${mediaType}-screen`])
+  function createConditionStyleBox(name, media, condition, consumer, styles) {
+    const fragment = _.createFragment()
 
-    conditionTypes.forEach((conditionType) => {
-      const stylesInfoFragment = _.createFragment()
-      const styles = className[mediaType][conditionType]
+    for (const [key, value] of Object.entries(styles)) {
+      fragment.appendChild(
+        createStyleInfo(name, media, condition, consumer, key, value)
+      )
+    }
 
-      if (Object.keys(styles).length !== 0) {
-        for (let [key, value] of Object.entries(styles)) {
-          stylesInfoFragment.appendChild(
-            createStyleInfo(cn, mediaType, conditionType, key, value)
+    const styleTypeLabel =
+      condition === 'standard'
+        ? 'standard'
+        : `${condition} ${consumer === 'self' ? '' : consumer}`
+
+    return _.createElement(
+      '',
+      '',
+      [`${media}-${condition}-${consumer}-styles`],
+      [
+        _.createButton(
+          'Del',
+          ['inline-btn', 'text-danger', 'float-end'],
+          '',
+          (e) => {
+            e.target.parentElement.remove()
+            removeConditionStyles(name, media, condition, consumer)
+          }
+        ),
+        _.createElement('', styleTypeLabel, ['style-type-label']),
+        fragment,
+      ]
+    )
+  }
+
+  const styleFragment = _.createFragment()
+
+  mediaTypes.forEach((media) => {
+    const mediaStyles = className[media]
+    const mediaStyleBox = _.createElement(
+      '',
+      '',
+      [`${media}-screen-styles`],
+      [_.createHeading('h6', `${media} Screen`)]
+    )
+
+    for (const [condition, conditionDetail] of Object.entries(mediaStyles)) {
+      if (condition === 'standard') {
+        if (Object.keys(conditionDetail).length > 0) {
+          mediaStyleBox.appendChild(
+            createConditionStyleBox(
+              cn,
+              media,
+              condition,
+              'self',
+              conditionDetail
+            )
+          )
+        }
+      } else {
+        if (Object.keys(conditionDetail.self).length > 0) {
+          mediaStyleBox.appendChild(
+            createConditionStyleBox(
+              cn,
+              media,
+              condition,
+              'self',
+              conditionDetail.self
+            )
+          )
+        }
+        for (const consumerDetail of conditionDetail.consumers) {
+          mediaStyleBox.appendChild(
+            createConditionStyleBox(
+              cn,
+              media,
+              condition,
+              consumerDetail.consumer,
+              consumerDetail.styles
+            )
           )
         }
       }
-      mediaBox.appendChild(
-        _.createElement(
-          '',
-          '',
-          [`${mediaType}-screen-${conditionType}`],
-          [
-            _.createElement('', `${conditionType} -`, ['style-type-label']),
-            _.createElement(
-              '',
-              '',
-              [`${mediaType}-screen-${conditionType}-styles`],
-              [stylesInfoFragment]
-            ),
-          ]
-        )
-      )
-    })
-    _.appendChildrenTo(appliedStyles, [header, mediaBox])
+    }
+
+    styleFragment.appendChild(mediaStyleBox)
   })
-  return appliedStyles
+
+  return _.createElement('', '', ['applied-styles'], [styleFragment])
 }
 
 function createCNForm() {
@@ -128,8 +308,7 @@ function createCNForm() {
     'class_name_list',
     function (e) {
       const infoBox = _.getNode('.class-names-box')
-      infoBox.lastChild.remove()
-      infoBox.appendChild(createCNInfoShower(e.target.value))
+      infoBox.lastChild.replaceWith(createCNInfoShower(e.target.value))
     }
   )
   for (let name in classNames) {
@@ -151,7 +330,7 @@ function createCNForm() {
         _.getNodeById(`${name}`).remove()
         _.getNode('.class-names-box').lastChild.remove()
         removeClassName(name)
-        if (classNames.length > 0) {
+        if (Object.keys(classNames).length > 0) {
           for (let cn in classNames) {
             _.getNode('.class-names-box').appendChild(createCNInfoShower(cn))
             break
@@ -164,11 +343,15 @@ function createCNForm() {
       _.createInput('', ['cs-text-input'], 'add_new_cn'),
       _.createButton('Add', ['inline-btn'], '', function (e) {
         let name = _.getNodeById('add_new_cn').value
-        if (!name) {
+        if (!name || !isNaN(parseInt(name[0]))) {
           alert.alertMe('invalidInput')
           return
         }
         name = `prv-${name.trim().split(' ').join('-')}`
+        if (classNames[name]) {
+          alert.alertMe('existedCN')
+          return
+        }
         addNewClassName(name)
         _.createOption(_.getNodeById('class_name_list'), name, name, name)
       }),

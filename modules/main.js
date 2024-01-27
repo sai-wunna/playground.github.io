@@ -2,7 +2,8 @@
 import Alert from './alert.js'
 import document from './dom/index.js'
 
-const alert = Alert(document())
+const _ = document()
+const alert = Alert(_)
 
 ;(async () => {
   alert.__start('Loading')
@@ -18,3 +19,9 @@ const alert = Alert(document())
 })()
 
 console.log('%cHello World', 'color: blue; font-size: 32px;')
+
+// _.on('beforeunload', window, (e) => {
+//   e.preventDefault()
+//   e.returnValue = true
+// })
+// for production only

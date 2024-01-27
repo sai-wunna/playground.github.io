@@ -326,8 +326,10 @@ body {
 .styler-tools-wrapper h6 {
   margin: 4px 0;
   font-size: 1.1rem;
-  text-align: center;
+  text-align: right;
   border-bottom: 2px solid rgb(194, 61, 61);
+  text-transform: capitalize;
+  color: #00000067;
 }
 .stylers-and-info {
   height: 90%;
@@ -446,9 +448,8 @@ body {
   background: white;
   box-sizing: border-box;
 }
-.applied-styles h6,
+
 .style-type-label {
-  text-transform: capitalize;
   color: rgb(231, 84, 58);
 }
 .style-info {
@@ -459,6 +460,7 @@ body {
 .available-class-list {
   padding: 5px;
   background-color: rgb(232, 222, 222);
+  border-bottom: 10px solid rgb(199, 217, 218);
 }
 .animation-form {
   padding: 5px;

@@ -55,7 +55,7 @@ function handleDrop(e) {
   const file = [...dt.files][0]
   if (!file) return alert.alertMe('fileOnly')
   if (file.type !== 'application/json') return alert.alertMe('notJson')
-  if (file.size > 10000) return alert.alertMe('invalidFile')
+  if (file.size > 100000) return alert.alertMe('invalidFile')
 
   const reader = new FileReader()
 
@@ -83,7 +83,7 @@ function handleDrop(e) {
 }
 // drag drop handlers ----------------- end
 
-_.on('click', confirmInsertBtn, (e) => {
+_.on('click', confirmInsertBtn, async (e) => {
   e.preventDefault()
   lockBtn(confirmInsertBtn)
   if (!app || !controllerTree || !styles) {
@@ -106,7 +106,7 @@ _.on('click', confirmInsertBtn, (e) => {
   insertClassNames(styles.classNames)
   insertCustomStyles(styles.customStyles)
   insertPredefinedStyles(styles.predefinedStyles)
-  _.getNodeById('my_styles').textContent = buildCss(
+  _.getNodeById('my_styles').textContent = await buildCss(
     styles.animations,
     styles.predefinedStyles,
     styles.classNames,

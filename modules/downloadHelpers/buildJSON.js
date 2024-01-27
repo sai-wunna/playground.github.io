@@ -33,7 +33,7 @@ function buildVDom(Node) {
   return tree
 }
 
-function downloadJSON(author, about, title) {
+async function downloadJSON(author, about, title) {
   const tree = buildVDom(_.getNodeById('app'))
   const obj = {
     tree,

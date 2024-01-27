@@ -240,13 +240,13 @@ class KeyValueExtractor {
     }
   }
 
-  calBorderRadius(r1, r2, r3, r4) {
-    if (r1 === r2 && r1 === r3 && r1 === r4) {
-      return `${r1}${this.unitOne.value}`
-    } else if (r1 === r3 && r2 === r4) {
-      return `${r1}${this.unitOne.value} ${r2}${this.unitTwo.value}`
+  calMinimizeFourInputs(i1, i2, i3, i4) {
+    if (i1 === i2 && i1 === i3 && i1 === i4) {
+      return `${i1}${this.unitOne.value}`
+    } else if (i1 === i3 && i2 === i4) {
+      return `${i1}${this.unitOne.value} ${i2}${this.unitTwo.value}`
     } else {
-      return `${r1}${this.unitOne.value} ${r2}${this.unitTwo.value} ${r3}${this.unitThree.value} ${r4}${this.unitFour.value}`
+      return `${i1}${this.unitOne.value} ${i2}${this.unitTwo.value} ${i3}${this.unitThree.value} ${i4}${this.unitFour.value}`
     }
   }
 

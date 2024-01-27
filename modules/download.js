@@ -44,7 +44,7 @@ function downloadForm() {
         '',
         ['d-flex', 'justify-content-between', 'align-items-center'],
         [
-          _.createButton('Download', ['btn', 'text-primary'], '', (e) => {
+          _.createButton('Download', ['btn', 'text-primary'], '', async (e) => {
             e.preventDefault()
             alert.__start('Building . . .')
             const title = titleIp.value || 'Beautiful Day'
@@ -52,9 +52,9 @@ function downloadForm() {
             const about =
               aboutIp.value || 'something beautiful has been born here'
             if (fileType.value === 'web') {
-              downloadWeb(author, about, title)
+              await downloadWeb(author, about, title)
             } else {
-              downloadJSON(author, about, title)
+              await downloadJSON(author, about, title)
             }
             alert.__end('* Download in progress *')
           }),
