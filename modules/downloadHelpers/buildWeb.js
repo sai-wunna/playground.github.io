@@ -1,6 +1,6 @@
 'use strict'
 
-import Document from '../dom/index.js'
+import dom from '../dom/index.js'
 import Random from '../random/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'
 import { animations } from '../stylesHelpers/animations.js'
@@ -8,7 +8,7 @@ import { classNames } from '../stylesHelpers/classNameStyles .js'
 import { predefinedStyles } from '../stylesHelpers/predefinedStyles.js'
 import { buildProductionCss } from '../stylesHelpers/buildCss.js'
 
-const _ = Document()
+const _ = dom()
 const random = Random()
 
 function buildWeb(author, about, title, styles, app) {

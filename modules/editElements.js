@@ -1,14 +1,14 @@
 'use strict'
 
-import Document from './dom/index.js'
+import dom from './dom/index.js'
 import { selectedNode } from './stackTree.js'
 import Validator from './validators/index.js'
-import Alert from './alert.js'
+import notify from './notify.js'
 import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 const editForms = EditForms(_)
 const validator = Validator()
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
@@ -19,7 +19,7 @@ _.on('click', getEditFormBtn, (e) => {
   lockBtn(getEditFormBtn, 1000)
   _.getNodeById('edit_form')?.remove()
   if (validator.isInvalidTextInput(selectedNode)) {
-    alert.alertMe('unEditable')
+    notifier.on('unEditable')
     return
   }
   let form

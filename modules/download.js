@@ -1,12 +1,12 @@
 'use strict'
 
-import Document from './dom/index.js'
-import Alert from './alert.js'
+import dom from './dom/index.js'
+import notify from './notify.js'
 import downloadJSON from './downloadHelpers/buildJSON.js'
 import downloadWeb from './downloadHelpers/buildWeb.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 
 // download form -------------
 
@@ -46,7 +46,7 @@ function downloadForm() {
         [
           _.createButton('Download', ['btn', 'text-primary'], '', async (e) => {
             e.preventDefault()
-            alert.__start('Building . . .')
+            notifier.__start('Building . . .')
             const title = titleIp.value || 'Beautiful Day'
             const author = authorIp.value || 'Anonymous'
             const about =
@@ -56,7 +56,7 @@ function downloadForm() {
             } else {
               await downloadJSON(author, about, title)
             }
-            alert.__end('* Download in progress *')
+            notifier.__end('* Download in progress *')
           }),
           fileType,
         ]

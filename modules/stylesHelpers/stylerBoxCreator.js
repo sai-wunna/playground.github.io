@@ -1717,31 +1717,24 @@ class StylerBoxCreator {
       '',
       ['cs-lg-gp'],
       [
+        this._.createLabel('Border Radius', '', ['cs-label']),
         this._.createElement(
           '',
           '',
-          ['cs-lg-gp'],
+          ['cs-ip-gp'],
           [
-            this._.createLabel('Border Radius', '', ['cs-label']),
-            this._.createElement(
+            borderRadiusSideS,
+            this._.createInput(
+              'number',
+              ['cs-num-input'],
+              'cs_border_radius',
               '',
               '',
-              ['cs-ip-gp'],
-              [
-                borderRadiusSideS,
-                this._.createInput(
-                  'number',
-                  ['cs-num-input'],
-                  'cs_border_radius',
-                  '',
-                  '',
-                  (e) =>
-                    this.#changeStyle(
-                      `border-${borderRadiusSideS.value}-radius`,
-                      `${e.target.value}${unitOne.value}`
-                    )
-                ),
-              ]
+              (e) =>
+                this.#changeStyle(
+                  `border-${borderRadiusSideS.value}-radius`,
+                  `${e.target.value}${unitOne.value}`
+                )
             ),
           ]
         ),
@@ -1758,7 +1751,222 @@ class StylerBoxCreator {
         ),
       ]
     )
+    // border image set up
+    const bImgUrlIpBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createInput('', ['cs-text-input'], 'cs_border_img_url', {
+          placeholder: 'Url only',
+        }),
+      ],
+      'border_img_src_box'
+    )
+    const bImgLinearGradientBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createInput('number', ['cs-num-input'], 'cs_border_img_deg'),
+        this._.createInput(
+          'color',
+          ['cs-color-input'],
+          'cs_border_img_color_one'
+        ),
+        this._.createInput(
+          'color',
+          ['cs-color-input'],
+          'cs_border_img_color_two'
+        ),
+      ],
+      'border_img_src_box'
+    )
+    const bImgRpLinearGradientBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createInput('number', ['cs-num-input'], 'cs_border_img_deg'),
+        this._.createInput(
+          'color',
+          ['cs-color-input'],
+          'cs_border_img_color_one'
+        ),
+        this._.createInput(
+          'number',
+          ['cs-num-input'],
+          'cs_border_img_stop_one'
+        ),
+        this._.createInput(
+          'color',
+          ['cs-color-input'],
+          'cs_border_img_color_two'
+        ),
+        this._.createInput(
+          'number',
+          ['cs-num-input'],
+          'cs_border_img_stop_two'
+        ),
+        this._.createInput(
+          'color',
+          ['cs-color-input'],
+          'cs_border_img_color_three'
+        ),
+        this._.createInput(
+          'number',
+          ['cs-num-input'],
+          'cs_border_img_stop_three'
+        ),
+      ],
+      'border_img_src_box'
+    )
+    const borderImgSrc = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Source', 'cs_border_img_src', ['cs-label']),
+        this._.createSelect(
+          ['cs-select'],
+          '',
+          [
+            { value: 'image', text: 'Image' },
+            { value: 'linear-gradient', text: 'linear-gradient' },
+            { value: 'r-linear-gradient', text: 'Repeat linear gradient' },
+          ],
+          'cs_border_img_src',
+          (e) => {
+            const box = e.target.value
+            if (box === 'image') {
+              this._.getNodeById('border_img_src_box').replaceWith(bImgUrlIpBox)
+            } else if (box === 'linear-gradient') {
+              this._.getNodeById('border_img_src_box').replaceWith(
+                bImgLinearGradientBox
+              )
+            } else {
+              this._.getNodeById('border_img_src_box').replaceWith(
+                bImgRpLinearGradientBox
+              )
+            }
+          }
+        ),
+      ]
+    )
+    // slice inputs
+    const createBISIp = () => this._.createInput('number', ['cs-num-input']) // num input
+    const bISIpOne = createBISIp()
+    const bISIpTwo = createBISIp()
+    const bISIpThree = createBISIp()
+    const bISIpFour = createBISIp()
+    const borderImgSlice = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Slice', '', ['cs-label']),
+        bISIpOne,
+        bISIpTwo,
+        bISIpThree,
+        bISIpFour,
+      ]
+    )
+    // width
+    const bIWIpOne = createBISIp() // use this as same functionality
+    const bIWIpTwo = createBISIp()
+    const bIWIpThree = createBISIp()
+    const bIWIpFour = createBISIp()
+    const borderImgWidth = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Width', '', ['cs-label']),
+        bIWIpOne,
+        bIWIpTwo,
+        bIWIpThree,
+        bIWIpFour,
+      ]
+    )
+    // outset
+    const bIOSIpOne = createBISIp()
+    const bIOSIpTwo = createBISIp()
+    const bIOSIpThree = createBISIp()
+    const bIOSIpFour = createBISIp()
+    const borderImgOutset = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Outset', '', ['cs-label']),
+        bIOSIpOne,
+        bIOSIpTwo,
+        bIOSIpThree,
+        bIOSIpFour,
+      ]
+    )
+    const bIRpSelect = this._.createSelect(['cs-select'], '', [
+      { value: '', text: 'None' },
+      { value: 'round', text: 'Round' },
+      { value: 'space', text: 'space' },
+      { value: 'stretch', text: 'Stretch' },
+      { value: 'repeat', text: 'Repeat' },
+      { value: 'round stretch', text: 'Round Stretch' },
+      { value: 'round space', text: 'Round Space' },
+    ])
+    const borderImgRepeat = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [this._.createLabel('Repeat', '', ['cs-label']), bIRpSelect]
+    )
 
+    const borderImageBox = this._.createElement(
+      '',
+      '',
+      ['cs-lg-gp'],
+      [
+        this._.createElement(
+          '',
+          '',
+          ['cs-ip-gp'],
+          [
+            this._.createLabel('Border Image', '', ['cs-label']),
+            this._.createButton(
+              'Set Values',
+              ['inline-btn', 'text-primary'],
+              '',
+              () =>
+                this.#changeStyle(
+                  'border-image',
+                  this.#calStylesData.calBorderImageValue(
+                    bISIpOne.value,
+                    bISIpTwo.value,
+                    bISIpThree.value,
+                    bISIpFour.value,
+                    bIWIpOne.value,
+                    bIWIpTwo.value,
+                    bIWIpThree.value,
+                    bIWIpFour.value,
+                    bIOSIpOne.value,
+                    bIOSIpTwo.value,
+                    bIOSIpThree.value,
+                    bIOSIpFour.value,
+                    bIRpSelect.value
+                  )
+                )
+            ),
+          ]
+        ),
+        borderImgSrc,
+        bImgUrlIpBox,
+        borderImgSlice,
+        borderImgWidth,
+        borderImgOutset,
+        borderImgRepeat,
+      ]
+    )
+    // here
     return this._.createElement(
       '',
       '',
@@ -1772,6 +1980,7 @@ class StylerBoxCreator {
         rmBorderBox,
         rmOutlineBox,
         borderRadiusBox,
+        borderImageBox,
       ]
     )
   }

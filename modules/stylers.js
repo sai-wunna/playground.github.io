@@ -1,7 +1,7 @@
 'use strict'
 
-import Document from './dom/index.js'
-import Alert from './alert.js'
+import dom from './dom/index.js'
+import notify from './notify.js'
 import { pointOutTheEle, selectedNode } from './stackTree.js'
 import {
   unitSelectors,
@@ -29,8 +29,8 @@ import {
 import { lockBtn } from './helpers/lockBtn.js'
 import { createConfigureBox } from './stylesHelpers/configStyling.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 const stylerBoxCreator = new StylerBoxCreator(_, changeAppliedStyes)
 
 const stylesBoxChooser = _.getNodeById('styles_box_chooser')
@@ -146,7 +146,7 @@ async function appliedLatestStyles() {
 _.on('click', save_styles_btn, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
-    alert.alertMe('noUpdate')
+    notifier.on('noUpdate')
     return
   }
   save_styles_btn.disabled = true
@@ -177,26 +177,22 @@ function changeAppliedStyes(key, value) {
 
   if (mode === 'animation') {
     if (key === 'animation') {
-      alert.alertMe('invalidInput')
+      notifier.on('invalidInput')
       return
     }
     const name = _.getNodeById('cs_animation_list').value
     if (!name) {
-      alert.alertMe('noSelectedAnimation')
+      notifier.on('noSelectedAnimation')
       return
     }
-    saveAnimationsStyle(
-      name,
-      Math.max(
-        Math.min(
-          parseInt(_.getNodeById('cs_add_animation_kf_selector').value),
-          100
-        ),
-        0
-      ).toString(),
-      key,
-      value
-    )
+    const validKeyFrame = Math.max(
+      Math.min(
+        parseInt(_.getNodeById('cs_add_animation_kf_selector').value),
+        100
+      ),
+      0
+    ).toString()
+    saveAnimationsStyle(name, validKeyFrame, key, value)
     isAnimationChanged = true // flag to update
   } else if (mode === 'normal') {
     saveCusStyle(selectedNode, media, condition, key, value)
@@ -216,7 +212,7 @@ function changeAppliedStyes(key, value) {
       consumer = `${combinator}${interceptor}`
     }
     if (!name) {
-      alert.alertMe('noSelectedCN')
+      notifier.on('noSelectedCN')
       return
     }
     saveCNStyle(name, media, condition, consumer, key, value)
@@ -229,8 +225,9 @@ function changeAppliedStyes(key, value) {
 _.on('click', styles_config_btn, (e) => {
   e.preventDefault()
   lockBtn(styles_config_btn)
-  if (_.getNode('.styling-config-wrapper')) {
-    _.getNode('.styling-config-wrapper').remove()
+  const existed = _.getNode('.styling-config-wrapper')
+  if (existed) {
+    existed.remove()
   } else {
     _.appendChild(createConfigureBox())
   }

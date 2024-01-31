@@ -1,7 +1,7 @@
 'use strict'
 
-import Document from '../dom/index.js'
-const _ = Document()
+import dom from '../dom/index.js'
+const _ = dom()
 
 const drag_drop_box = _.createElement(
   '',

@@ -1,6 +1,6 @@
 'use strict'
-import Alert from './alert.js'
-import Document from './dom/index.js'
+import notify from './notify.js'
+import dom from './dom/index.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import {
   createInsertWrapper,
@@ -21,8 +21,8 @@ import {
 } from './stylesHelpers/buildCss.js'
 import Validators from './validators/index.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 const validator = Validators()
 
 let app
@@ -58,9 +58,9 @@ drag_drop_box.addEventListener('drop', (e) => handleDrop(e), false)
 function handleDrop(e) {
   const dt = e.dataTransfer
   const file = [...dt.files][0]
-  if (!file) return alert.alertMe('fileOnly')
-  if (file.type !== 'application/json') return alert.alertMe('notJson')
-  if (file.size > 100000) return alert.alertMe('invalidFile')
+  if (!file) return notifier.on('fileOnly')
+  if (file.type !== 'application/json') return notifier.on('notJson')
+  if (file.size > 100000) return notifier.on('invalidFile')
 
   const reader = new FileReader()
 
@@ -70,7 +70,7 @@ function handleDrop(e) {
     try {
       const data = JSON.parse(fileContent)
       if (validator.isInvalidInsertFile(data)) {
-        alert.alertMe('invalidFile')
+        notifier.on('invalidFile')
         return
       }
       app = buildApp(data.tree)
@@ -79,7 +79,7 @@ function handleDrop(e) {
       confirmInsertBtn.textContent = 'Ready, set up !'
       fileInfo.textContent = `${data.info.name} by ${data.info.author}`
     } catch (error) {
-      alert.alertMe('invalidFile')
+      notifier.on('invalidFile')
       app = controllerTree = styles = null
     }
   }
@@ -90,49 +90,53 @@ function handleDrop(e) {
 
 _.on('click', confirmInsertBtn, async (e) => {
   e.preventDefault()
+
   lockBtn(confirmInsertBtn)
   if (!app || !controllerTree || !styles) {
     app = controllerTree = styles = null
-    return alert.alertMe('fileOnly')
+    return notifier.on('fileOnly')
   }
 
-  alert.__start('Building . . .')
-
+  notifier.__start('Building . . .')
   const oldApp = _.getNodeById('app')
   const oldTree = _.getNodeById('children_c')
 
-  oldApp.innerHTML = ''
-  oldTree.innerHTML = ''
-
-  _.getNodeById('app_wrapper').replaceChild(app, oldApp)
-  oldTree.appendChild(controllerTree)
-
   const { animations, classNames, customStyles, predefinedStyles } = styles
 
-  insertAnimation(animations)
-  insertClassNames(classNames)
-  insertCustomStyles(customStyles)
-  insertPredefinedStyles(predefinedStyles)
+  try {
+    const animationCss = await buildAnimationCssString(animations)
 
-  _.getNodeById('my_animations').textContent = await buildAnimationCssString(
-    animations
-  )
+    const predefinedStylesCss = await buildPredefinedStylesString(
+      predefinedStyles
+    )
 
-  _.getNodeById('my_predefined_styles').textContent =
-    await buildPredefinedStylesString(predefinedStyles)
+    const customStylesCss = await buildCustomStylesString(customStyles)
 
-  _.getNodeById('my_custom_styles').textContent = await buildCustomStylesString(
-    customStyles
-  )
+    const classNameStylesCss = await buildClassNamesString(classNames)
 
-  _.getNodeById('my_className_styles').textContent =
-    await buildClassNamesString(classNames)
+    insertAnimation(animations)
+    insertClassNames(classNames)
+    insertCustomStyles(customStyles)
+    insertPredefinedStyles(predefinedStyles)
 
-  app = controllerTree = styles = null
-  confirmInsertBtn.textContent = '- - - - - - - -'
-  fileInfo.textContent = '-'
+    oldTree.innerHTML = ''
+    oldTree.appendChild(controllerTree)
 
-  alert.__end('* Ready to go *')
+    _.getNodeById('app_wrapper').replaceChild(app, oldApp)
+
+    _.getNodeById('my_animations').textContent = animationCss
+    _.getNodeById('my_predefined_styles').textContent = predefinedStylesCss
+    _.getNodeById('my_custom_styles').textContent = customStylesCss
+    _.getNodeById('my_className_styles').textContent = classNameStylesCss
+
+    notifier.__end('* Ready to go *')
+  } catch (err) {
+    notifier.__end('Please drop valid file')
+  } finally {
+    app = controllerTree = styles = null
+    confirmInsertBtn.textContent = '- - - - - - - -'
+    fileInfo.textContent = '-'
+  }
 })
 
 function createInsertBox() {

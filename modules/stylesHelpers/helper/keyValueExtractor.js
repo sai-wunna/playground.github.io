@@ -82,6 +82,72 @@ class KeyValueExtractor {
     return [key, `${value} ${type} ${color}`]
   }
 
+  calBorderImageValue(
+    sliceOne,
+    sliceTwo,
+    sliceThree,
+    sliceFour,
+    widthOne,
+    widthTwo,
+    widthThree,
+    widthFour,
+    outSetOne,
+    outSetTwo,
+    outSetThree,
+    outSetFour,
+    repeatType
+  ) {
+    // src slice width outset repeat
+    let value = ''
+    const srcType = this._.getNodeById('cs_border_img_src').value
+    if (srcType === 'image') {
+      value += `url(${this._.getNodeById('cs_border_img_url').value})`
+    } else {
+      const deg = this._.getNodeById('cs_border_img_deg').value
+      const colorOne = this._.getNodeById('cs_border_img_color_one').value
+      const colorTwo = this._.getNodeById('cs_border_img_color_two').value
+      if (srcType === 'linear-gradient') {
+        value += `linear-gradient(${deg}deg, ${colorOne}, ${colorTwo})`
+      } else {
+        const colorThree = this._.getNodeById('cs_border_img_color_three').value
+        const stopOne = this._.getNodeById('cs_border_img_stop_one').value
+        const stopTwo = this._.getNodeById('cs_border_img_stop_one').value
+        const stopThree = this._.getNodeById('cs_border_img_stop_one').value
+        value += `repeating-linear-gradient(${deg}deg, ${colorOne} ${
+          stopOne ? stopOne + 'px' : ''
+        }, ${colorTwo} ${stopTwo ? stopTwo + 'px' : ''}, ${colorThree} ${
+          stopThree ? stopThree + 'px' : ''
+        })`
+      }
+    }
+    if (sliceOne || sliceTwo || sliceThree || sliceFour) {
+      value += ` ${this.minimizeFourInputsWithoutUnit(
+        sliceOne,
+        sliceTwo,
+        sliceThree,
+        sliceFour
+      )}`
+    }
+    if (widthOne || widthTwo || widthThree || widthFour) {
+      value += ` / ${this.calMinimizeFourInputs(
+        widthOne,
+        widthTwo,
+        widthThree,
+        widthFour
+      )} `
+    }
+    if (outSetOne || outSetTwo || outSetThree || outSetFour) {
+      value += ` / ${this.calMinimizeFourInputs(
+        outSetOne,
+        outSetTwo,
+        outSetThree,
+        outSetFour
+      )}`
+    }
+    value += ` ${repeatType}`
+    return value
+  }
+
   calTransitionValues(prdNodes, efNodes) {
     let value = ''
     this._.getAllNodes('.cs-trans-name').forEach((name, idx) => {
@@ -247,6 +313,16 @@ class KeyValueExtractor {
       return `${i1}${this.unitOne.value} ${i2}${this.unitTwo.value}`
     } else {
       return `${i1}${this.unitOne.value} ${i2}${this.unitTwo.value} ${i3}${this.unitThree.value} ${i4}${this.unitFour.value}`
+    }
+  }
+
+  minimizeFourInputsWithoutUnit(i1, i2, i3, i4) {
+    if (i1 === i2 && i1 === i3 && i1 === i4) {
+      return `${i1}`
+    } else if (i1 === i3 && i2 === i4) {
+      return `${i1} ${i2}`
+    } else {
+      return `${i1} ${i2} ${i3} ${i4}`
     }
   }
 

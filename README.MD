@@ -26,17 +26,19 @@
 - Three different media types are allowed
   ###### Break points
   - General ( for all screen size )
-  - Medium ( min-width: 769px and max-width: 1024px )
-  - Large (min-width: 1025px)
+  - Medium ( customizable )
+  - Large ( customizable )
 - Four types of condition are now available
   - Standard ( normal state )
   - Hover
   - Active
   - Focus
 - ClassNames can be created and apply for each node
+  - classnames now can use combinator to target children or siblings
 - Predefined Styles are also supported ( for available elements and body \* )
-- Animations can also be created with supported CSS styles
+- Animations can also be created
 - Each element is style-able
+- As large range of styling, there is just common used styles, so added custom style key and value
 
 ### Tree
 

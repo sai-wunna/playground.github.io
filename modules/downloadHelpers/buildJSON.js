@@ -1,12 +1,12 @@
 'use strict'
 
-import Document from '../dom/index.js'
+import dom from '../dom/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'
 import { classNames } from '../stylesHelpers/classNameStyles .js'
 import { predefinedStyles } from '../stylesHelpers/predefinedStyles.js'
 import { animations } from '../stylesHelpers/animations.js'
 
-const _ = Document()
+const _ = dom()
 
 function buildVDom(Node) {
   if (Node && Node.nodeType === Node.TEXT_NODE) return Node.nodeValue

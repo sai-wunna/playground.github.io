@@ -1,10 +1,10 @@
 'use strict'
 
-import Alert from '../alert.js'
-import Document from '../dom/index.js'
+import notify from '../notify.js'
+import dom from '../dom/index.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
 const mediaTypes = ['general', 'medium', 'large']
@@ -50,7 +50,7 @@ function saveCNStyle(name, media, condition, consumer = 'self', key, value) {
       classNames[name][media][condition].self[key] = value
     } else {
       if (!classNames[consumer.slice(1)] || name === consumer.slice(1)) {
-        return alert.alertMe('invalidCN')
+        return notifier.on('invalidCN')
       }
       const consumerIdx = classNames[name][media][
         condition
@@ -344,12 +344,12 @@ function createCNForm() {
       _.createButton('Add', ['inline-btn'], '', function (e) {
         let name = _.getNodeById('add_new_cn').value
         if (!name || !isNaN(parseInt(name[0]))) {
-          alert.alertMe('invalidInput')
+          notifier.on('invalidInput')
           return
         }
         name = `prv-${name.trim().split(' ').join('-')}`
         if (classNames[name]) {
-          alert.alertMe('existedCN')
+          notifier.on('existedCN')
           return
         }
         addNewClassName(name)

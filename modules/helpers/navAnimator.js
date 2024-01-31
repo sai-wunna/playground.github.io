@@ -1,7 +1,7 @@
 'use strict'
 
-import Document from '../dom/index.js'
-const _ = Document()
+import dom from '../dom/index.js'
+const _ = dom()
 
 function openNav(wp, classList) {
   _.getNode('.priority-wrapper-box')?.classList.remove('priority-wrapper-box')

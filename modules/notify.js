@@ -1,6 +1,6 @@
 'use strict'
 
-class Alert {
+class Notify {
   #alertMessages = {
     invalid: 'Invalid Action',
     noSelectedAnimation: 'Please create new animation or select from List.',
@@ -21,13 +21,11 @@ class Alert {
   }
   #countLimit
   #currentCount = 0
-  #wrapper
   #progressLoader
 
   constructor(doc, countLimit = 3) {
     this._ = doc
     this.#countLimit = countLimit
-    this.#wrapper = this._.getNode('#wrapper')
     this.#progressLoader = this._.createElement(
       'div',
       '',
@@ -36,13 +34,13 @@ class Alert {
     )
   }
 
-  alertMe(type = 'invalid', period = 3000) {
+  on(type = 'invalid', period = 3000) {
     if (this.#currentCount >= this.#countLimit) return
     this.#currentCount += 1
     const alertBox = this._.createElement('div', this.#alertMessages[type], [
       'custom-alert-box',
     ])
-    this.#wrapper.appendChild(alertBox)
+    this._.getNodeById('wrapper').appendChild(alertBox)
     let dropTimer = setTimeout(() => {
       alertBox.style.top = `${(this.#currentCount - 1) * 40}px`
     }, 10)
@@ -62,7 +60,7 @@ class Alert {
 
   __start(msg) {
     this.#progressLoader.textContent = msg ? msg : 'Loading'
-    this.#wrapper.appendChild(this.#progressLoader)
+    this._.getNodeById('wrapper').appendChild(this.#progressLoader)
   }
 
   __end(msg = 'Ready') {
@@ -78,4 +76,4 @@ class Alert {
   }
 }
 
-export default (doc, countLimit) => new Alert(doc, countLimit)
+export default (doc, countLimit) => new Notify(doc, countLimit)

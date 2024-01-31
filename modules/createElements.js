@@ -1,7 +1,7 @@
 'use strict'
 
-import Document from './dom/index.js'
-import Alert from './alert.js'
+import dom from './dom/index.js'
+import notify from './notify.js'
 import DeployElement from './cefHelpers/deployElement.js'
 import {
   addFigureStack,
@@ -20,14 +20,14 @@ import CEF from './cefHelpers/createElementForms.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import Validator from './validators/index.js'
 
-const _ = Document()
+const _ = dom()
 const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
 const element_form_box = _.getNode('.element-form')
 const isInsertBefore = _.getNodeById('beforeOrAfter')
 
 const validator = Validator()
-const alert = Alert(_)
+const notifier = notify(_)
 const forms = CEF(_)
 const deploy = DeployElement(
   _,
@@ -86,7 +86,7 @@ _.on('click', add_element_btn, (e) => {
   const value = selectElementBtn.value
 
   if (validator.isInvalidInsert(selectedNode, value)) {
-    alert.alertMe('unAppendAble')
+    notifier.on('unAppendAble')
     return
   }
   // deployment starts

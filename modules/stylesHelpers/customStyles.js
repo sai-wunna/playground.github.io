@@ -1,7 +1,7 @@
 'use strict'
 
-import Document from '../dom/index.js'
-const _ = Document()
+import dom from '../dom/index.js'
+const _ = dom()
 
 // { #div_232334 : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const customStyles = {}

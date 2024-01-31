@@ -1,6 +1,6 @@
-import Dom from '../dom/index.js'
+import dom from '../dom/index.js'
 
-const _ = Dom()
+const _ = dom()
 
 const mediaQueries = {
   medium: { minWidth: 768, maxWidth: 1024 },

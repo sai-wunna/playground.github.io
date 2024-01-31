@@ -1,8 +1,8 @@
 'use strict'
 
-import Document from '../dom/index.js'
+import dom from '../dom/index.js'
 
-const _ = Document()
+const _ = dom()
 
 const predefinedStyles = {
   all: {},

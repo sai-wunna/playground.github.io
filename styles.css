@@ -366,7 +366,7 @@ body {
 
 .cs-lg-gp {
   padding: 5px;
-  background-color: rgb(243, 239, 241);
+  background-color: rgba(7, 7, 7, 0.046);
   border-radius: 5px;
   margin: 5px auto;
 }
@@ -435,8 +435,7 @@ body {
 /* styler-box css ------------------------------------------- */
 .styled-info {
   height: 100%;
-  min-width: 600px;
-  max-width: 50%;
+  width: 100%;
   border-left: 2px solid rgb(105, 105, 105);
 }
 .applied-styles,

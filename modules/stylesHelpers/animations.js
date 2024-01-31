@@ -1,10 +1,8 @@
 'use strict'
 
-import Alert from '../alert.js'
-import Document from '../dom/index.js'
+import dom from '../dom/index.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
 
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}
@@ -66,7 +64,8 @@ function createAnimationForm() {
       _.createButton('Add', ['inline-btn', 'text-primary'], '', function () {
         const name = `${_.getNodeById('cs_add_animation_name').value}`
         if (!name) {
-          alert.alertMe('invalidInput')
+          notif
+          ier.on('invalidInput')
           return
         }
         if (_.getNodeById('cs_ani_name')) {

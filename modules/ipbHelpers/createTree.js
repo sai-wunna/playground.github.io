@@ -1,11 +1,11 @@
 'use strict'
 
-import Document from '../dom/index.js'
-import Alert from '../alert.js'
+import dom from '../dom/index.js'
+import notify from '../notify.js'
 import { removeNode, selectNode } from '../stackTree.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 
 function createTableController(data) {
   const {
@@ -167,7 +167,7 @@ function createControllers(eleData) {
     for (const child of children) {
       if (typeof child === 'object') {
         const childEle = createControllers(child)
-        if (!childEle) return alert.alertMe('invalidFile')
+        if (!childEle) return notifier.on('invalidFile')
         childBox.appendChild(childEle)
       }
     }
@@ -192,7 +192,7 @@ function createControllers(eleData) {
       ]
     )
   } catch (error) {
-    alert.alertMe('invalidFile')
+    notifier.on('invalidFile')
     return false
   }
 }

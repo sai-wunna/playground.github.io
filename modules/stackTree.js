@@ -1,13 +1,13 @@
 'use strict'
-import Document from './dom/index.js'
+import dom from './dom/index.js'
 import Validator from './validators/index.js'
-import Alert from './alert.js'
+import notify from './notify.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { removeCusStyle } from './stylesHelpers/customStyles.js'
 import { createTargetStyleInfoBox } from './stylesHelpers/styleInfoBoxes.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 const validator = Validator()
 
 const high_light_ele = _.getNodeById('high_light_ele')
@@ -355,7 +355,7 @@ function pointOutTheEle(ele) {
   let element
   if (ele && typeof ele !== 'object') {
     if (validator.isInvalidEleToShow(ele)) {
-      alert.alertMe('hidden')
+      notifier.on('hidden')
       removePointOutTheEle()
       return
     }

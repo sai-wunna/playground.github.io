@@ -1,6 +1,6 @@
 'use strict'
 
-import Document from '../dom/index.js'
+import dom from '../dom/index.js'
 import { createCusStyleInfoShower } from './customStyles.js'
 import {
   animationInfoShower,
@@ -13,10 +13,10 @@ import {
   createCNForm,
   createCNInfoShower,
 } from './classNameStyles .js'
-import Alert from '../alert.js'
+import notify from '../notify.js'
 
-const _ = Document()
-const alert = Alert(_)
+const _ = dom()
+const notifier = notify(_)
 
 function createTargetStyleInfoBox(selectedNode) {
   const target = _.getNode(selectedNode)
@@ -76,7 +76,7 @@ function createTargetStyleInfoBox(selectedNode) {
             function (e) {
               const name = _.getNodeById('add_class_list_selector').value
               if (!name) {
-                alert.alertMe('noAvailableCN')
+                notifier.on('noAvailableCN')
                 return
               }
               if (target.classList.contains(name)) return
