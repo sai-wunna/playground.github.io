@@ -19,7 +19,7 @@ import {
   buildCustomStylesString,
   buildPredefinedStylesString,
 } from './stylesHelpers/buildCss.js'
-import Validators from './validators/index.js'
+import Validators from './validator/index.js'
 
 const _ = dom()
 const notifier = notify(_)
@@ -30,30 +30,28 @@ let styles
 let controllerTree
 
 // drag drop handlers ----------------- start
-function highlight() {
-  drag_drop_box.classList.add('dragging')
+function highlight(e) {
+  e.target.classList.add('dragging')
 }
-function unHighlight() {
-  drag_drop_box.classList.remove('dragging')
+function unHighlight(e) {
+  e.target.classList.remove('dragging')
+}
+function preventBubbling(e) {
+  e.preventDefault()
+  e.stopPropagation()
 }
 
 ;['dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
-  const listener = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }
-  drag_drop_box.addEventListener(eventName, (e) => listener(e), false)
+  drag_drop_box.addEventListener(eventName, preventBubbling)
 })
 ;['dragenter', 'dragover'].forEach((eventName) => {
-  const listener = () => highlight(drag_drop_box)
-  drag_drop_box.addEventListener(eventName, listener, false)
+  drag_drop_box.addEventListener(eventName, highlight)
 })
 ;['dragleave', 'drop'].forEach((eventName) => {
-  const listener = () => unHighlight(drag_drop_box)
-  drag_drop_box.addEventListener(eventName, listener, false)
+  drag_drop_box.addEventListener(eventName, unHighlight)
 })
 
-drag_drop_box.addEventListener('drop', (e) => handleDrop(e), false)
+drag_drop_box.addEventListener('drop', handleDrop)
 
 function handleDrop(e) {
   const dt = e.dataTransfer
@@ -139,8 +137,22 @@ _.on('click', confirmInsertBtn, async (e) => {
   }
 })
 
+function cleanUpFunc() {
+  ;['dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
+    drag_drop_box.removeEventListener(eventName, preventBubbling, false)
+  })
+  ;['dragenter', 'dragover'].forEach((eventName) => {
+    drag_drop_box.removeEventListener(eventName, highlight, false)
+  })
+  ;['dragleave', 'drop'].forEach((eventName) => {
+    drag_drop_box.removeEventListener(eventName, unHighlight, false)
+  })
+
+  drag_drop_box.removeEventListener('drop', handleDrop, false)
+}
+
 function createInsertBox() {
-  return createInsertWrapper()
+  return [createInsertWrapper(), cleanUpFunc]
 }
 
 export { createInsertBox }

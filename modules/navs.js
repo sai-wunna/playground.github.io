@@ -105,27 +105,37 @@ _.on('click', stacks_wrapper, (e) => {
 _.on('click', editor_wrapper, (e) => {
   setPriorityWrapper(editor_wrapper)
 })
-
+// here clean up set up
+let downloadEvtCleaner = null
 _.on('click', download_form_btn, (e) => {
   e.preventDefault()
   lockBtn(download_form_btn)
   const existed = _.getNode('.download-form')
   if (existed) {
+    downloadEvtCleaner()
     existed.remove()
+    downloadEvtCleaner = null
   } else {
-    _.appendChild(downloadForm())
+    const [form, cleaner] = downloadForm()
+    _.appendChild(form)
+    downloadEvtCleaner = cleaner
   }
 })
-
+// here clean up set up
+let insertEvtCleaner = null
 _.on('click', insert_wrapper_btn, (e) => {
   e.preventDefault()
   lockBtn(insert_wrapper_btn)
   const existed = _.getNode('.insert-wrapper')
   if (existed) {
+    insertEvtCleaner()
     existed.remove()
+    insertEvtCleaner = null
   } else {
     notifier.on('fileInsertCaution')
-    _.appendChild(createInsertBox())
+    const [box, cleaner] = createInsertBox()
+    _.appendChild(box)
+    insertEvtCleaner = cleaner
   }
 })
 

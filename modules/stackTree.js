@@ -1,6 +1,6 @@
 'use strict'
 import dom from './dom/index.js'
-import Validator from './validators/index.js'
+import Validator from './validator/index.js'
 import notify from './notify.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { removeCusStyle } from './stylesHelpers/customStyles.js'
@@ -15,6 +15,7 @@ const element_pointer = _.getNodeById('element_pointer')
 const appNode = _.getNode('.app-node')
 const isInsertBefore = _.getNodeById('beforeOrAfter')
 
+const eventRef = {}
 let selectedNode = '#app'
 let selectedTreeNode = '#children'
 
@@ -40,15 +41,9 @@ function addTableStack(tableId, thData, tbData, tfData) {
     data.forEach((one) => {
       let text = one.text || one.heading || 'td'
       fragment.appendChild(
-        _.createButton(
-          text.slice(0, 5),
-          ['stack-node'],
-          '',
-          (e, id) => {
-            selectNode(e, id)
-          },
-          `#${one.id}`
-        )
+        _.createButton(text.slice(0, 5), ['stack-node'], '', (e) => {
+          selectNode(e, `#${one.id}`)
+        })
       )
     })
     return _.createElement(
@@ -56,15 +51,9 @@ function addTableStack(tableId, thData, tbData, tfData) {
       '',
       ['stack-node-box'],
       [
-        _.createButton(
-          'tr',
-          ['stack-node'],
-          '',
-          (e, id) => {
-            selectNode(e, id)
-          },
-          `#${trId}`
-        ),
+        _.createButton('tr', ['stack-node'], '', (e) => {
+          selectNode(e, `#${trId}`)
+        }),
         _.createElement('div', '', ['stack-node-box'], [fragment]),
       ]
     )
@@ -74,15 +63,9 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tHead',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${thData.thId}`
-      ),
+      _.createButton('tHead', ['stack-node'], '', (e) => {
+        selectNode(e, `#${thData.thId}`)
+      }),
       createTRNode(thData.data, thData.trId),
     ]
   )
@@ -91,15 +74,9 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tFoot',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tfData.tfId}`
-      ),
+      _.createButton('tFoot', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tfData.tfId}`)
+      }),
       createTRNode(tfData.data, tfData.trId),
     ]
   )
@@ -112,15 +89,9 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tBody',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tbData.tbId}`
-      ),
+      _.createButton('tBody', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tbData.tbId}`)
+      }),
       bodyDataFragment,
     ]
   )
@@ -137,25 +108,12 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'table',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tableId}`
-      ),
-      _.createButton(
-        'Del',
-        ['stack-node-delete', 'text-danger'],
-        '',
-        (e, id) => {
-          removeNode(e, id)
-        },
-        `#${tableId}`,
-        'table'
-      ),
+      _.createButton('table', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tableId}`)
+      }),
+      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
+        removeNode(e, `#${tableId}`)
+      }),
       tableStacks,
     ]
   )
@@ -199,32 +157,19 @@ function addSelectionStack(selectId, options) {
       '',
       ['stack-node-box'],
       [
-        _.createButton(
-          text,
-          ['stack-node'],
-          '',
-          (e, id) => {
-            selectNode(e, id)
-          },
-          `#${id}`
-        ),
-        _.createButton(
-          'Del',
-          ['stack-node-delete', 'text-danger'],
-          '',
-          (e, id, selectId) => {
-            e.preventDefault()
-            _.getNode(selectId).querySelector(id).remove()
-            e.target.parentElement.remove()
-            if (id === selectedNode) {
-              selectAppNode()
-            } else {
-              pointOutTheEle(selectedNode)
-            }
-          },
-          `#${id}`,
-          `#${selectId}`
-        ),
+        _.createButton(text, ['stack-node'], '', (e) => {
+          selectNode(e, `#${id}`)
+        }),
+        _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
+          e.preventDefault()
+          _.getNode(`#${selectId}`).querySelector(id).remove()
+          e.target.parentElement.remove()
+          if (`#${id} ` === selectedNode) {
+            selectAppNode()
+          } else {
+            pointOutTheEle(selectedNode)
+          }
+        }),
       ]
     )
   }
@@ -277,7 +222,7 @@ function addNewStack(id, name) {
 
 function createTreeNode(id, name, children) {
   const childrenBox = _.createElement('div', '', [], [], `${id}_c`)
-  if (children) {
+  if (children && children.length > 0) {
     childrenBox.appendChild(children)
   }
   childrenBox.style.backgroundColor = 'rgba(0, 0, 0, 0.109)'
@@ -286,19 +231,9 @@ function createTreeNode(id, name, children) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        name,
-        ['stack-node'],
-        '',
-        (e, id) => selectNode(e, id),
-        `#${id}`
-      ),
-      _.createButton(
-        'Del',
-        ['stack-node-delete', 'text-danger'],
-        '',
-        (e, id) => removeNode(e, id),
-        `#${id}`
+      _.createButton(name, ['stack-node'], '', (e) => selectNode(e, `#${id}`)),
+      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) =>
+        removeNode(e, `#${id}`)
       ),
       childrenBox,
     ]
@@ -359,7 +294,7 @@ function pointOutTheEle(ele) {
       removePointOutTheEle()
       return
     }
-    element = document.querySelector(ele) || document.querySelector('#app')
+    element = _.getNode(ele) || _.getNodeById('app')
   } else {
     element = ele
   }
@@ -385,9 +320,6 @@ function removePointOutTheEle() {
   element_pointer.style.display = 'none'
 }
 
-// initialize
-createTargetStyleInfoBox('#app')
-
 export {
   selectNode,
   removeNode,
@@ -398,4 +330,5 @@ export {
   addFigureStack,
   pointOutTheEle,
   selectedNode,
+  isInsertBefore,
 }

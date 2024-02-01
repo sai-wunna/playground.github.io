@@ -9,6 +9,7 @@ import {
   addNewStack,
   addSelectionStack,
   addTableStack,
+  isInsertBefore,
   selectedNode,
 } from './stackTree.js'
 import {
@@ -18,13 +19,11 @@ import {
 } from './cefHelpers/manageInputData.js'
 import CEF from './cefHelpers/createElementForms.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import Validator from './validators/index.js'
+import Validator from './validator/index.js'
 
 const _ = dom()
 const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
-const element_form_box = _.getNode('.element-form')
-const isInsertBefore = _.getNodeById('beforeOrAfter')
 
 const validator = Validator()
 const notifier = notify(_)
@@ -40,11 +39,9 @@ const deploy = DeployElement(
 )
 
 // ---------------------- select and add -------------------
-
 _.on('change', selectElementBtn, (e) => {
   e.preventDefault()
   const value = e.target.value
-  _.getNodeById('add_form').remove()
   let form
   if (value === 'block') {
     form = forms.createBlockForm()
@@ -77,7 +74,7 @@ _.on('change', selectElementBtn, (e) => {
   } else {
     form = forms.createHrForm()
   }
-  element_form_box.appendChild(form)
+  _.getNodeById('add_form').replaceWith(form)
 })
 
 _.on('click', add_element_btn, (e) => {
@@ -178,6 +175,6 @@ _.on('click', add_element_btn, (e) => {
   }
 })
 // initialize
-element_form_box.appendChild(forms.createBlockForm())
+_.getNode('.element-form').appendChild(forms.createBlockForm())
 
 export default 'create forms joined'

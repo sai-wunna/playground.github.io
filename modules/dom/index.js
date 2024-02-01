@@ -32,8 +32,8 @@ class Doc {
   appendChild(node) {
     this._.body.appendChild(node)
   }
-  on(event, ele, fn) {
-    ele.addEventListener(event, (e) => fn(e))
+  on(event, ele, fn, capture = false) {
+    ele.addEventListener(event, fn, capture)
   }
   addClassList(ele, cl) {
     ele.className = cl
@@ -87,6 +87,7 @@ class Doc {
 
     return ele
   }
+
   // ----------------------------------------------
 
   createFragment(children = []) {
@@ -97,11 +98,19 @@ class Doc {
     return fragment
   }
 
-  createInput(type, classList = [], id, options = {}, event, fn, ...args) {
+  createInput(
+    type = 'text',
+    classList = [],
+    id = '',
+    options = {},
+    evtType,
+    fn,
+    cleaner = false
+  ) {
     const input = this.createNode('input')
-    input.type = type || 'text'
+    input.type = type
     if (classList.length > 0) {
-      input.className = classList.join(' ')
+      input.classList.add(...classList)
     }
     for (const [key, value] of Object.entries(options)) {
       input.setAttribute(key, value)
@@ -109,9 +118,14 @@ class Doc {
     if (id) {
       input.id = id
     }
-    let evt = event || 'change'
+
     if (fn) {
-      input.addEventListener(evt, (e) => fn(e, ...args))
+      const evt = evtType || 'change'
+
+      input.addEventListener(evt, fn)
+      if (cleaner) {
+        return [input, () => input.removeEventListener(evt, fn)]
+      }
     }
 
     return input
@@ -124,7 +138,7 @@ class Doc {
     }
     label.textContent = text
     if (classList.length > 0) {
-      label.className = classList.join(' ')
+      label.classList.add(...classList)
     }
     if (id) {
       label.id = id
@@ -132,13 +146,13 @@ class Doc {
     return label
   }
 
-  createTextArea(ref, classList = [], options, id, fn, ...args) {
+  createTextArea(ref, classList = [], options, id, fn, cleaner = false) {
     const tArea = this.createNode('textarea')
     if (ref) {
       tArea.htmlFor = ref
     }
     if (classList.length > 0) {
-      tArea.className = classList.join(' ')
+      tArea.classList.add(...classList)
     }
     if (options) {
       if (options.placeholder) {
@@ -155,21 +169,47 @@ class Doc {
       tArea.id = id
     }
     if (fn) {
-      tArea.addEventListener('input', (e) => fn(e, ...args))
+      tArea.addEventListener('input', fn)
+      if (cleaner) {
+        return [tArea, () => tArea.removeEventListener('input', fn)]
+      }
     }
     return tArea
   }
 
-  createSubmitButton(text, classList = [], id) {
+  createButton(btnName, classList = [], id, handleClick, cleaner = false) {
     const button = this.createNode('button')
-    button.type = 'submit'
-    button.textContent = text
-    if (classList.length > 0) {
-      button.className = classList.join(' ')
+    button.type = 'button'
+    if (typeof btnName === 'object') {
+      button.appendChild(btnName)
+    } else {
+      button.textContent = btnName
     }
-    button.id = id
+    if (classList.length > 0) {
+      button.classList.add(...classList)
+    }
+
+    if (id) button.id = id
+
+    if (handleClick) {
+      button.addEventListener('click', handleClick)
+      if (cleaner) {
+        return [button, () => button.removeEventListener('click', handleClick)]
+      }
+    }
     return button
   }
+
+  // createSubmitButton(text, classList = [], id) {
+  //   const button = this.createNode('button')
+  //   button.type = 'submit'
+  //   button.textContent = text
+  //   if (classList.length > 0) {
+  //     button.classList.add(...classList)
+  //   }
+  //   button.id = id
+  //   return button
+  // }
 
   createOption(parent, value, text, id, selected, disabled) {
     const option = this.createNode('option')
@@ -191,10 +231,10 @@ class Doc {
     }
   }
 
-  createSelect(classList = [], text, options, id, fn, ...args) {
+  createSelect(classList = [], text, options, id, fn, cleaner = false) {
     const select = this.createNode('select')
     if (classList.length > 0) {
-      select.className = classList.join(' ')
+      select.classList.add(...classList)
     }
     if (text) {
       const emptyOpt = this.createNode('option')
@@ -217,22 +257,28 @@ class Doc {
       select.id = id
     }
     if (fn) {
-      select.addEventListener('change', (e) => fn(e, ...args))
+      select.addEventListener('change', fn)
+      if (cleaner) {
+        return [select, () => select.removeEventListener('change', fn)]
+      }
     }
     return select
   }
 
-  createForm(classList = [], elements = [], id, handleSubmit, ...args) {
+  createForm(classList = [], elements = [], id, handleSubmit, cleaner = false) {
     const form = this.createNode('form')
     elements.forEach((ele) => {
       form.appendChild(ele)
     })
     if (classList.length > 0) {
-      form.className = classList.join(' ')
+      form.classList.add(...classList)
     }
     if (id) form.id = id
     if (handleSubmit) {
-      form.addEventListener('submit', (e) => handleSubmit(e, ...args))
+      form.addEventListener('submit', handleSubmit)
+      if (cleaner) {
+        return [form, () => form.removeEventListener('submit', handleSubmit)]
+      }
     }
     return form
   }
@@ -241,7 +287,7 @@ class Doc {
   createList(type, classList = [], id, lists = []) {
     const list = this.createNode(type)
     if (classList.length > 0) {
-      list.className = classList.join(' ')
+      list.classList.add(...classList)
     }
     if (id) {
       list.id = id
@@ -278,7 +324,7 @@ class Doc {
       progress.textContent = text
     }
     if (classList.length > 0) {
-      progress.className = classList.join(' ')
+      progress.classList.add(...classList)
     }
     return progress
   }
@@ -298,7 +344,7 @@ class Doc {
       a.href = '#'
     }
     if (classList.length > 0) {
-      a.className = classList.join(' ')
+      a.classList.add(...classList)
     }
     if (title) {
       a.title = title
@@ -322,7 +368,7 @@ class Doc {
       img.id = id
     }
     if (classList.length > 0) {
-      img.className = classList.join(' ')
+      img.classList.add(...classList)
     }
     return img
   }
@@ -340,30 +386,12 @@ class Doc {
       div.appendChild(child)
     })
     if (classList.length > 0) {
-      div.className = classList.join(' ')
+      div.classList.add(...classList)
     }
     if (id) {
       div.id = id
     }
     return div
-  }
-
-  createButton(btnName, classList = [], id, handleClick, ...args) {
-    const button = this.createNode('button')
-    button.type = 'button'
-    if (typeof btnName === 'object') {
-      button.appendChild(btnName)
-    } else {
-      button.textContent = btnName
-    }
-    if (classList.length > 0) {
-      button.className = classList.join(' ')
-    }
-    if (handleClick) {
-      button.addEventListener('click', (e) => handleClick(e, ...args))
-    }
-    if (id) button.id = id
-    return button
   }
 
   createSpan(text, classList = [], id) {
@@ -376,13 +404,13 @@ class Doc {
       }
     }
     if (classList.length > 0) {
-      span.className = classList.join(' ')
+      span.classList.add(...classList)
     }
     if (id) span.id = id
     return span
   }
 
-  createHeading(type, heading, classList = [], id, handleClick, ...args) {
+  createHeading(type, heading, classList = [], id) {
     const header = this.createNode(type)
     if (typeof heading === 'object') {
       header.appendChild(heading)
@@ -390,13 +418,10 @@ class Doc {
       header.textContent = heading
     }
     if (classList.length > 0) {
-      header.className = classList.join(' ')
+      header.classList.add(...classList)
     }
     if (id) {
       header.id = id
-    }
-    if (handleClick) {
-      header.addEventListener('click', (e) => handleClick(e, ...args))
     }
     return header
   }
@@ -443,7 +468,7 @@ class Doc {
     // tableHeaderData = [{ heading : '' || obj , classList : []}]
     const thead = this.createNode('thead')
     if (classList.length > 0) {
-      thead.className = classList.join(' ')
+      thead.classList.add(...classList)
     }
     if (id) {
       thead.id = id
@@ -475,7 +500,7 @@ class Doc {
     // bodyData = [{data : [{text : '' || obj, classList : [], id , fn , ... args}], id : ''}, . . .]
     const tbody = this.createNode('tbody')
     if (classList.length > 0) {
-      tbody.className = classList.join(' ')
+      tbody.classList.add(...classList)
     }
     bodyData.forEach((bodyData) => {
       tbody.appendChild(this.createTRow(bodyData.data, bodyData.trId))
@@ -489,7 +514,7 @@ class Doc {
   createTFoot(classList = [], footerData = [], id, trId) {
     const tfoot = this.createNode('tfoot')
     if (classList.length > 0) {
-      tfoot.className = classList.join(' ')
+      tfoot.classList.add(...classList)
     }
     if (id) {
       tfoot.id = id
@@ -530,7 +555,7 @@ class Doc {
     const audio = this.createNode('audio')
     audio.src = src
     if (classList.length > 0) {
-      audio.className = classList.join(' ')
+      audio.classList.add(...classList)
     }
     audio.controls = true
     if (id) audio.id = id
@@ -547,7 +572,7 @@ class Doc {
       }
     }
     if (classList.length > 0) {
-      cap.className = classList.join(' ')
+      cap.classList.add(...classList)
     }
     if (id) {
       cap.id = id
@@ -566,7 +591,7 @@ class Doc {
       }
     }
     if (classList.length > 0) {
-      bq.className = classList.join(' ')
+      bq.classList.add(...classList)
     }
     if (id) {
       bq.id = id
@@ -584,7 +609,7 @@ class Doc {
       }
     }
     if (classList.length > 0) {
-      cite.className = classList.join(' ')
+      cite.classList.add(...classList)
     }
     if (id) {
       cite.id = id
@@ -599,7 +624,7 @@ class Doc {
     canvas.height = imageData.height
     canvas.id = id
     if (classList.length > 0) {
-      canvas.className = classList.join(' ')
+      canvas.classList.add(...classList)
     }
 
     ctx.putImageData(imageData, 0, 0)

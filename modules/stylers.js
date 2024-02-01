@@ -107,7 +107,7 @@ function handleStylerBoxes() {
 
 const handleBoxChange = handleStylerBoxes()
 
-_.on('change', stylesBoxChooser, (e) => handleBoxChange(e))
+_.on('change', stylesBoxChooser, handleBoxChange)
 
 // styler box end
 
@@ -232,5 +232,7 @@ _.on('click', styles_config_btn, (e) => {
     _.appendChild(createConfigureBox())
   }
 })
+// initialize styled information
+createTargetStyleInfoBox('#app')
 
 export default 'styler joined'

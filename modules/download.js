@@ -26,7 +26,26 @@ const aboutIp = _.createInput('', ['form-control', 'my-1'], 'about_of_web', {
 })
 
 function downloadForm() {
-  return _.createElement(
+  const [downLoadBtn, cleanUpDLListener] = _.createButton(
+    'Download',
+    ['btn', 'text-primary'],
+    '',
+    async (e) => {
+      e.preventDefault()
+      notifier.__start('Building . . .')
+      const title = titleIp.value || 'Beautiful Day'
+      const author = authorIp.value || 'Anonymous'
+      const about = aboutIp.value || 'something beautiful has been born here'
+      if (fileType.value === 'web') {
+        await downloadWeb(author, about, title)
+      } else {
+        await downloadJSON(author, about, title)
+      }
+      notifier.__end('* Download in progress *')
+    },
+    true
+  )
+  const form = _.createElement(
     'div',
     '',
     ['download-form'],
@@ -43,26 +62,11 @@ function downloadForm() {
         '',
         '',
         ['d-flex', 'justify-content-between', 'align-items-center'],
-        [
-          _.createButton('Download', ['btn', 'text-primary'], '', async (e) => {
-            e.preventDefault()
-            notifier.__start('Building . . .')
-            const title = titleIp.value || 'Beautiful Day'
-            const author = authorIp.value || 'Anonymous'
-            const about =
-              aboutIp.value || 'something beautiful has been born here'
-            if (fileType.value === 'web') {
-              await downloadWeb(author, about, title)
-            } else {
-              await downloadJSON(author, about, title)
-            }
-            notifier.__end('* Download in progress *')
-          }),
-          fileType,
-        ]
+        [downLoadBtn, fileType]
       ),
     ]
   )
+  return [form, cleanUpDLListener]
 }
 
 export { downloadForm }

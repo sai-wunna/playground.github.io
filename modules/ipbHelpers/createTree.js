@@ -22,15 +22,9 @@ function createTableController(data) {
     for (const child of children) {
       let text = child.children[0] || 'td'
       fragment.appendChild(
-        _.createButton(
-          text.slice(0, 5),
-          ['stack-node'],
-          '',
-          (e, id) => {
-            selectNode(e, id)
-          },
-          `#${child.attrs.id}`
-        )
+        _.createButton(text.slice(0, 5), ['stack-node'], '', (e) => {
+          selectNode(e, `#${child.attrs.id}`)
+        })
       )
     }
     return _.createElement(
@@ -38,15 +32,9 @@ function createTableController(data) {
       '',
       ['stack-node-box'],
       [
-        _.createButton(
-          'tr',
-          ['stack-node'],
-          '',
-          (e, id) => {
-            selectNode(e, id)
-          },
-          `#${id}`
-        ),
+        _.createButton('tr', ['stack-node'], '', (e) => {
+          selectNode(e, `#${id}`)
+        }),
         _.createElement('div', '', ['stack-node-box'], [fragment]),
       ]
     )
@@ -57,15 +45,9 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tHead',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tHeadData.attrs.id}`
-      ),
+      _.createButton('tHead', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tHeadData.attrs.id}`)
+      }),
       createTRNode(tHeadData.children[0]),
     ]
   )
@@ -75,15 +57,9 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tFoot',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tFootData.attrs.id}`
-      ),
+      _.createButton('tFoot', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tFootData.attrs.id}`)
+      }),
       createTRNode(tFootData.children[0]),
     ]
   )
@@ -98,15 +74,9 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'tBody',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${tBodyData.attrs.id}`
-      ),
+      _.createButton('tBody', ['stack-node'], '', (e) => {
+        selectNode(e, `#${tBodyData.attrs.id}`)
+      }),
       bodyDataFragment,
     ]
   )
@@ -126,25 +96,12 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(
-        'table',
-        ['stack-node'],
-        '',
-        (e, id) => {
-          selectNode(e, id)
-        },
-        `#${id}`
-      ),
-      _.createButton(
-        'Del',
-        ['stack-node-delete', 'text-danger'],
-        '',
-        (e, id) => {
-          removeNode(e, id)
-        },
-        `#${id}`,
-        'table'
-      ),
+      _.createButton('table', ['stack-node'], '', (e) => {
+        selectNode(e, `#${id}`)
+      }),
+      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
+        removeNode(e, `#${id}`)
+      }),
       tableStacks,
     ]
   )

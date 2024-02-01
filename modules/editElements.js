@@ -2,7 +2,7 @@
 
 import dom from './dom/index.js'
 import { selectedNode } from './stackTree.js'
-import Validator from './validators/index.js'
+import Validator from './validator/index.js'
 import notify from './notify.js'
 import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
