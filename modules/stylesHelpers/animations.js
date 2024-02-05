@@ -17,8 +17,7 @@ function insertAnimation(data) {
 }
 
 function addNewAnimation(name) {
-  let newName = name || `animation_${new Date().getTime()}`
-  animations[newName] = {}
+  animations[name] = {}
 }
 
 function saveAnimationsStyle(name, kfSelector, key, value) {
@@ -27,14 +26,14 @@ function saveAnimationsStyle(name, kfSelector, key, value) {
       _.getNodeById(`ani_${kfSelector}_${key}_value`).textContent = value
     } else {
       _.getNode(`.kfs-${kfSelector}`).appendChild(
-        createAnimationInfo(name, kfSelector, key, value)
+        createAnimationInfo(kfSelector, key, value)
       )
     }
     animations[name][kfSelector][key] = value
   } else {
     animations[name][kfSelector] = { [`${key}`]: value }
-    _.getNode('.animation-info').appendChild(
-      createAnimationKFSBox(name, kfSelector, key, value)
+    _.getNode('.style-info-listener-wrapper').appendChild(
+      createNewAnimationKFSBox(kfSelector, key, value)
     )
   }
 }
@@ -51,111 +50,63 @@ function deleteAnimation(name) {
   delete animations[name]
 }
 
-function createAnimationForm() {
-  const addNewAnimationBox = _.createElement(
-    'div',
-    '',
-    ['cs-ip-gp'],
-    [
-      _.createLabel('Animation name', 'cs_add_animation_name', ['cs-label']),
-      _.createInput('', ['cs-text-input'], 'cs_add_animation_name', {
-        placeholder: 'Must provide',
-      }),
-      _.createButton('Add', ['inline-btn', 'text-primary'], '', function () {
-        const name = `${_.getNodeById('cs_add_animation_name').value}`
-        if (!name) {
-          notif
-          ier.on('invalidInput')
-          return
-        }
-        if (_.getNodeById('cs_ani_name')) {
-          _.createOption(_.getNodeById('cs_ani_name'), name, name, name)
-        }
-        _.createOption(_.getNodeById('cs_animation_list'), name, name, name)
-        addNewAnimation(name)
-      }),
-    ]
-  )
-  const animationsSelect = _.createSelect(
-    ['cs-select'],
-    '',
-    [],
-    'cs_animation_list',
-    function (e) {
-      const animation = animations[e.target.value]
-      const infoBox = _.getNode('.animation-info')
-      infoBox.innerHTML = ''
-      infoBox.appendChild(animationInfoShower(e.target.value, animation))
+function createListenerWrapper(name) {
+  const wrapper = _.createElement('', '', ['style-info-listener-wrapper'], [])
+  wrapper.addEventListener('click', handleClick)
+  function handleClick(e) {
+    e.stopPropagation()
+    if (e.target.type !== 'button') return
+    e.target.parentElement.remove()
+    const [kfs, key] = e.target.dataset.props.split('-')
+    if (!key) {
+      removeAnimationKFS(name, parseInt(kfs))
+      return
     }
-  )
-  for (let name in animations) {
-    _.createOption(animationsSelect, name, name, name)
+    removeAnimationStyle(name, parseInt(kfs), key)
   }
-  const keyFrameSelectorBox = _.createElement(
-    'div',
-    '',
-    ['cs-ip-gp'],
-    [
-      _.createLabel('Keyframe Selector', 'cs_add_animation_kf_selector', [
-        'cs-label',
-      ]),
-      _.createInput(
-        'number',
-        ['cs-num-input'],
-        'cs_add_animation_kf_selector',
-        {
-          value: 50,
-        }
-      ),
-      animationsSelect,
-      _.createButton('Del', ['inline-btn', 'text-danger'], '', function (e) {
-        e.preventDefault()
-        const name = _.getNodeById('cs_animation_list').value
-        if (!name) return
-        _.getNodeById(`${name}`).remove()
-        deleteAnimation(name)
-        _.getNode(`.animation-info`).innerHTML = ''
-        for (const key in animations) {
-          _.getNode('.animation-info').appendChild(animationInfoShower(key))
-          break
-        }
-      }),
-    ]
-  )
-  return _.createFragment([addNewAnimationBox, keyFrameSelectorBox])
+  return [wrapper, () => wrapper.removeEventListener('click', handleClick)]
 }
 
-function animationInfoShower(name) {
-  const animation = animations[name]
+function createAnimationInfoShower(name) {
+  const [wrapper, wrapperEvtCleaner] = createListenerWrapper(name)
+  wrapper.appendChild(createAnimationInfoFrag(name))
+  return [wrapper, wrapperEvtCleaner]
+}
+
+function createAnimationInfoFrag(name) {
   const fragment = _.createFragment()
-  if (Object.keys(animation).length === 0) return fragment
+  const animation = animations[name]
+  if (!animation) {
+    return fragment
+  }
   for (const [keyFrame, kfStyles] of Object.entries(animation)) {
+    const delBtn = _.createButton('Del', [
+      'inline-btn',
+      'float-end',
+      'text-danger',
+    ])
+    delBtn.dataset.props = `${keyFrame}-`
     const kfsBox = _.createElement(
       'div',
       '',
       ['animation-kfs-box', `kfs-${keyFrame}`],
-      [
-        _.createSpan(`At ${keyFrame}%`, '', ['cs-kfs-label']),
-        _.createButton(
-          'Del',
-          ['inline-btn', 'float-end', 'text-danger'],
-          '',
-          function (e) {
-            e.target.parentElement.remove()
-            removeAnimationKFS(name, keyFrame)
-          }
-        ),
-      ]
+      [_.createSpan(`At ${keyFrame}%`, '', ['cs-kfs-label']), delBtn]
     )
     for (const [key, value] of Object.entries(kfStyles)) {
-      kfsBox.appendChild(createAnimationInfo(name, keyFrame, key, value))
+      kfsBox.appendChild(createAnimationInfo(keyFrame, key, value))
     }
     fragment.appendChild(kfsBox)
   }
   return fragment
 }
 
-function createAnimationInfo(name, kfs, key, value) {
+function createAnimationInfo(kfs, key, value) {
+  const delBtn = _.createButton('Del', [
+    'inline-btn',
+    'text-danger',
+    'float-end',
+  ])
+  delBtn.dataset.props = `${kfs}-${key}`
   return _.createElement(
     'div',
     '',
@@ -167,49 +118,37 @@ function createAnimationInfo(name, kfs, key, value) {
         ['mx-1', 'css-value'],
         `ani_${kfs}_${key.trim()}_value`
       ),
-      _.createButton(
-        'Del',
-        ['inline-btn', 'text-danger', 'float-end'],
-        '',
-        function (e) {
-          e.target.parentElement.remove()
-          removeAnimationStyle(name, kfs, key)
-        }
-      ),
+      delBtn,
     ]
   )
 }
 
-function createAnimationKFSBox(name, kfs, key, value) {
+function createNewAnimationKFSBox(kfs, key, value) {
+  const delBtn = _.createButton('Del', [
+    'inline-btn',
+    'float-end',
+    'text-danger',
+  ])
+  delBtn.dataset.props = `${kfs}-`
   return _.createElement(
     'div',
     '',
     ['animation-kfs-box', `kfs-${kfs}`],
     [
       _.createSpan(`At ${kfs}%`, '', ['cs-kfs-label']),
-      _.createButton(
-        'Del',
-        ['inline-btn', 'float-end', 'text-danger'],
-        '',
-        function (e) {
-          e.target.parentElement.remove()
-          removeAnimationKFS(name, kfs)
-        }
-      ),
-      createAnimationInfo(name, kfs, key, value),
+      delBtn,
+      createAnimationInfo(kfs, key, value),
     ]
   )
 }
 
 export {
   animations,
+  deleteAnimation,
   saveAnimationsStyle,
   addNewAnimation,
-  removeAnimationKFS,
-  removeAnimationStyle,
-  createAnimationForm,
   createAnimationInfo,
-  createAnimationKFSBox,
-  animationInfoShower,
+  createAnimationInfoShower,
   insertAnimation,
+  createAnimationInfoFrag,
 }

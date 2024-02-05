@@ -248,7 +248,7 @@ class KeyValueExtractor {
     const valuesInput = this._.getAllNodes('.ani-tl-view-arg-value')
     const values = [valuesInput[0].value, valuesInput[1].value]
     const type = this._.getNodeById('cs_ani_timeline_view').value
-    const unit = this._.getNodeById('unit_selector').value
+    const unit = this.unitOne.value
     if (type.startsWith('v_')) {
       if (type === 'v_single_inset') {
         value = `${values[0]}${unit}`

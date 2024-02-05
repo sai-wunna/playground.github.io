@@ -8,7 +8,7 @@ import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 const editForms = EditForms(_)
 const validator = Validator()
 const getEditFormBtn = _.getNode('.get-edit-form-btn')

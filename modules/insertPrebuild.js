@@ -10,7 +10,7 @@ import {
 } from './ipbHelpers/createInsertWrapper.js'
 import { insertAnimation } from './stylesHelpers/animations.js'
 import { insertCustomStyles } from './stylesHelpers/customStyles.js'
-import { insertClassNames } from './stylesHelpers/classNameStyles .js'
+import { insertClassNames } from './stylesHelpers/classNameStyles.js'
 import { insertPredefinedStyles } from './stylesHelpers/predefinedStyles.js'
 import { buildApp, buildElementTree } from './ipbHelpers/createTree.js'
 import {
@@ -22,7 +22,7 @@ import {
 import Validators from './validator/index.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 const validator = Validators()
 
 let app
@@ -40,18 +40,6 @@ function preventBubbling(e) {
   e.preventDefault()
   e.stopPropagation()
 }
-
-;['dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
-  drag_drop_box.addEventListener(eventName, preventBubbling)
-})
-;['dragenter', 'dragover'].forEach((eventName) => {
-  drag_drop_box.addEventListener(eventName, highlight)
-})
-;['dragleave', 'drop'].forEach((eventName) => {
-  drag_drop_box.addEventListener(eventName, unHighlight)
-})
-
-drag_drop_box.addEventListener('drop', handleDrop)
 
 function handleDrop(e) {
   const dt = e.dataTransfer
@@ -84,9 +72,8 @@ function handleDrop(e) {
 
   reader.readAsText(file)
 }
-// drag drop handlers ----------------- end
 
-_.on('click', confirmInsertBtn, async (e) => {
+async function handleConfirm(e) {
   e.preventDefault()
 
   lockBtn(confirmInsertBtn)
@@ -135,7 +122,22 @@ _.on('click', confirmInsertBtn, async (e) => {
     confirmInsertBtn.textContent = '- - - - - - - -'
     fileInfo.textContent = '-'
   }
-})
+}
+
+function attachEvtHandlers() {
+  ;['dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
+    drag_drop_box.addEventListener(eventName, preventBubbling)
+  })
+  ;['dragenter', 'dragover'].forEach((eventName) => {
+    drag_drop_box.addEventListener(eventName, highlight)
+  })
+  ;['dragleave', 'drop'].forEach((eventName) => {
+    drag_drop_box.addEventListener(eventName, unHighlight)
+  })
+
+  drag_drop_box.addEventListener('drop', handleDrop)
+  _.on('click', confirmInsertBtn, handleConfirm)
+}
 
 function cleanUpFunc() {
   ;['dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
@@ -149,10 +151,12 @@ function cleanUpFunc() {
   })
 
   drag_drop_box.removeEventListener('drop', handleDrop, false)
+  confirmInsertBtn.removeEventListener('click', handleConfirm)
 }
 
 function createInsertBox() {
+  attachEvtHandlers()
   return [createInsertWrapper(), cleanUpFunc]
 }
 
-export { createInsertBox }
+export default createInsertBox

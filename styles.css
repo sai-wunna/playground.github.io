@@ -436,12 +436,11 @@ body {
 .styled-info {
   height: 100%;
   width: 100%;
-  border-left: 2px solid rgb(105, 105, 105);
+  border-left: 3px solid rgb(105, 105, 105);
 }
-.applied-styles,
-.animation-box,
-.predefined-styles-box {
+.style-info-box {
   overflow-y: auto;
+  padding: 5px;
   width: 100%;
   height: 90%;
   background: white;
@@ -457,9 +456,8 @@ body {
   border-bottom: 1px solid rgb(178, 178, 178);
 }
 .available-class-list {
-  padding: 5px;
-  background-color: rgb(232, 222, 222);
-  border-bottom: 10px solid rgb(199, 217, 218);
+  padding: 0 0 10px 0;
+  border-bottom: 5px solid;
 }
 .animation-form {
   padding: 5px;
@@ -469,18 +467,6 @@ body {
   padding: 5px;
   margin-bottom: 3px;
   background-color: rgb(209, 209, 209);
-}
-
-/* predefined styles start */
-.predefined-elements-box {
-  padding: 5px;
-}
-/* predefined styles end */
-.class-names-box {
-  width: 100%;
-  height: 90%;
-  background: white;
-  box-sizing: border-box;
 }
 .class-names-form {
   padding: 5px;
@@ -536,16 +522,18 @@ body {
 }
 
 .stack-node {
-  min-width: 80px;
+  min-width: 100px;
   max-width: 200px;
   overflow: hidden;
   background-color: aliceblue;
   padding: 0 10px;
   margin: 2px 2px;
   border-radius: 5px;
+  cursor: pointer;
 }
 .stack-node-delete {
   border-radius: 5px;
+  cursor: pointer;
 }
 .selected-node {
   background-color: rgb(139, 201, 255);
@@ -727,7 +715,7 @@ body {
 .drag-drop-box {
   width: 100%;
   height: 100%;
-  border: 2px dashed white;
+  border: 5px dashed white;
   border-radius: 5%;
   transition: 1s;
   transform: scale(0.9);
@@ -758,7 +746,8 @@ body {
 }
 
 .dragging {
-  border-radius: 25%;
+  border: 5px dashed rgb(0, 254, 30);
+  transform: scale(0.95);
 }
 
 #app_wrapper {

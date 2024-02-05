@@ -2,10 +2,9 @@
 
 import dom from '../dom/index.js'
 import notify from '../notify.js'
-import { removeNode, selectNode } from '../stackTree.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 
 function createTableController(data) {
   const {
@@ -22,9 +21,11 @@ function createTableController(data) {
     for (const child of children) {
       let text = child.children[0] || 'td'
       fragment.appendChild(
-        _.createButton(text.slice(0, 5), ['stack-node'], '', (e) => {
-          selectNode(e, `#${child.attrs.id}`)
-        })
+        _.createButton(
+          text.slice(0, 5),
+          ['stack-node'],
+          `btn_s_${child.attrs.id}`
+        )
       )
     }
     return _.createElement(
@@ -32,9 +33,7 @@ function createTableController(data) {
       '',
       ['stack-node-box'],
       [
-        _.createButton('tr', ['stack-node'], '', (e) => {
-          selectNode(e, `#${id}`)
-        }),
+        _.createButton('tr', ['stack-node'], `btn_s_${id}`),
         _.createElement('div', '', ['stack-node-box'], [fragment]),
       ]
     )
@@ -45,9 +44,7 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tHead', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tHeadData.attrs.id}`)
-      }),
+      _.createButton('tHead', ['stack-node'], `btn_s_${tHeadData.attrs.id}`),
       createTRNode(tHeadData.children[0]),
     ]
   )
@@ -57,9 +54,7 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tFoot', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tFootData.attrs.id}`)
-      }),
+      _.createButton('tFoot', ['stack-node'], `btn_s_${tFootData.attrs.id}`),
       createTRNode(tFootData.children[0]),
     ]
   )
@@ -74,9 +69,7 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tBody', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tBodyData.attrs.id}`)
-      }),
+      _.createButton('tBody', ['stack-node'], `btn_s_${tBodyData.attrs.id}`),
       bodyDataFragment,
     ]
   )
@@ -96,12 +89,12 @@ function createTableController(data) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('table', ['stack-node'], '', (e) => {
-        selectNode(e, `#${id}`)
-      }),
-      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
-        removeNode(e, `#${id}`)
-      }),
+      _.createButton('table', ['stack-node'], `btn_s_${id}`),
+      _.createButton(
+        'Del',
+        ['stack-node-delete', 'text-danger'],
+        `btn_d_${id}`
+      ),
       tableStacks,
     ]
   )
@@ -139,11 +132,11 @@ function createControllers(eleData) {
       '',
       ['stack-node-box'],
       [
-        _.createButton(text || tagName, ['stack-node'], '', (e) =>
-          selectNode(e, `#${id}`)
-        ),
-        _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) =>
-          removeNode(e, `#${id}`)
+        _.createButton(text || tagName, ['stack-node'], `btn_s_${id}`),
+        _.createButton(
+          'Del',
+          ['stack-node-delete', 'text-danger'],
+          `btn_d_${id}`
         ),
         childBox,
       ]

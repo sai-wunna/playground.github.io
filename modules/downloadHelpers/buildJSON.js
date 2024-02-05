@@ -2,7 +2,7 @@
 
 import dom from '../dom/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'
-import { classNames } from '../stylesHelpers/classNameStyles .js'
+import { classNames } from '../stylesHelpers/classNameStyles.js'
 import { predefinedStyles } from '../stylesHelpers/predefinedStyles.js'
 import { animations } from '../stylesHelpers/animations.js'
 
@@ -34,7 +34,7 @@ function buildVDom(Node) {
 }
 
 async function downloadJSON(author, about, title) {
-  const tree = buildVDom(_.getNodeById('app'))
+  const tree = await buildVDom(_.getNodeById('app').cloneNode(true))
   const obj = {
     tree,
     info: { author, name: about },

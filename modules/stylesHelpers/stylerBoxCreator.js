@@ -1113,60 +1113,35 @@ class StylerBoxCreator {
             ['cs-num-input', 'cs-ts-xo'],
             '',
             { value: 2 },
-            '',
-            () =>
-              this.#changeStyle(
-                'text-shadow',
-                this.#calStylesData.calTextShadowValue()
-              )
+            ''
           ),
           this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-yo'],
             '',
             { value: 2 },
-            '',
-            () =>
-              this.#changeStyle(
-                'text-shadow',
-                this.#calStylesData.calTextShadowValue()
-              )
+            ''
           ),
           this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-blur'],
             '',
             { value: 5 },
-            '',
-            () =>
-              this.#changeStyle(
-                'text-shadow',
-                this.#calStylesData.calTextShadowValue()
-              )
+            ''
           ),
           this._.createInput(
             'color',
             ['cs-color-input', 'cs-ts-color'],
             '',
             { value: '#000000' },
-            '',
-            () =>
-              this.#changeStyle(
-                'text-shadow',
-                this.#calStylesData.calTextShadowValue()
-              )
+            ''
           ),
           this._.createInput(
             'number',
             ['cs-num-input', 'cs-ts-alpha'],
             '',
             { value: 5, min: 1, max: 10 },
-            '',
-            () =>
-              this.#changeStyle(
-                'text-shadow',
-                this.#calStylesData.calTextShadowValue()
-              )
+            ''
           ),
           removeParentBtn(),
         ]
@@ -1190,6 +1165,12 @@ class StylerBoxCreator {
                 createTextShadowValue()
               )
             }),
+            this._.createButton('Set Values', ['inline-btn'], '', () =>
+              this.#changeStyle(
+                'text-shadow',
+                this.#calStylesData.calTextShadowValue()
+              )
+            ),
           ]
         ),
         createTextShadowValue(),
@@ -2159,78 +2140,26 @@ class StylerBoxCreator {
             { value: '', text: 'Out' },
             { value: 'inset', text: 'Inset' },
           ]),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-bs-xo'],
-            '',
-            { value: 5 },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-bs-yo'],
-            '',
-            { value: 5 },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-bs-blur'],
-            '',
-            { value: 2 },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-bs-spr'],
-            '',
-            { value: 2 },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
-          this._.createInput(
-            'color',
-            ['cs-color-input', 'cs-bs-color'],
-            '',
-            { value: '#000000' },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-bs-alpha'],
-            '',
-            { value: 5, min: 1, max: 10 },
-            '',
-            () =>
-              this.#changeStyle(
-                'box-shadow',
-                this.#calStylesData.calBoxShadowValue()
-              )
-          ),
+          this._.createInput('number', ['cs-num-input', 'cs-bs-xo'], '', {
+            value: 5,
+          }),
+          this._.createInput('number', ['cs-num-input', 'cs-bs-yo'], '', {
+            value: 5,
+          }),
+          this._.createInput('number', ['cs-num-input', 'cs-bs-blur'], '', {
+            value: 2,
+          }),
+          this._.createInput('number', ['cs-num-input', 'cs-bs-spr'], '', {
+            value: 2,
+          }),
+          this._.createInput('color', ['cs-color-input', 'cs-bs-color'], '', {
+            value: '#000000',
+          }),
+          this._.createInput('number', ['cs-num-input', 'cs-bs-alpha'], '', {
+            value: 5,
+            min: 1,
+            max: 10,
+          }),
           removeParentBtn(),
         ]
       )
@@ -2257,9 +2186,14 @@ class StylerBoxCreator {
                 )
               }
             ),
+            this._.createButton('Set Values', ['inline-btn'], '', () =>
+              this.#changeStyle(
+                'box-shadow',
+                this.#calStylesData.calBoxShadowValue()
+              )
+            ),
           ]
         ),
-        this._.createElement('', '', ['cs-ip-gp']),
         boxShadowValueForm(),
       ]
     )
@@ -2274,61 +2208,37 @@ class StylerBoxCreator {
           this._.createInput('', ['cs-text-input', 'cs-trans-name'], '', {
             value: 'opacity',
           }),
-          this._.createInput(
-            'number',
-            ['cs-num-input', 'cs-trans-prd'],
-            '',
-            { min: 0, value: 3 },
-            '',
-            () =>
-              this.#changeStyle(
-                'transition',
-                this.#calStylesData.calTransitionValues(
-                  this._.getAllNodes('.cs-trans-prd'),
-                  this._.getAllNodes('.cs-trans-ef')
-                )
-              )
-          ),
-          this._.createSelect(
-            ['cs-select', 'cs-trans-ef'],
-            '',
-            [
-              { value: 'ease', text: 'Ease' },
-              { value: 'linear', text: 'Linear' },
-              { value: 'ease-in', text: 'Ease In' },
-              { value: 'ease-out', text: 'Ease Out' },
-              { value: 'ease-in-out', text: 'Ease In Out' },
-              {
-                value: 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
-                text: 'Ease In Quadratic',
-              },
-              {
-                value: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                text: 'Ease Out Quadratic',
-              },
-              {
-                value: 'cubic-bezier(0.455, 0.03, 0.515, 0.955)',
-                text: 'Ease In-Out Quadratic',
-              },
-              {
-                value: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
-                text: 'Ease In Cubic',
-              },
-              {
-                value: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
-                text: 'Ease Out Cubic',
-              },
-            ],
-            '',
-            () =>
-              this.#changeStyle(
-                'transition',
-                this.#calStylesData.calTransitionValues(
-                  this._.getAllNodes('.cs-trans-prd'),
-                  this._.getAllNodes('.cs-trans-ef')
-                )
-              )
-          ),
+          this._.createInput('number', ['cs-num-input', 'cs-trans-prd'], '', {
+            min: 0,
+            value: 3,
+          }),
+          this._.createSelect(['cs-select', 'cs-trans-ef'], '', [
+            { value: 'ease', text: 'Ease' },
+            { value: 'linear', text: 'Linear' },
+            { value: 'ease-in', text: 'Ease In' },
+            { value: 'ease-out', text: 'Ease Out' },
+            { value: 'ease-in-out', text: 'Ease In Out' },
+            {
+              value: 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
+              text: 'Ease In Quadratic',
+            },
+            {
+              value: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              text: 'Ease Out Quadratic',
+            },
+            {
+              value: 'cubic-bezier(0.455, 0.03, 0.515, 0.955)',
+              text: 'Ease In-Out Quadratic',
+            },
+            {
+              value: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
+              text: 'Ease In Cubic',
+            },
+            {
+              value: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
+              text: 'Ease Out Cubic',
+            },
+          ]),
           removeParentBtn(),
         ]
       )
@@ -2354,6 +2264,15 @@ class StylerBoxCreator {
                   transitionValuesForm()
                 )
               }
+            ),
+            this._.createButton('Set Values', ['inline-btn'], '', () =>
+              this.#changeStyle(
+                'transition',
+                this.#calStylesData.calTransitionValues(
+                  this._.getAllNodes('.cs-trans-prd'),
+                  this._.getAllNodes('.cs-trans-ef')
+                )
+              )
             ),
           ]
         ),
@@ -3114,6 +3033,25 @@ class StylerBoxCreator {
       ]
     )
 
+    const aniPlayStateBox = this._.createElement(
+      '',
+      '',
+      ['cs-ip-gp'],
+      [
+        this._.createLabel('Play State', 'cs_ani_play_state', ['cs-label']),
+        this._.createSelect(
+          ['cs-select'],
+          '',
+          [
+            { value: 'play', text: 'Play' },
+            { value: 'pause', text: 'Pause' },
+          ],
+          'cs_ani_play_state',
+          (e) => this.#changeStyle('animation-play-state', e.target.value)
+        ),
+      ]
+    )
+
     const aniTimelineViewBox = this._.createElement(
       '',
       '',
@@ -3170,15 +3108,19 @@ class StylerBoxCreator {
           ['cs-ip-gp'],
           [
             this._.createLabel('Cus-1', '', ['cs-label']),
-            this._.createInput('number', [
-              'cs-num-input',
-              'ani-tl-view-arg-value',
-            ]),
+            this._.createInput(
+              'number',
+              ['cs-num-input', 'ani-tl-view-arg-value'],
+              '',
+              { value: 0 }
+            ),
             this._.createLabel('Cus-2', '', ['cs-label']),
-            this._.createInput('number', [
-              'cs-num-input',
-              'ani-tl-view-arg-value',
-            ]),
+            this._.createInput(
+              'number',
+              ['cs-num-input', 'ani-tl-view-arg-value'],
+              '',
+              { value: 0 }
+            ),
           ]
         ),
       ]
@@ -3198,6 +3140,7 @@ class StylerBoxCreator {
         aniDirectionBox,
         aniFillModeBox,
         aniTimeLineScrollBox,
+        aniPlayStateBox,
         aniTimelineViewBox,
       ]
     )

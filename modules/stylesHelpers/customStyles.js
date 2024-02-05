@@ -33,16 +33,13 @@ function saveCusStyle(node, media, condition, key, value) {
   } else {
     const existedBox = _.getNode(`.${media}-${condition}-styles`)
     if (existedBox) {
-      existedBox.appendChild(
-        createStyleInfo(node, media, condition, key, value)
-      )
+      existedBox.appendChild(createStyleInfo(media, condition, key, value))
     } else {
       _.getNode(`.${media}-screen-styles`).appendChild(
         createConditionBox(
-          node,
           media,
           condition,
-          createStyleInfo(node, media, condition, key, value)
+          createStyleInfo(media, condition, key, value)
         )
       )
     }
@@ -61,7 +58,13 @@ function removeCusStyleValue(node, media, condition, key) {
   delete customStyles[node][media][condition][key]
 }
 
-function createStyleInfo(node, media, condition, key, value) {
+function createStyleInfo(media, condition, key, value) {
+  const delBtn = _.createButton('Del', [
+    'inline-btn',
+    'text-danger',
+    'float-end',
+  ])
+  delBtn.dataset.props = `${media}-${condition}-${key}`
   return _.createElement(
     '',
     '',
@@ -73,49 +76,54 @@ function createStyleInfo(node, media, condition, key, value) {
         ['mx-1', 'css-value'],
         `${media}_${condition}_${key.trim()}_value`
       ),
-      _.createButton(
-        'Del',
-        ['inline-btn', 'text-danger', 'float-end'],
-        '',
-        (e) => {
-          e.target.parentElement.remove()
-          removeCusStyleValue(node, media, condition, key)
-        }
-      ),
+      delBtn,
     ]
   )
 }
 
-function createConditionBox(node, media, condition, styleInfoFragment) {
+function createConditionBox(media, condition, styleInfoFragment) {
+  const delBtn = _.createButton('Del', [
+    'inline-btn',
+    'text-danger',
+    'float-end',
+  ])
+  delBtn.dataset.props = `${media}-${condition}-`
   return _.createElement(
     '',
     '',
     [`${media}-${condition}-styles`],
     [
-      _.createButton(
-        'Del',
-        ['inline-btn', 'text-danger', 'float-end'],
-        '',
-        (e) => {
-          e.target.parentElement.remove()
-          removeConditionStyles(node, media, condition)
-        }
-      ),
+      delBtn,
       _.createElement('', condition, ['style-type-label']),
       styleInfoFragment,
     ]
   )
 }
+// listen all event here
+function createListenerWrapper(node) {
+  const wrapper = _.createElement('', '', ['style-info-listener-wrapper'], [])
+  wrapper.addEventListener('click', handleClick)
+  function handleClick(e) {
+    e.stopPropagation()
+    if (e.target.type !== 'button') return
+    e.target.parentElement.remove()
+    const [media, condition, key] = e.target.dataset.props.split('-')
+    if (!key) {
+      removeConditionStyles(node, media, condition)
+      return
+    }
+    removeCusStyleValue(node, media, condition, key)
+  }
+  return [wrapper, () => wrapper.removeEventListener('click', handleClick)]
+}
 
 function createCusStyleInfoShower(node) {
   const customStyle = customStyles[node]
+  const [listenerWrapper, listenerEvtCleaner] = createListenerWrapper(node)
 
   if (!customStyle) {
-    return _.createElement(
-      '',
-      '',
-      ['applied-styles'],
-      [
+    listenerWrapper.appendChild(
+      _.createFragment([
         ...mediaTypes.map((media) =>
           _.createElement(
             '',
@@ -124,11 +132,10 @@ function createCusStyleInfoShower(node) {
             [_.createHeading('h6', `${media} Screen`)]
           )
         ),
-      ]
+      ])
     )
+    return [listenerWrapper, listenerEvtCleaner]
   }
-
-  const styleFragment = _.createFragment()
 
   mediaTypes.forEach((media) => {
     const mediaStyles = customStyle[media]
@@ -143,18 +150,18 @@ function createCusStyleInfoShower(node) {
       const conditionStyleFrag = _.createFragment()
       for (const [key, value] of Object.entries(conditionStyles)) {
         conditionStyleFrag.appendChild(
-          createStyleInfo(customStyle, media, condition, key, value)
+          createStyleInfo(media, condition, key, value)
         )
       }
       mediaStyleBox.appendChild(
-        createConditionBox(customStyle, media, condition, conditionStyleFrag)
+        createConditionBox(media, condition, conditionStyleFrag)
       )
     }
 
-    styleFragment.appendChild(mediaStyleBox)
+    listenerWrapper.appendChild(mediaStyleBox)
   })
 
-  return _.createElement('', '', ['applied-styles'], [styleFragment])
+  return [listenerWrapper, listenerEvtCleaner]
 }
 
 export {

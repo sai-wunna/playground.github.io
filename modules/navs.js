@@ -2,12 +2,10 @@
 import dom from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import { downloadForm } from './download.js'
-import { createInsertBox } from './insertPrebuild.js'
 import notify from './notify.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 
 const element_create_wrapper = _.getNode('.create-element-form-wrapper')
 const elements_opener_btn = _.getNode('.elements_opener')
@@ -91,23 +89,27 @@ function setPriorityWrapper(wp) {
 }
 
 _.on('click', element_create_wrapper, (e) => {
+  if (e.target.type === 'button') return
   setPriorityWrapper(element_create_wrapper)
 })
 
 _.on('click', style_tools_wrapper, (e) => {
+  if (e.target.type === 'button') return
   setPriorityWrapper(style_tools_wrapper)
 })
 
 _.on('click', stacks_wrapper, (e) => {
+  if (e.target.type === 'button') return
   setPriorityWrapper(stacks_wrapper)
 })
 
 _.on('click', editor_wrapper, (e) => {
+  if (e.target.type === 'button') return
   setPriorityWrapper(editor_wrapper)
 })
-// here clean up set up
+
 let downloadEvtCleaner = null
-_.on('click', download_form_btn, (e) => {
+_.on('click', download_form_btn, async (e) => {
   e.preventDefault()
   lockBtn(download_form_btn)
   const existed = _.getNode('.download-form')
@@ -116,14 +118,15 @@ _.on('click', download_form_btn, (e) => {
     existed.remove()
     downloadEvtCleaner = null
   } else {
-    const [form, cleaner] = downloadForm()
+    const loadedFile = await import('./download.js')
+    const [form, cleaner] = loadedFile.default()
     _.appendChild(form)
     downloadEvtCleaner = cleaner
   }
 })
-// here clean up set up
+
 let insertEvtCleaner = null
-_.on('click', insert_wrapper_btn, (e) => {
+_.on('click', insert_wrapper_btn, async (e) => {
   e.preventDefault()
   lockBtn(insert_wrapper_btn)
   const existed = _.getNode('.insert-wrapper')
@@ -133,7 +136,8 @@ _.on('click', insert_wrapper_btn, (e) => {
     insertEvtCleaner = null
   } else {
     notifier.on('fileInsertCaution')
-    const [box, cleaner] = createInsertBox()
+    const loadedFile = await import('./insertPrebuild.js')
+    const [box, cleaner] = loadedFile.default()
     _.appendChild(box)
     insertEvtCleaner = cleaner
   }

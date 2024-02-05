@@ -4,18 +4,18 @@ import Validator from './validator/index.js'
 import notify from './notify.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { removeCusStyle } from './stylesHelpers/customStyles.js'
-import { createTargetStyleInfoBox } from './stylesHelpers/styleInfoBoxes.js'
+import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 const validator = Validator()
 
 const high_light_ele = _.getNodeById('high_light_ele')
 const element_pointer = _.getNodeById('element_pointer')
 const appNode = _.getNode('.app-node')
 const isInsertBefore = _.getNodeById('beforeOrAfter')
+const childrenStackWrapper = _.getNodeById('children_c')
 
-const eventRef = {}
 let selectedNode = '#app'
 let selectedTreeNode = '#children'
 
@@ -34,6 +34,26 @@ _.on('change', high_light_ele, (e) => {
     removePointOutTheEle()
   }
 })
+// handle all select and remove event by the parent wrapper
+_.on(
+  'click',
+  childrenStackWrapper,
+  (e) => {
+    e.preventDefault()
+    e.stopPropagation() // stop evt bubbling
+    lockBtn(e.target)
+    const id = e.target.id
+    if (!id) return
+    if (!id.startsWith('btn')) return
+    const nodeId = `#${id.slice(6)}`
+    if (id.startsWith('btn_d')) {
+      removeNode(e.target, nodeId)
+      return
+    }
+    selectNode(e.target, nodeId)
+  },
+  true
+)
 
 function addTableStack(tableId, thData, tbData, tfData) {
   function createTRNode(data, trId) {
@@ -41,9 +61,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     data.forEach((one) => {
       let text = one.text || one.heading || 'td'
       fragment.appendChild(
-        _.createButton(text.slice(0, 5), ['stack-node'], '', (e) => {
-          selectNode(e, `#${one.id}`)
-        })
+        _.createButton(text.slice(0, 5), ['stack-node'], `btn_s_${one.id}`)
       )
     })
     return _.createElement(
@@ -51,9 +69,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
       '',
       ['stack-node-box'],
       [
-        _.createButton('tr', ['stack-node'], '', (e) => {
-          selectNode(e, `#${trId}`)
-        }),
+        _.createButton('tr', ['stack-node'], `btn_s_${trId}`),
         _.createElement('div', '', ['stack-node-box'], [fragment]),
       ]
     )
@@ -63,9 +79,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tHead', ['stack-node'], '', (e) => {
-        selectNode(e, `#${thData.thId}`)
-      }),
+      _.createButton('tHead', ['stack-node'], `btn_s_${thData.thId}`),
       createTRNode(thData.data, thData.trId),
     ]
   )
@@ -74,9 +88,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tFoot', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tfData.tfId}`)
-      }),
+      _.createButton('tFoot', ['stack-node'], `btn_s_${tfData.tfId}`),
       createTRNode(tfData.data, tfData.trId),
     ]
   )
@@ -89,9 +101,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('tBody', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tbData.tbId}`)
-      }),
+      _.createButton('tBody', ['stack-node'], `btn_s_${tbData.tbId}`),
       bodyDataFragment,
     ]
   )
@@ -108,12 +118,12 @@ function addTableStack(tableId, thData, tbData, tfData) {
     '',
     ['stack-node-box'],
     [
-      _.createButton('table', ['stack-node'], '', (e) => {
-        selectNode(e, `#${tableId}`)
-      }),
-      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
-        removeNode(e, `#${tableId}`)
-      }),
+      _.createButton('table', ['stack-node'], `btn_s_${tableId}`),
+      _.createButton(
+        'Del',
+        ['stack-node-delete', 'text-danger'],
+        `btn_d_${tableId}`
+      ),
       tableStacks,
     ]
   )
@@ -157,19 +167,12 @@ function addSelectionStack(selectId, options) {
       '',
       ['stack-node-box'],
       [
-        _.createButton(text, ['stack-node'], '', (e) => {
-          selectNode(e, `#${id}`)
-        }),
-        _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) => {
-          e.preventDefault()
-          _.getNode(`#${selectId}`).querySelector(id).remove()
-          e.target.parentElement.remove()
-          if (`#${id} ` === selectedNode) {
-            selectAppNode()
-          } else {
-            pointOutTheEle(selectedNode)
-          }
-        }),
+        _.createButton(text, ['stack-node'], `btn_s_${id}`),
+        _.createButton(
+          'Del',
+          ['stack-node-delete', 'text-danger'],
+          `btn_d_${id}`
+        ),
       ]
     )
   }
@@ -231,30 +234,31 @@ function createTreeNode(id, name, children) {
     '',
     ['stack-node-box'],
     [
-      _.createButton(name, ['stack-node'], '', (e) => selectNode(e, `#${id}`)),
-      _.createButton('Del', ['stack-node-delete', 'text-danger'], '', (e) =>
-        removeNode(e, `#${id}`)
+      _.createButton(name, ['stack-node'], `btn_s_${id}`),
+      _.createButton(
+        'Del',
+        ['stack-node-delete', 'text-danger'],
+        `btn_d_${id}`
       ),
       childrenBox,
     ]
   )
 }
 
-function selectNode(e, id) {
+function selectNode(node, id) {
   if (id === selectedNode) return
-  lockBtn(e.target)
   pointOutTheEle(id)
   selectedNode = selectedTreeNode = id
   setTargetEleShowers(id)
-  createTargetStyleInfoBox(id)
-  setSelectedNodeStyle(e.target)
+  createStyleInfoBox.targetStyleInfoBox(id)
+  setSelectedNodeStyle(node)
 
   _.getNodeById('edit_form')?.remove()
 }
 
-function removeNode(e, id) {
+function removeNode(node, id) {
   _.getNode(id).remove()
-  e.target.parentElement.remove()
+  node.parentElement.remove()
   if (id === selectedNode || !_.getNode(selectedNode)) {
     selectAppNode()
   } else {
@@ -275,7 +279,7 @@ function selectAppNode() {
   setTargetEleShowers('#app')
   selectedNode = '#app'
   selectedTreeNode = '#children'
-  createTargetStyleInfoBox('#app')
+  createStyleInfoBox.targetStyleInfoBox('#app')
   _.getNodeById('edit_form')?.remove()
 }
 

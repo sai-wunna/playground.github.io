@@ -53,28 +53,28 @@ function removePredefinedStyle(ele, condition, key) {
 // data manipulation done
 
 function changePredStyle(ele, condition, key, value) {
-  const appliedStyle = _.getNodeById(`${ele}_${condition}_${key.trim()}_value`)
+  const appliedStyle = _.getNodeById(`${condition}_${key.trim()}_value`)
   if (appliedStyle) {
     appliedStyle.textContent = value
   } else {
     const conditionBox = _.getNode(`.pred-styles-${condition}-info`)
-    const styleInfo = createPredStyleInfo(ele, condition, key, value)
+    const styleInfo = createPredStyleInfo(condition, key, value)
     if (conditionBox) {
       conditionBox.appendChild(styleInfo)
     } else {
       const newConditionBox = createConditionBox(ele, condition, {
         [`${key}`]: value,
       })
-      _.getNode('.predefined-styles-info').appendChild(newConditionBox)
+      _.getNode('.style-info-listener-wrapper').appendChild(newConditionBox)
     }
   }
   savePredefinedStyles(ele, condition, key, value)
 }
 
-function createConditionBox(ele, condition, styles) {
+function createConditionBox(condition, styles) {
   const fragment = _.createFragment()
-  for (let key in styles) {
-    fragment.appendChild(createPredStyleInfo(ele, condition, key, styles[key]))
+  for (let [key, value] of Object.entries(styles)) {
+    fragment.appendChild(createPredStyleInfo(condition, key, value))
   }
   return _.createElement(
     '',
@@ -98,7 +98,13 @@ function createPredStyleInfoFrag(ele) {
   return stylesFrags
 }
 
-function createPredStyleInfo(ele, condition, key, value) {
+function createPredStyleInfo(condition, key, value) {
+  const delBtn = _.createButton('Del', [
+    'inline-btn',
+    'text-danger',
+    'float-end',
+  ])
+  delBtn.dataset.props = `${condition}-${key}`
   return _.createElement(
     '',
     '',
@@ -108,19 +114,30 @@ function createPredStyleInfo(ele, condition, key, value) {
       _.createSpan(
         value,
         ['mx-1', 'css-value'],
-        `${ele}_${condition}_${key.trim()}_value`
+        `${condition}_${key.trim()}_value`
       ),
-      _.createButton(
-        'Del',
-        ['inline-btn', 'text-danger', 'float-end'],
-        '',
-        (e) => {
-          e.target.parentElement.remove()
-          removePredefinedStyle(ele, condition, key)
-        }
-      ),
+      delBtn,
     ]
   )
+}
+// listen all event here
+function createListenerWrapper(ele) {
+  const wrapper = _.createElement('', '', ['style-info-listener-wrapper'], [])
+  wrapper.addEventListener('click', handleClick)
+  function handleClick(e) {
+    e.stopPropagation()
+    if (e.target.type !== 'button') return
+    e.target.parentElement.remove()
+    const [condition, key] = e.target.dataset.props.split('-')
+    removePredefinedStyle(ele, condition, key)
+  }
+  return [wrapper, () => wrapper.removeEventListener('click', handleClick)]
+}
+
+function createPredStyleInfoShower(ele) {
+  const [wrapper, wrapperCleaner] = createListenerWrapper(ele)
+  wrapper.appendChild(createPredStyleInfoFrag(ele))
+  return [wrapper, wrapperCleaner]
 }
 
 export {
@@ -129,4 +146,5 @@ export {
   savePredefinedStyles,
   changePredStyle,
   insertPredefinedStyles,
+  createPredStyleInfoShower,
 }

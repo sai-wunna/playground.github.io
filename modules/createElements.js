@@ -26,7 +26,7 @@ const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
 
 const validator = Validator()
-const notifier = notify(_)
+const notifier = notify()
 const forms = CEF(_)
 const deploy = DeployElement(
   _,

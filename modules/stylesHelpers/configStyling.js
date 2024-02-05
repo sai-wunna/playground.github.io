@@ -52,7 +52,7 @@ function createConfigureBox() {
       }
     }
   )
-  const saveBtn = _.createButton(
+  const [saveBtn, saveBtnEvtCleaner] = _.createButton(
     'Save',
     ['btn', 'text-primary', 'm-1', 'float-end'],
     '',
@@ -62,9 +62,10 @@ function createConfigureBox() {
         parseInt(minWidthIp.value),
         parseInt(maxWidthIp.value)
       )
-    }
+    },
+    true
   )
-  return _.createElement(
+  const box = _.createElement(
     '',
     '',
     ['styling-config-wrapper'],
@@ -78,6 +79,7 @@ function createConfigureBox() {
       saveBtn,
     ]
   )
+  return [box, saveBtnEvtCleaner]
 }
 
 export { mediaQueries, createConfigureBox }

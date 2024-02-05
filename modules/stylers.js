@@ -19,18 +19,13 @@ import {
   changePredStyle,
   predefinedStyles,
 } from './stylesHelpers/predefinedStyles.js'
-import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles .js'
-import {
-  createAnimationsBox,
-  createClassNamesBox,
-  createPredefinedStylesBox,
-  createTargetStyleInfoBox,
-} from './stylesHelpers/styleInfoBoxes.js'
+import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles.js'
+import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { createConfigureBox } from './stylesHelpers/configStyling.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 const stylerBoxCreator = new StylerBoxCreator(_, changeAppliedStyes)
 
 const stylesBoxChooser = _.getNodeById('styles_box_chooser')
@@ -40,7 +35,7 @@ const pseudo_class_chooser = _.getNodeById('style_pseudo_class_chooser')
 const style_combinator = _.getNodeById('style_combinator')
 const pseudo_effect_on = _.getNodeById('pseudo_effect_on')
 const switch_css_mode_chooser = _.getNodeById('switch_css_mode')
-const save_styles_btn = _.getNodeById('save_media_styles')
+const apply_styles_btn = _.getNodeById('apply_all_styles')
 const styles_config_btn = _.getNodeById('styles_config_btn')
 
 const animationStyleTag = _.getNodeById('my_animations')
@@ -134,24 +129,24 @@ async function appliedLatestStyles() {
     isClassNamesChanged = false // flag not to update
   }
 
-  save_styles_btn.textContent = '. Done .'
+  apply_styles_btn.textContent = '. Done .'
   let timerId = setTimeout(() => {
-    save_styles_btn.textContent = 'apply all'
-    save_styles_btn.disabled = false
+    apply_styles_btn.textContent = 'apply all'
+    apply_styles_btn.disabled = false
   }, 1000)
   pointOutTheEle(selectedNode)
   return () => clearTimeout(timerId)
 }
 
-_.on('click', save_styles_btn, (e) => {
+_.on('click', apply_styles_btn, (e) => {
   e.preventDefault()
   if (!isStyleChanged) {
     notifier.on('noUpdate')
     return
   }
-  save_styles_btn.disabled = true
+  apply_styles_btn.disabled = true
   isStyleChanged = false
-  save_styles_btn.textContent = 'Applying .'
+  apply_styles_btn.textContent = 'Applying .'
   appliedLatestStyles()
 })
 
@@ -159,13 +154,13 @@ _.on('change', switch_css_mode_chooser, (e) => {
   e.preventDefault()
   const mode = e.target.value
   if (mode === 'normal') {
-    createTargetStyleInfoBox(selectedNode)
+    createStyleInfoBox.targetStyleInfoBox(selectedNode)
   } else if (mode === 'animation') {
-    createAnimationsBox()
+    createStyleInfoBox.animationBox()
   } else if (mode === 'predefined') {
-    createPredefinedStylesBox('button')
+    createStyleInfoBox.predefinedStylesBox('all')
   } else {
-    createClassNamesBox()
+    createStyleInfoBox.classNamesBox()
   }
 })
 // ----------- styling mode end
@@ -176,63 +171,84 @@ function changeAppliedStyes(key, value) {
   const condition = pseudo_class_chooser.value
 
   if (mode === 'animation') {
-    if (key === 'animation') {
-      notifier.on('invalidInput')
-      return
-    }
-    const name = _.getNodeById('cs_animation_list').value
-    if (!name) {
-      notifier.on('noSelectedAnimation')
-      return
-    }
-    const validKeyFrame = Math.max(
-      Math.min(
-        parseInt(_.getNodeById('cs_add_animation_kf_selector').value),
-        100
-      ),
-      0
-    ).toString()
-    saveAnimationsStyle(name, validKeyFrame, key, value)
-    isAnimationChanged = true // flag to update
+    setAnimationStyle(key, value)
   } else if (mode === 'normal') {
-    saveCusStyle(selectedNode, media, condition, key, value)
-    isCustomStylesChanged = true // flag to update
+    setCustomStyle(media, condition, key, value)
   } else if (mode === 'predefined') {
-    const ele = _.getNodeById('predefined_element').value
-    changePredStyle(ele, condition, key, value)
-    isPredefinedStylesChanged = true // flag to update
+    setPredStyle(condition, key, value)
   } else {
-    const name = _.getNodeById('class_name_list').value
-    const interceptor = pseudo_effect_on.value || 'self'
-    const combinator = style_combinator.value
-    let consumer = ''
-    if (condition === 'standard' || interceptor === 'self') {
-      consumer = 'self'
-    } else {
-      consumer = `${combinator}${interceptor}`
-    }
-    if (!name) {
-      notifier.on('noSelectedCN')
-      return
-    }
-    saveCNStyle(name, media, condition, consumer, key, value)
-    isClassNamesChanged = true // flag to update
+    setClassNameStyle(media, condition, key, value)
   }
   isStyleChanged = true
 }
 
+function setAnimationStyle(key, value) {
+  if (key === 'animation') {
+    notifier.on('invalidInput')
+    return
+  }
+  const name = _.getNodeById('cs_animation_list').value
+  if (!name) {
+    notifier.on('noSelectedAnimation')
+    return
+  }
+  const validKeyFrame = Math.max(
+    Math.min(
+      parseInt(_.getNodeById('cs_add_animation_kf_selector').value),
+      100
+    ),
+    0
+  ).toString()
+  saveAnimationsStyle(name, parseInt(validKeyFrame), key, value)
+  isAnimationChanged = true // flag to update
+}
+
+function setPredStyle(condition, key, value) {
+  const ele = _.getNodeById('predefined_element').value
+  changePredStyle(ele, condition, key, value)
+  isPredefinedStylesChanged = true // flag to update
+}
+
+function setClassNameStyle(media, condition, key, value) {
+  const name = _.getNodeById('class_name_list').value
+  const interceptor = pseudo_effect_on.value || 'self'
+  const combinator = style_combinator.value
+  let consumer = ''
+  if (condition === 'standard' || interceptor === 'self') {
+    consumer = 'self'
+  } else {
+    consumer = `${combinator}${interceptor}`
+  }
+  if (!name) {
+    notifier.on('noSelectedCN')
+    return
+  }
+  saveCNStyle(name, media, condition, consumer, key, value)
+  isClassNamesChanged = true // flag to update
+}
+
+function setCustomStyle(media, condition, key, value) {
+  saveCusStyle(selectedNode, media, condition, key, value)
+  isCustomStylesChanged = true // flag to update
+}
+
 // configure media-queries( && styling for more to come --)
+let configBoxEvtCleaner = null
 _.on('click', styles_config_btn, (e) => {
   e.preventDefault()
   lockBtn(styles_config_btn)
   const existed = _.getNode('.styling-config-wrapper')
   if (existed) {
+    configBoxEvtCleaner()
     existed.remove()
+    configBoxEvtCleaner = null
   } else {
-    _.appendChild(createConfigureBox())
+    const [box, cleaner] = createConfigureBox()
+    _.appendChild(box)
+    configBoxEvtCleaner = cleaner
   }
 })
 // initialize styled information
-createTargetStyleInfoBox('#app')
+createStyleInfoBox.targetStyleInfoBox('#app')
 
 export default 'styler joined'

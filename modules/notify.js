@@ -1,9 +1,12 @@
 'use strict'
 
+import dom from './dom/index.js'
+
 class Notify {
   #alertMessages = {
     invalid: 'Invalid Action',
     noSelectedAnimation: 'Please create new animation or select from List.',
+    existedAnimation: 'This Animation has already been created',
     noSelectedCN: 'Please create new className or select from list',
     invalidCN: 'No Class-name found to style',
     noAvailableCN: 'No Class-name has been created',
@@ -58,8 +61,8 @@ class Notify {
     }
   }
 
-  __start(msg) {
-    this.#progressLoader.textContent = msg ? msg : 'Loading'
+  __start(msg = 'Loading') {
+    this.#progressLoader.textContent = msg
     this._.getNodeById('wrapper').appendChild(this.#progressLoader)
   }
 
@@ -76,4 +79,6 @@ class Notify {
   }
 }
 
-export default (doc, countLimit) => new Notify(doc, countLimit)
+const notifier = new Notify(dom())
+
+export default () => notifier

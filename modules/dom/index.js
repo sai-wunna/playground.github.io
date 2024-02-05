@@ -1,9 +1,12 @@
 'use strict'
 
 class Doc {
-  constructor(doc = document) {
-    this._ = doc
+  constructor() {
+    this._ = document
   }
+  // constructor(doc = document) {
+  //   this._ = doc
+  // }
 
   getNode(node) {
     return this._.querySelector(node)
@@ -664,5 +667,7 @@ class Doc {
     }
   }
 }
+// only for this app
+const dom = new Doc()
 
-export default (doc) => new Doc(doc)
+export default () => dom

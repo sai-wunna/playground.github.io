@@ -6,7 +6,7 @@ import downloadJSON from './downloadHelpers/buildJSON.js'
 import downloadWeb from './downloadHelpers/buildWeb.js'
 
 const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 
 // download form -------------
 
@@ -69,4 +69,4 @@ function downloadForm() {
   return [form, cleanUpDLListener]
 }
 
-export { downloadForm }
+export default downloadForm

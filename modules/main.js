@@ -1,9 +1,6 @@
 'use strict'
 import notify from './notify.js'
-import dom from './dom/index.js'
-
-const _ = dom()
-const notifier = notify(_)
+const notifier = notify()
 
 ;(async () => {
   notifier.__start('Loading')
@@ -20,8 +17,7 @@ const notifier = notify(_)
 
 console.log('%cHello\nWorld', 'color: blue; font-size: 32px;')
 
-// _.on('beforeunload', window, (e) => {
-//   e.preventDefault()
-//   e.returnValue = true
-// })
-// for production only
+_.on('beforeunload', window, (e) => {
+  e.preventDefault()
+  e.returnValue = true
+})
