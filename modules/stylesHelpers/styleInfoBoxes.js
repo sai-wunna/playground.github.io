@@ -1,12 +1,11 @@
 'use strict'
 
-import dom from '../dom/index.js'
+import _ from '../dom/index.js'
 import { createCusStyleInfoShower } from './customStyles.js'
 import {
   addNewAnimation,
   createAnimationInfoShower,
   animations,
-  createAnimationInfoFrag,
   deleteAnimation,
 } from './animations.js'
 import {
@@ -19,12 +18,12 @@ import {
   createCNInfoShower,
   removeClassName,
 } from './classNameStyles.js'
-import notify from '../notify.js'
+import notifier from '../notify.js'
 
 class StyleInfoBox {
   constructor() {
-    this._ = dom()
-    this.notifier = notify()
+    this._ = _
+    this.notifier = notifier
     this.infoBoxEvtCleaner = () => {}
     this.infoBox = this._.createElement('', '', ['style-info-box'], [])
     this._.getNode('.styled-info').appendChild(this.infoBox)
@@ -37,26 +36,22 @@ class StyleInfoBox {
   }
 
   targetStyleInfoBox(selectedNode) {
-    const evtCleaners = []
     const target = this._.getNode(selectedNode)
     this._.getNodeById('switch_css_mode')[0].selected = true
-    //  listener wrapper and it's evt cleaner
+    // initial wrapper
     const [listenerWrapper, wrapperEvtCleaner] =
       createCusStyleInfoShower(selectedNode)
-    // add evt clean up func
-    evtCleaners.push(wrapperEvtCleaner)
-    const createCNSelect = () => {
-      const select = this._.createSelect(
-        ['cs-select'],
-        '',
-        [],
-        'add_class_list_selector'
-      )
-      for (let cn in classNames) {
-        this._.createOption(select, cn, cn, cn)
-      }
-      return select
+
+    const availableCnSelect = this._.createSelect(
+      ['cs-select'],
+      '',
+      [],
+      'add_class_list_selector'
+    )
+    for (let cn in classNames) {
+      this._.createOption(availableCnSelect, cn, cn, cn)
     }
+
     const createClassNameInfo = (name) => {
       const [delBtn, cleaner] = this._.createButton(
         'Del',
@@ -68,59 +63,64 @@ class StyleInfoBox {
         },
         true
       )
-      // add event cleaner func
-      evtCleaners.push(cleaner)
-      return this._.createElement(
-        '',
-        '',
-        ['style-info', 'my-1'],
-        [this._.createSpan(name, ['css-key', 'mx-1']), delBtn]
-      )
+      return [
+        this._.createElement(
+          '',
+          '',
+          ['style-info', 'my-1'],
+          [this._.createSpan(name, ['css-key', 'mx-1']), delBtn]
+        ),
+        cleaner,
+      ]
     }
     const appliedClassList = target.className.split(' ')
+
     const classListFrag = this._.createFragment()
+    // add to clean-list
+    const infoEvtCleaners = []
     appliedClassList.forEach((cn) => {
       if (!cn) return
-      classListFrag.appendChild(createClassNameInfo(cn))
+      const [info, cleaner] = createClassNameInfo(cn)
+      classListFrag.appendChild(info)
+      infoEvtCleaners.push(cleaner)
     })
-    const createClassListBox = () => {
-      const [btn, btnEvtCleaner] = this._.createButton(
-        'Add',
-        ['inline-btn', 'text-primary'],
-        '',
-        () => {
-          const name = this._.getNodeById('add_class_list_selector').value
-          if (!name) {
-            this.notifier.on('noAvailableCN')
-            return
-          }
-          if (target.classList.contains(name)) return
-          target.classList.add(name)
-          this._.getNode('.applied-classlist').appendChild(
-            createClassNameInfo(name)
-          )
-        },
-        true
-      )
-      // add event cleaner func
-      evtCleaners.push(btnEvtCleaner)
-      return this._.createElement(
-        '',
-        '',
-        ['available-class-list'],
-        [
-          this._.createElement('', '', '', [createCNSelect(), btn]),
-          this._.createHeading('h6', 'Added ClassList'),
-          this._.createElement('', '', ['applied-classlist'], [classListFrag]),
-        ]
-      )
-    }
+
+    const [addClassNameBtn, addClassNameBtnEvtCleaner] = this._.createButton(
+      'Add',
+      ['inline-btn', 'text-primary'],
+      '',
+      () => {
+        const name = this._.getNodeById('add_class_list_selector').value
+        if (!name) {
+          this.notifier.on('noAvailableCN')
+          return
+        }
+        if (target.classList.contains(name)) return
+        target.classList.add(name)
+        this._.getNode('.applied-classlist').appendChild(
+          createClassNameInfo(name)
+        )
+      },
+      true
+    )
+    const classListBox = this._.createElement(
+      '',
+      '',
+      ['available-class-list'],
+      [
+        this._.createElement('', '', '', [availableCnSelect, addClassNameBtn]),
+        this._.createHeading('h6', 'Added ClassList'),
+        this._.createElement('', '', ['applied-classlist'], [classListFrag]),
+      ]
+    )
     // clean up previous events and set up event cleaner
     this.infoBoxEvtCleaner()
     this.infoBoxEvtCleaner = () => {
-      evtCleaners.forEach((cleaner) => cleaner())
+      addClassNameBtnEvtCleaner()
+      wrapperEvtCleaner()
+      infoEvtCleaners.forEach((cleaner) => cleaner())
     }
-    this.#render(createClassListBox(), listenerWrapper)
+    this.#render(classListBox, listenerWrapper)
   }
 
   predefinedStylesBox(selectedEle) {
@@ -356,12 +356,17 @@ class StyleInfoBox {
       },
       true
     )
+    const addNewCnInput = this._.createInput(
+      '',
+      ['cs-text-input'],
+      'add_new_cn'
+    )
     const [addBtn, addBtnCleaner] = this._.createButton(
       'Add',
       ['inline-btn'],
       '',
       () => {
-        let name = this._.getNodeById('add_new_cn').value
+        let name = addNewCnInput.value
         if (!name || !isNaN(parseInt(name[0]))) {
           this.notifier.on('invalidInput')
           return
@@ -392,12 +397,7 @@ class StyleInfoBox {
         'justify-content-between',
         'align-items-center',
       ],
-      [
-        delBtn,
-        cnSelect,
-        this._.createInput('', ['cs-text-input'], 'add_new_cn'),
-        addBtn,
-      ]
+      [delBtn, cnSelect, addNewCnInput, addBtn]
     )
 
     // set up event cleaner and clean up previous event
@@ -406,6 +406,7 @@ class StyleInfoBox {
       cnSelectCleaner()
       delBtnEvtCleaner()
       addBtnCleaner()
+      wrapperEvtCleaner()
     }
 
     this.#render(form, wrapper)

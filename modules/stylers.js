@@ -1,7 +1,7 @@
 'use strict'
 
-import dom from './dom/index.js'
-import notify from './notify.js'
+import _ from './dom/index.js'
+import notifier from './notify.js'
 import { pointOutTheEle, selectedNode } from './stackTree.js'
 import {
   unitSelectors,
@@ -24,10 +24,6 @@ import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import { createConfigureBox } from './stylesHelpers/configStyling.js'
 
-const _ = dom()
-const notifier = notify()
-const stylerBoxCreator = new StylerBoxCreator(_, changeAppliedStyes)
-
 const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
 const media_chooser = _.getNodeById('style_screen_chooser')
@@ -43,6 +39,7 @@ const predefinedStyleTag = _.getNodeById('my_predefined_styles')
 const customStyleTag = _.getNodeById('my_custom_styles')
 const classNameStyleTag = _.getNodeById('my_className_styles')
 
+const stylerBoxCreator = new StylerBoxCreator(_, changeAppliedStyes)
 let isStyleChanged = false
 let isAnimationChanged = false
 let isPredefinedStylesChanged = false

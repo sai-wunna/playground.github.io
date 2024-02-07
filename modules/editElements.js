@@ -1,16 +1,13 @@
 'use strict'
 
-import dom from './dom/index.js'
+import _ from './dom/index.js'
 import { selectedNode } from './stackTree.js'
-import Validator from './validator/index.js'
-import notify from './notify.js'
+import validator from './validator/index.js'
+import notifier from './notify.js'
 import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
-const _ = dom()
-const notifier = notify()
 const editForms = EditForms(_)
-const validator = Validator()
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
 const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
 

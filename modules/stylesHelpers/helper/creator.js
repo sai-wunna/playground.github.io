@@ -1,8 +1,6 @@
 'use strict'
 
-import dom from '../../dom/index.js'
-
-const _ = dom()
+import _ from '../../dom/index.js'
 
 function createUnitSelector() {
   const units = [

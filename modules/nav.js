@@ -1,11 +1,8 @@
 'use strict'
-import dom from './dom/index.js'
+import _ from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import notify from './notify.js'
-
-const _ = dom()
-const notifier = notify()
+import notifier from './notify.js'
 
 const element_create_wrapper = _.getNode('.create-element-form-wrapper')
 const elements_opener_btn = _.getNode('.elements_opener')

@@ -1,6 +1,6 @@
 'use strict'
-import notify from './notify.js'
-import dom from './dom/index.js'
+import notifier from './notify.js'
+import _ from './dom/index.js'
 import { lockBtn } from './helpers/lockBtn.js'
 import {
   createInsertWrapper,
@@ -12,6 +12,7 @@ import { insertAnimation } from './stylesHelpers/animations.js'
 import { insertCustomStyles } from './stylesHelpers/customStyles.js'
 import { insertClassNames } from './stylesHelpers/classNameStyles.js'
 import { insertPredefinedStyles } from './stylesHelpers/predefinedStyles.js'
+import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 import { buildApp, buildElementTree } from './ipbHelpers/createTree.js'
 import {
   buildAnimationCssString,
@@ -19,29 +20,25 @@ import {
   buildCustomStylesString,
   buildPredefinedStylesString,
 } from './stylesHelpers/buildCss.js'
-import Validators from './validator/index.js'
-
-const _ = dom()
-const notifier = notify()
-const validator = Validators()
+import validator from './validator/index.js'
 
 let app
 let styles
 let controllerTree
 
 // drag drop handlers ----------------- start
-function highlight(e) {
-  e.target.classList.add('dragging')
+function highlight() {
+  this.classList.add('dragging')
 }
-function unHighlight(e) {
-  e.target.classList.remove('dragging')
+function unHighlight() {
+  this.classList.remove('dragging')
 }
 function preventBubbling(e) {
   e.preventDefault()
   e.stopPropagation()
 }
 
-function handleDrop(e) {
+async function handleDrop(e) {
   const dt = e.dataTransfer
   const file = [...dt.files][0]
   if (!file) return notifier.on('fileOnly')
@@ -50,7 +47,7 @@ function handleDrop(e) {
 
   const reader = new FileReader()
 
-  reader.onload = function (event) {
+  reader.onload = async function (event) {
     const fileContent = event.target.result
 
     try {
@@ -59,7 +56,7 @@ function handleDrop(e) {
         notifier.on('invalidFile')
         return
       }
-      app = buildApp(data.tree)
+      app = await buildApp(data.tree)
       controllerTree = buildElementTree(data.tree)
       styles = data.styles
       confirmInsertBtn.textContent = 'Ready, set up !'
@@ -104,8 +101,10 @@ async function handleConfirm(e) {
     insertCustomStyles(customStyles)
     insertPredefinedStyles(predefinedStyles)
 
-    oldTree.innerHTML = ''
+    _.emptyChild(oldTree) // wipe all children
     oldTree.appendChild(controllerTree)
+
+    createStyleInfoBox.targetStyleInfoBox('#app')
 
     _.getNodeById('app_wrapper').replaceChild(app, oldApp)
 
@@ -152,6 +151,7 @@ function cleanUpFunc() {
 
   drag_drop_box.removeEventListener('drop', handleDrop, false)
   confirmInsertBtn.removeEventListener('click', handleConfirm)
+  app = controllerTree = styles = null
 }
 
 function createInsertBox() {

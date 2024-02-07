@@ -1,10 +1,7 @@
 'use strict'
 
-import dom from '../dom/index.js'
-import notify from '../notify.js'
-
-const _ = dom()
-const notifier = notify()
+import _ from '../dom/index.js'
+import notifier from '../notify.js'
 
 function createTableController(data) {
   const {
@@ -147,8 +144,8 @@ function createControllers(eleData) {
   }
 }
 
-function buildApp(tree) {
-  return _.createTag(tree)
+async function buildApp(tree) {
+  return await _.createTag(tree)
 }
 
 function buildElementTree(tree) {

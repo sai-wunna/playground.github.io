@@ -1,31 +1,30 @@
 'use strict'
 
-import dom from './dom/index.js'
-import notify from './notify.js'
+import _ from './dom/index.js'
+import notifier from './notify.js'
 import downloadJSON from './downloadHelpers/buildJSON.js'
 import downloadWeb from './downloadHelpers/buildWeb.js'
 
-const _ = dom()
-const notifier = notify()
-
-// download form -------------
-
-const fileType = _.createSelect(['save-file-type'], '', [
-  { value: 'web', text: 'Website', selected: true },
-  { value: 'json', text: 'JSON' },
-])
-
-const titleIp = _.createInput('', ['form-control', 'my-1'], 'title_of_web', {
-  value: 'Beautiful Day',
-})
-const authorIp = _.createInput('', ['form-control', 'my-1'], 'author_of_web', {
-  value: 'Anonymous',
-})
-const aboutIp = _.createInput('', ['form-control', 'my-1'], 'about_of_web', {
-  value: 'Something beautiful has been born here',
-})
-
 function downloadForm() {
+  const fileType = _.createSelect(['save-file-type'], '', [
+    { value: 'web', text: 'Website', selected: true },
+    { value: 'json', text: 'JSON' },
+  ])
+
+  const titleIp = _.createInput('', ['form-control', 'my-1'], 'title_of_web', {
+    value: 'Beautiful Day',
+  })
+  const authorIp = _.createInput(
+    '',
+    ['form-control', 'my-1'],
+    'author_of_web',
+    {
+      value: 'Anonymous',
+    }
+  )
+  const aboutIp = _.createInput('', ['form-control', 'my-1'], 'about_of_web', {
+    value: 'Something beautiful has been born here',
+  })
   const [downLoadBtn, cleanUpDLListener] = _.createButton(
     'Download',
     ['btn', 'text-primary'],

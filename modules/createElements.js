@@ -1,7 +1,7 @@
 'use strict'
 
-import dom from './dom/index.js'
-import notify from './notify.js'
+import _ from './dom/index.js'
+import notifier from './notify.js'
 import DeployElement from './cefHelpers/deployElement.js'
 import {
   addFigureStack,
@@ -19,14 +19,12 @@ import {
 } from './cefHelpers/manageInputData.js'
 import CEF from './cefHelpers/createElementForms.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import Validator from './validator/index.js'
+import validator from './validator/index.js'
 
-const _ = dom()
 const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
+const formHolder = _.getNode('.element-form')
 
-const validator = Validator()
-const notifier = notify()
 const forms = CEF(_)
 const deploy = DeployElement(
   _,
@@ -74,7 +72,7 @@ _.on('change', selectElementBtn, (e) => {
   } else {
     form = forms.createHrForm()
   }
-  _.getNodeById('add_form').replaceWith(form)
+  formHolder.replaceChild(form, formHolder.firstChild)
 })
 
 _.on('click', add_element_btn, (e) => {
@@ -175,6 +173,6 @@ _.on('click', add_element_btn, (e) => {
   }
 })
 // initialize
-_.getNode('.element-form').appendChild(forms.createBlockForm())
+formHolder.appendChild(forms.createBlockForm())
 
 export default 'create forms joined'

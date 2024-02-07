@@ -20,15 +20,18 @@ class DeployElement {
     this.isInsertBefore = isInsertBefore
   }
 
+  #pushToDoc(target, ele) {
+    if (this.isInsertBefore.checked && target !== '#app') {
+      this._.insertBefore([ele], target)
+    } else {
+      this._.appendChildrenTo(target, [ele])
+    }
+  }
+
   block(text, target) {
     const id = `div_${new Date().getTime()}`
     const div = this._.createElement('div', text, [], [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([div], target)
-    } else {
-      this._.appendChildrenTo(target, [div])
-    }
-
+    this.#pushToDoc(target, div)
     this.addNewStack(id, `block ${text?.slice(0, 5)}...`)
   }
 
@@ -37,66 +40,42 @@ class DeployElement {
     const img = this._.createImage(src, alt || `image`, [], id)
     // in case of error , click to reload
     errImgReloader(img, src, alt)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([img], target)
-    } else {
-      this._.appendChildrenTo(target, [img])
-    }
+    this.#pushToDoc(target, img)
     this.addNewStack(id, `image ${alt?.slice(0, 5)}...`)
   }
 
   heading(type, text, target) {
     const id = `header_${new Date().getTime()}`
     const header = this._.createHeading(type, text, [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([header], target)
-    } else {
-      this._.appendChildrenTo(target, [header])
-    }
+    this.#pushToDoc(target, header)
     this.addNewStack(id, `header ${text?.slice(0, 5)}...`)
   }
 
   link(type, url, text, title, target) {
     const id = `link_${new Date().getTime()}`
     const link = this._.createAnchor(type, text, url, [], id, title)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([link], target)
-    } else {
-      this._.appendChildrenTo(target, [link])
-    }
+    this.#pushToDoc(target, link)
     this.addNewStack(id, `link ${url?.slice(0, 5)}...`)
   }
 
   paragraph(text, target) {
     const id = `paragraph_${new Date().getTime()}`
     const p = this._.createElement('p', text, [], [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([p], target)
-    } else {
-      this._.appendChildrenTo(target, [p])
-    }
+    this.#pushToDoc(target, p)
     this.addNewStack(id, `paragraph ${text?.slice(0, 5)}...`)
   }
 
   list(type, lists, target) {
     const id = `list_${new Date().getTime()}`
     const list = this._.createList(type, [], id, [...lists])
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([list], target)
-    } else {
-      this._.appendChildrenTo(target, [list])
-    }
+    this.#pushToDoc(target, list)
     this.addListStack(type, id, lists)
   }
 
   text(text, target) {
     const id = `span_${new Date().getTime()}`
     const span = this._.createSpan(text, [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([span], target)
-    } else {
-      this._.appendChildrenTo(target, [span])
-    }
+    this.#pushToDoc(target, span)
     this.addNewStack(id, `span ${text}, .....`)
   }
 
@@ -123,55 +102,35 @@ class DeployElement {
       [tHeader, tBody, tFooter],
       id
     )
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([table], target)
-    } else {
-      this._.appendChildrenTo(target, [table])
-    }
+    this.#pushToDoc(target, table)
     this.addTableStack(id, thData, tbData, tfData)
   }
 
   selection(options, target) {
     const id = `selection_${new Date().getTime()}`
     const select = this._.createSelect([], '', options, id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([select], target)
-    } else {
-      this._.appendChildrenTo(target, [select])
-    }
+    this.#pushToDoc(target, select)
     this.addSelectionStack(id, options)
   }
 
   option(value, text, target) {
     const id = `option_${new Date().getTime()}`
     const option = this._.createOption('', value, text, id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([option], target)
-    } else {
-      this._.appendChildrenTo(target, [option])
-    }
+    this.#pushToDoc(target, option)
     this.addNewStack(id, `option ${text}, .....`)
   }
 
   button(text, target) {
     const id = `button_${new Date().getTime()}`
     const button = this._.createButton(text, [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([button], target)
-    } else {
-      this._.appendChildrenTo(target, [button])
-    }
+    this.#pushToDoc(target, button)
     this.addNewStack(id, `button ${text}, .....`)
   }
 
   lineBreaker(type, target) {
     const id = `${type}_${new Date().getTime()}`
     const breaker = this._.createElement(type, '', [], [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([breaker], target)
-    } else {
-      this._.appendChildrenTo(target, [breaker])
-    }
+    this.#pushToDoc(target, breaker)
     this.addNewStack(id, `breaker ${type}, .....`)
   }
 
@@ -200,12 +159,8 @@ class DeployElement {
     const id = `figure_img_${new Date().getTime()}`
     const figure = this._.createElement('figure', '', [], [fragment], id)
     stackTraces.unshift(id, 'figure_image')
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([figure], target)
-    } else {
-      this._.appendChildrenTo(target, [figure])
-    }
 
+    this.#pushToDoc(target, figure)
     this.addFigureStack(stackTraces)
   }
 
@@ -231,22 +186,15 @@ class DeployElement {
     const id = `figure_audio_${new Date().getTime()}`
     const figure = this._.createElement('figure', '', [], [fragment], id)
     stackTraces.unshift(id, 'figure_audio')
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([figure], target)
-    } else {
-      this._.appendChildrenTo(target, [figure])
-    }
+
+    this.#pushToDoc(target, figure)
     this.addFigureStack(stackTraces)
   }
 
   blockQuote(cite, text, target) {
     const id = `blockquote_${new Date().getTime()}`
     const bq = this._.createBlockQuote(cite, text, [], id)
-    if (this.isInsertBefore.checked && target !== '#app') {
-      this._.insertBefore([bq], target)
-    } else {
-      this._.appendChildrenTo(target, [bq])
-    }
+    this.#pushToDoc(target, bq)
     this.addNewStack(id, `blockquote ${text}, .....`)
   }
 }

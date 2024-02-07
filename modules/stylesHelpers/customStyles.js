@@ -1,7 +1,6 @@
 'use strict'
 
-import dom from '../dom/index.js'
-const _ = dom()
+import _ from '../dom/index.js'
 
 // { #div_232334 : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const customStyles = {}
@@ -46,16 +45,24 @@ function saveCusStyle(node, media, condition, key, value) {
   }
 }
 
-function removeCusStyle(node) {
-  delete customStyles[node]
-}
-
 function removeConditionStyles(node, media, condition) {
   customStyles[node][media][condition] = {}
 }
 
 function removeCusStyleValue(node, media, condition, key) {
   delete customStyles[node][media][condition][key]
+}
+
+function removeRelevantCusStyles(removedNode) {
+  const ids = [removedNode.id]
+  function observeIds(node) {
+    for (const child of node.children) {
+      ids.push(child.id)
+      observeIds(child)
+    }
+  }
+  observeIds(removedNode)
+  ids.forEach((id) => delete customStyles[id])
 }
 
 function createStyleInfo(media, condition, key, value) {
@@ -167,7 +174,7 @@ function createCusStyleInfoShower(node) {
 export {
   customStyles,
   saveCusStyle,
-  removeCusStyle,
   createCusStyleInfoShower,
   insertCustomStyles,
+  removeRelevantCusStyles,
 }

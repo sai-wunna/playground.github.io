@@ -668,6 +668,5 @@ class Doc {
   }
 }
 // only for this app
-const dom = new Doc()
 
-export default () => dom
+export default new Doc()

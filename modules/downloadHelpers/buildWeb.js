@@ -1,15 +1,12 @@
 'use strict'
 
-import dom from '../dom/index.js'
-import Random from '../random/index.js'
+import _ from '../dom/index.js'
+import random from '../random/index.js'
 import { customStyles } from '../stylesHelpers/customStyles.js'
 import { animations } from '../stylesHelpers/animations.js'
 import { classNames } from '../stylesHelpers/classNameStyles.js'
 import { predefinedStyles } from '../stylesHelpers/predefinedStyles.js'
 import { buildProductionCss } from '../stylesHelpers/buildCss.js'
-
-const _ = dom()
-const random = Random()
 
 function buildWeb(author, about, title, styles, app) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="created on playground" /><meta name="author" content="${author}"/><meta name="description" content="${about}" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`

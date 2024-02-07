@@ -1,6 +1,6 @@
 'use strict'
 
-import dom from './dom/index.js'
+import _ from './dom/index.js'
 
 class Notify {
   #alertMessages = {
@@ -45,11 +45,14 @@ class Notify {
     ])
     this._.getNodeById('wrapper').appendChild(alertBox)
     let dropTimer = setTimeout(() => {
-      alertBox.style.top = `${(this.#currentCount - 1) * 40}px`
+      alertBox.style.transform = `translate(-50%, ${
+        (this.#currentCount - 1) * 110 + 20
+      }%)`
     }, 10)
     let hideTimer = setTimeout(() => {
-      alertBox.style.top = '-10%'
+      alertBox.style.transform = 'translate(-50%, -100%)'
     }, period)
+
     let removeTimer = setTimeout(() => {
       this.#currentCount -= 1
       alertBox.remove()
@@ -79,6 +82,4 @@ class Notify {
   }
 }
 
-const notifier = new Notify(dom())
-
-export default () => notifier
+export default new Notify(_)

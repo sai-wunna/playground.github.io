@@ -1,8 +1,6 @@
 'use strict'
 
-import dom from '../dom/index.js'
-
-const _ = dom()
+import _ from '../dom/index.js'
 
 // name : { '0' : { color : 'red' }, '100' : { color : 'black' }}
 const animations = {}

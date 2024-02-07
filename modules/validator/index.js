@@ -30,6 +30,7 @@ class Validator {
     'td',
     'caption',
     'audio',
+    'button',
   ]
 
   isInvalidTextInput(target) {
@@ -74,4 +75,4 @@ class Validator {
   }
 }
 
-export default () => new Validator()
+export default new Validator()

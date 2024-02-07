@@ -1,8 +1,6 @@
 'use strict'
 
-import dom from '../dom/index.js'
-
-const _ = dom()
+import _ from '../dom/index.js'
 
 const predefinedStyles = {
   all: {},
@@ -62,7 +60,7 @@ function changePredStyle(ele, condition, key, value) {
     if (conditionBox) {
       conditionBox.appendChild(styleInfo)
     } else {
-      const newConditionBox = createConditionBox(ele, condition, {
+      const newConditionBox = createConditionBox(condition, {
         [`${key}`]: value,
       })
       _.getNode('.style-info-listener-wrapper').appendChild(newConditionBox)
@@ -92,7 +90,7 @@ function createPredStyleInfoFrag(ele) {
   const stylesFrags = _.createFragment()
 
   for (let [condition, cStyles] of Object.entries(styles)) {
-    const box = createConditionBox(ele, condition, cStyles)
+    const box = createConditionBox(condition, cStyles)
     stylesFrags.appendChild(box)
   }
   return stylesFrags

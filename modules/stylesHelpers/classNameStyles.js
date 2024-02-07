@@ -1,10 +1,7 @@
 'use strict'
 
-import notify from '../notify.js'
-import dom from '../dom/index.js'
-
-const _ = dom()
-const notifier = notify()
+import notifier from '../notify.js'
+import _ from '../dom/index.js'
 // { btn : { general : { standard : { color : red } , hover : { color : 'silver'}} , medium : { standard : { color : 'blue'}}} }
 const classNames = {}
 const mediaTypes = ['general', 'medium', 'large']

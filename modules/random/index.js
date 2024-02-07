@@ -19,4 +19,4 @@ class Random {
   }
 }
 
-export default () => new Random()
+export default new Random()

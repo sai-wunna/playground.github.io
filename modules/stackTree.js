@@ -1,14 +1,10 @@
 'use strict'
-import dom from './dom/index.js'
-import Validator from './validator/index.js'
-import notify from './notify.js'
+import _ from './dom/index.js'
+import validator from './validator/index.js'
+import notifier from './notify.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import { removeCusStyle } from './stylesHelpers/customStyles.js'
+import { removeRelevantCusStyles } from './stylesHelpers/customStyles.js'
 import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
-
-const _ = dom()
-const notifier = notify()
-const validator = Validator()
 
 const high_light_ele = _.getNodeById('high_light_ele')
 const element_pointer = _.getNodeById('element_pointer')
@@ -127,14 +123,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
       tableStacks,
     ]
   )
-  if (isInsertBefore.checked && selectedNode !== '#app') {
-    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
-      tableNode,
-      _.getNode(`${selectedTreeNode}_c`).parentElement
-    )
-  } else {
-    _.getNode(`${selectedTreeNode}_c`).appendChild(tableNode)
-  }
+  pushToDoc(tableNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -148,15 +137,7 @@ function addListStack(type, id, lists) {
     type === 'ol' ? 'Ordered List' : 'Unordered List',
     listItemNode
   )
-
-  if (isInsertBefore.checked && selectedNode !== '#app') {
-    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
-      listNode,
-      _.getNode(`${selectedTreeNode}_c`).parentElement
-    )
-  } else {
-    _.getNode(`${selectedTreeNode}_c`).appendChild(listNode)
-  }
+  pushToDoc(listNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -182,14 +163,7 @@ function addSelectionStack(selectId, options) {
   })
   const selectionNode = createTreeNode(selectId, 'Select', optionFragment)
 
-  if (isInsertBefore.checked && selectedNode !== '#app') {
-    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
-      selectionNode,
-      _.getNode(`${selectedTreeNode}_c`).parentElement
-    )
-  } else {
-    _.getNode(`${selectedTreeNode}_c`).appendChild(selectionNode)
-  }
+  pushToDoc(selectionNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -199,33 +173,30 @@ function addFigureStack(stacksArr) {
     fragment.appendChild(createTreeNode(stacksArr[i], stacksArr[i + 1]))
   }
   const newStack = createTreeNode(stacksArr[0], stacksArr[1], fragment)
-  if (isInsertBefore.checked && selectedNode !== '#app') {
-    _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
-      newStack,
-      _.getNode(`${selectedTreeNode}_c`).parentElement
-    )
-  } else {
-    _.getNode(`${selectedTreeNode}_c`).appendChild(newStack)
-  }
+  pushToDoc(newStack)
   pointOutTheEle(selectedNode)
 }
 
 function addNewStack(id, name) {
   const newStack = createTreeNode(id, name)
+  pushToDoc(newStack)
+  pointOutTheEle(selectedNode)
+}
+
+function pushToDoc(ele) {
   if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
-      newStack,
+      ele,
       _.getNode(`${selectedTreeNode}_c`).parentElement
     )
   } else {
-    _.getNode(`${selectedTreeNode}_c`).appendChild(newStack)
+    _.getNode(`${selectedTreeNode}_c`).appendChild(ele)
   }
-  pointOutTheEle(selectedNode)
 }
 
 function createTreeNode(id, name, children) {
   const childrenBox = _.createElement('div', '', [], [], `${id}_c`)
-  if (children && children.length > 0) {
+  if (children) {
     childrenBox.appendChild(children)
   }
   childrenBox.style.backgroundColor = 'rgba(0, 0, 0, 0.109)'
@@ -245,26 +216,26 @@ function createTreeNode(id, name, children) {
   )
 }
 
-function selectNode(node, id) {
+function selectNode(controllerNode, id) {
   if (id === selectedNode) return
   pointOutTheEle(id)
   selectedNode = selectedTreeNode = id
   setTargetEleShowers(id)
   createStyleInfoBox.targetStyleInfoBox(id)
-  setSelectedNodeStyle(node)
-
+  setSelectedNodeStyle(controllerNode)
   _.getNodeById('edit_form')?.remove()
 }
 
-function removeNode(node, id) {
-  _.getNode(id).remove()
-  node.parentElement.remove()
+function removeNode(controllerNode, id) {
+  const target = _.getNode(id)
+  removeRelevantCusStyles(target) // take ids to remove relevant custom styles
+  target.remove()
+  controllerNode.parentElement.remove()
   if (id === selectedNode || !_.getNode(selectedNode)) {
     selectAppNode()
   } else {
     pointOutTheEle(selectedNode)
   }
-  removeCusStyle(id)
 }
 
 function setSelectedNodeStyle(node) {
