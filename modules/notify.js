@@ -43,7 +43,7 @@ class Notify {
     const alertBox = this._.createElement('div', this.#alertMessages[type], [
       'custom-alert-box',
     ])
-    this._.getNodeById('wrapper').appendChild(alertBox)
+    _.appendChild(alertBox)
     let dropTimer = setTimeout(() => {
       alertBox.style.transform = `translate(-50%, ${
         (this.#currentCount - 1) * 110 + 20
@@ -66,7 +66,7 @@ class Notify {
 
   __start(msg = 'Loading') {
     this.#progressLoader.textContent = msg
-    this._.getNodeById('wrapper').appendChild(this.#progressLoader)
+    _.appendChild(this.#progressLoader)
   }
 
   __end(msg = 'Ready') {

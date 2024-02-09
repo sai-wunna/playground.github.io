@@ -6,13 +6,14 @@ import { customStyles } from '../stylesHelpers/customStyles.js'
 import { animations } from '../stylesHelpers/animations.js'
 import { classNames } from '../stylesHelpers/classNameStyles.js'
 import { predefinedStyles } from '../stylesHelpers/predefinedStyles.js'
-import { buildProductionCss } from '../stylesHelpers/buildCss.js'
+import startWorker from '../startWorker.js'
+import { mediaQueries } from '../stylesHelpers/configStyling.js'
 
 function buildWeb(author, about, title, styles, app) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="created on playground" /><meta name="author" content="${author}"/><meta name="description" content="${about}" /><title>${title}</title><style>${styles}</style></head><body>${app}</body></html>`
 }
 
-async function buildWebProduction() {
+async function recreateStyles() {
   const app = _.getNodeById('app').cloneNode(true)
 
   const appWrapper = _.createElement('', '', [], [app])
@@ -53,19 +54,37 @@ async function buildWebProduction() {
     }
   })
 
-  const styles = await buildProductionCss(
+  const styles = {
     animations,
     predefinedStyles,
-    modifiedClassnames,
-    modifiedCustomStyles
-  )
+    classNames: modifiedClassnames,
+    customStyles: modifiedCustomStyles,
+  }
 
   return { styles, app: app.outerHTML }
 }
 
-async function downloadWeb(author, about, title) {
-  const { styles, app } = await buildWebProduction()
-  const content = buildWeb(author, about, title, styles, app)
+function buildStylesString(styles) {
+  const {
+    animations,
+    predefinedStyles,
+    customStyles: [cusGrlStyles, cusMdStyles, cusLgStyles],
+    classNames: [cnGrlStyles, cnMdStyles, cnLgStyles],
+  } = styles // destructure
+  let stylesString = ''
+  stylesString += `body{scroll-behavior : smooth;margin : 0;padding:0;box-sizing:border-box;overflow-x : hidden;}${predefinedStyles}${animations}${cnGrlStyles}${cusGrlStyles} `
+  if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
+    stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
+  }
+  if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
+    stylesString += `@media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}${cusLgStyles}}`
+  }
+  return stylesString
+}
+
+function download(styles, app, author, about, title) {
+  const stylesString = buildStylesString(styles)
+  const content = buildWeb(author, about, title, stylesString, app)
 
   const fileName = `web_${title.split(' ').join('_')}`
 
@@ -83,6 +102,13 @@ async function downloadWeb(author, about, title) {
   _.appendChild(link)
   link.click()
   _.removeChild(link)
+}
+
+async function downloadWeb(author, about, title) {
+  const { styles, app } = await recreateStyles()
+  startWorker('production', styles, (stylesStrings) =>
+    download(stylesStrings, app, author, about, title)
+  )
 }
 
 export default downloadWeb

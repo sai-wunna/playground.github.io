@@ -16,7 +16,7 @@ import _ from './dom/index.js'
 
 console.log('%cHello World', 'color: blue; font-size: 32px;')
 
-_.on('beforeunload', window, (e) => {
-  e.preventDefault()
-  e.returnValue = true
-})
+// _.on('beforeunload', window, (e) => {
+//   e.preventDefault()
+//   e.returnValue = true
+// })

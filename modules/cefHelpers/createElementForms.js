@@ -557,4 +557,4 @@ class CreateElementForms {
   }
 }
 
-export default (doc) => new CreateElementForms(doc)
+export default CreateElementForms

@@ -214,15 +214,16 @@ body {
   position: fixed;
   overflow-x: hidden;
   z-index: 3000;
-  top: -42px;
+  top: 0;
   right: 0;
+  transform: translate(0, -85%);
   background-color: rgb(89, 89, 111);
   padding: 10px 20px;
-  transition: top 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.403);
 }
 #main_nav_box:hover {
-  top: 0px;
+  transform: translate(0, 0);
 }
 #main_nav_box button {
   padding: 2px 8px;
@@ -725,6 +726,7 @@ body {
 .drag-drop-box p {
   color: white;
   font-size: 24px;
+  opacity: 1;
 }
 
 .confirm-insert-box {

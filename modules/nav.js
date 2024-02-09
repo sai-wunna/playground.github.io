@@ -1,4 +1,5 @@
 'use strict'
+
 import _ from './dom/index.js'
 import { closeNav, openNav } from './helpers/navAnimator.js'
 import { lockBtn } from './helpers/lockBtn.js'

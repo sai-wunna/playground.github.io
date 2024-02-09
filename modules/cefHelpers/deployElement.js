@@ -199,21 +199,4 @@ class DeployElement {
   }
 }
 
-export default (
-  doc,
-  addNewStack,
-  addTableStack,
-  addListStack,
-  addSelectionStack,
-  addFigureStack,
-  isInsertBefore
-) =>
-  new DeployElement(
-    doc,
-    addNewStack,
-    addTableStack,
-    addListStack,
-    addSelectionStack,
-    addFigureStack,
-    isInsertBefore
-  )
+export default DeployElement

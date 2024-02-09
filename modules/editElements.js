@@ -7,10 +7,11 @@ import notifier from './notify.js'
 import EditForms from './editHelpers/editFormCreator.js'
 import { lockBtn } from './helpers/lockBtn.js'
 
-const editForms = EditForms(_)
+const editForms = new EditForms(_)
 const getEditFormBtn = _.getNode('.get-edit-form-btn')
 const removeEditFormBtn = _.getNode('.remove-edit-form-btn')
 
+let formEvtCleaner = null
 _.on('click', getEditFormBtn, (e) => {
   e.preventDefault()
   lockBtn(getEditFormBtn, 1000)
@@ -19,23 +20,28 @@ _.on('click', getEditFormBtn, (e) => {
     notifier.on('unEditable')
     return
   }
+  if (formEvtCleaner) {
+    formEvtCleaner() // cleanup previous form evt
+  }
   let form
   if (selectedNode.startsWith('#img')) {
-    form = editForms.imageForm(selectedNode)
+    ;[form, formEvtCleaner] = editForms.imageForm(selectedNode)
   } else if (selectedNode.startsWith('#link')) {
-    form = editForms.linkForm(selectedNode)
+    ;[form, formEvtCleaner] = editForms.linkForm(selectedNode)
   } else if (selectedNode.startsWith('#option')) {
-    form = editForms.optionForm(selectedNode)
+    ;[form, formEvtCleaner] = editForms.optionForm(selectedNode)
   } else if (selectedNode.startsWith('#blockquote')) {
-    form = editForms.blockQuoteForm(selectedNode)
+    ;[form, formEvtCleaner] = editForms.blockQuoteForm(selectedNode)
   } else {
-    form = editForms.textNodeForm(selectedNode)
+    ;[form, formEvtCleaner] = editForms.textNodeForm(selectedNode)
   }
   _.getNode('.edit-text').appendChild(form)
 })
 
 _.on('click', removeEditFormBtn, (e) => {
   e.preventDefault()
+  formEvtCleaner()
+  formEvtCleaner = null
   lockBtn(removeEditFormBtn, 1000)
   _.getNodeById('edit_form')?.remove()
 })

@@ -17,7 +17,7 @@ class EditForms {
     const altIp = this._.createInput('', ['form-control'], 'edit_alt', {
       value: target.alt,
     })
-    const updateBtn = this._.createButton(
+    const [updateBtn, btnEvtCleaner] = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -25,13 +25,15 @@ class EditForms {
         e.preventDefault()
         target.src = srcIp.value
         target.alt = altIp.value
-      }
+      },
+      true
     )
-    return this._.createForm(
+    const form = this._.createForm(
       [],
       [srcLb, srcIp, altLb, altIp, updateBtn],
       'edit_form'
     )
+    return [form, btnEvtCleaner]
   }
 
   linkForm(node) {
@@ -91,7 +93,7 @@ class EditForms {
       }
     )
 
-    const select = this._.createSelect(
+    const [select, selectEvtCleaner] = this._.createSelect(
       ['form-select'],
       '',
       [
@@ -114,7 +116,7 @@ class EditForms {
       },
       ''
     )
-    const updateBtn = this._.createButton(
+    const [updateBtn, btnEvtCleaner] = this._.createButton(
       'update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -133,11 +135,17 @@ class EditForms {
         target.title = titleIp.value
       }
     )
-    return this._.createForm(
+    const form = this._.createForm(
       [],
       [select, LinkLb, linkIp, nameLb, nameIp, titleLb, titleIp, updateBtn],
       'edit_form'
     )
+    return [
+      form,
+      () => {
+        selectEvtCleaner(), btnEvtCleaner()
+      },
+    ]
   }
 
   optionForm(node) {
@@ -166,7 +174,7 @@ class EditForms {
       ['cs-ip-gp'],
       [optionLb, optionIp]
     )
-    const updateBtn = this._.createButton(
+    const [updateBtn, btnEvtCleaner] = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -175,43 +183,74 @@ class EditForms {
         target.textContent = optionIp.value
       }
     )
-    return this._.createForm([], [valueBox, textBox, updateBtn], 'edit_form')
+    const form = this._.createForm(
+      [],
+      [valueBox, textBox, updateBtn],
+      'edit_form'
+    )
+    return [form, btnEvtCleaner]
   }
 
   textNodeForm(node) {
+    let evtCleaners = []
     const childNodes = this._.getNode(node).childNodes
     const fragment = this._.createFragment()
     let spamBlocker
 
     const createEditBox = (node) => {
+      const [textAreaIp, InpEvtCleaner] = this._.createTextArea(
+        '',
+        ['form-control'],
+        {
+          value: node.textContent,
+        },
+        '',
+        (e) => {
+          clearTimeout(spamBlocker)
+          spamBlocker = setTimeout(() => {
+            node.textContent = e.target.value
+          }, 500)
+        },
+        true
+      )
+      const [delBtn, btnEvtCleaner] = this._.createButton(
+        'Del',
+        ['inline-btn', 'text-danger'],
+        '',
+        (e) => {
+          e.target.parentElement.remove()
+          node.remove()
+          evtCleaners = evtCleaners.filter(
+            (fn) => fn !== InpEvtCleaner && fn !== btnEvtCleaner
+          )
+        },
+        true
+      )
+      evtCleaners.push(InpEvtCleaner)
+      evtCleaners.push(btnEvtCleaner)
       return this._.createElement(
         'div',
         '',
         ['my-1', 'd-flex'],
-        [
-          this._.createTextArea(
-            '',
-            ['form-control'],
-            {
-              value: node.textContent,
-            },
-            '',
-            (e) => {
-              clearTimeout(spamBlocker)
-              spamBlocker = setTimeout(() => {
-                node.textContent = e.target.value
-              }, 500)
-            },
-            ''
-          ),
-          this._.createButton('Del', ['inline-btn', 'text-danger'], '', (e) => {
-            e.target.parentElement.remove()
-            node.remove()
-          }),
-        ]
+        [textAreaIp, delBtn]
       )
     }
 
+    const [addNewTNBtn, addBtnEvtCleaner] = this._.createButton(
+      'Add',
+      ['btn', 'btn-sm'],
+      '',
+      () => {
+        const textNode = this._.createTNode(
+          this._.getNodeById('new_text_node').value ||
+            'text node has been added.'
+        )
+        this._.getNode(node).appendChild(textNode)
+        this._.getNodeById('edit_form').appendChild(createEditBox(textNode))
+      },
+      true
+    )
+    evtCleaners.push(addBtnEvtCleaner)
     const addTNForm = this._.createElement(
       'div',
       '',
@@ -220,14 +259,7 @@ class EditForms {
         this._.createInput('', ['form-control'], 'new_text_node', {
           placeholder: 'new text node ... ... ...',
         }),
-        this._.createButton('Add', ['btn', 'btn-sm'], '', (e) => {
-          const textNode = this._.createTNode(
-            this._.getNodeById('new_text_node').value ||
-              'text node has been added.'
-          )
-          this._.getNode(node).appendChild(textNode)
-          this._.getNodeById('edit_form').appendChild(createEditBox(textNode))
-        }),
+        addNewTNBtn,
       ]
     )
 
@@ -235,7 +267,13 @@ class EditForms {
       if (child.nodeType !== Node.TEXT_NODE) return
       fragment.appendChild(createEditBox(child))
     })
-    return this._.createForm([], [addTNForm, fragment], 'edit_form')
+
+    const form = this._.createForm([], [addTNForm, fragment], 'edit_form')
+    const cleanUpFunc = () => {
+      evtCleaners.forEach((cleaner) => cleaner())
+    }
+
+    return [form, cleanUpFunc]
   }
 
   blockQuoteForm(node) {
@@ -250,21 +288,23 @@ class EditForms {
     const contentIp = this._.createInput('', ['form-control'], 'edit_content', {
       value: target.textContent,
     })
-    const updateBtn = this._.createButton(
+    const [updateBtn, btnEvtCleaner] = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
       () => {
         target.cite = citeIp.value
         target.textContent = contentIp.value
-      }
+      },
+      true
     )
-    return this._.createForm(
+    const form = this._.createForm(
       [],
       [citeLb, citeIp, contentLb, contentIp, updateBtn],
       'edit_form'
     )
+    return [form, btnEvtCleaner]
   }
 }
 
-export default (doc) => new EditForms(doc)
+export default EditForms

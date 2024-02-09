@@ -80,4 +80,12 @@ function createConfigureBox() {
   return [box, saveBtnEvtCleaner]
 }
 
-export { mediaQueries, createConfigureBox }
+function addMediaQueriesToStylesString([
+  generalStyles,
+  mediumStyles,
+  largeStyles,
+]) {
+  return `${generalStyles} @media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${mediumStyles}} @media only screen and (min-width: ${mediaQueries.large.minWidth}px){${largeStyles}}`
+}
+
+export { mediaQueries, createConfigureBox, addMediaQueriesToStylesString }

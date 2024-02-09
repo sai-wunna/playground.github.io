@@ -1,7 +1,3 @@
-'use strict'
-
-import { mediaQueries } from './configStyling.js'
-
 function convertToKeyFrames(animations) {
   let keyFrames = ''
   for (const [name, kfs] of Object.entries(animations)) {
@@ -141,28 +137,7 @@ function convertToPredCss(styles) {
 
   return css
 }
-
-async function buildAnimationCssString(animations) {
-  return await convertToKeyFrames(animations)
-}
-
-async function buildPredefinedStylesString(predefinedStyles) {
-  return await convertToPredCss(predefinedStyles)
-}
-
-async function buildCustomStylesString(customStyles) {
-  const [cusGrlStyles, cusMdStyles, cusLgStyles] = await convertToCustomCss(
-    customStyles
-  )
-  return `${cusGrlStyles} @media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cusMdStyles}} @media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cusLgStyles}}`
-}
-
-async function buildClassNamesString(classNames) {
-  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(classNames)
-  return `${cnGrlStyles} @media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}} @media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}}`
-}
-
-/// for production ---------------------------- start ----
+// for production
 function convertToPredProductionCss(styles) {
   let css = ''
 
@@ -181,39 +156,4 @@ function convertToPredProductionCss(styles) {
   }
 
   return css
-}
-
-async function buildProductionCss(
-  animations,
-  predefined,
-  classNames,
-  customStyles
-) {
-  let stylesString = ''
-  const keyFrames = await convertToKeyFrames(animations)
-  const predefinedStyles = await convertToPredProductionCss(predefined)
-  const [cusGrlStyles, cusMdStyles, cusLgStyles] = await convertToCustomCss(
-    customStyles,
-    '_'
-  )
-  const [cnGrlStyles, cnMdStyles, cnLgStyles] = await convertToCNCss(
-    classNames,
-    '_'
-  )
-  stylesString += `body{scroll-behavior : smooth;margin : 0;padding:0;box-sizing:border-box;overflow-x : hidden;}${predefinedStyles}${keyFrames}${cnGrlStyles}${cusGrlStyles} `
-  if (cnMdStyles.trim().length > 0 || cusMdStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: ${mediaQueries.medium.minWidth}px) and (max-width: ${mediaQueries.medium.maxWidth}px){${cnMdStyles}${cusMdStyles}} `
-  }
-  if (cnLgStyles.trim().length > 0 || cusLgStyles.trim().length > 0) {
-    stylesString += `@media only screen and (min-width: ${mediaQueries.large.minWidth}px){${cnLgStyles}${cusLgStyles}}`
-  }
-  return stylesString
-}
-
-export {
-  buildAnimationCssString,
-  buildClassNamesString,
-  buildCustomStylesString,
-  buildPredefinedStylesString,
-  buildProductionCss,
 }

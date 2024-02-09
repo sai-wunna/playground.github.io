@@ -10,19 +10,17 @@ import {
 import { saveCusStyle, customStyles } from './stylesHelpers/customStyles.js'
 import { saveAnimationsStyle, animations } from './stylesHelpers/animations.js'
 import {
-  buildAnimationCssString,
-  buildClassNamesString,
-  buildCustomStylesString,
-  buildPredefinedStylesString,
-} from './stylesHelpers/buildCss.js'
-import {
   changePredStyle,
   predefinedStyles,
 } from './stylesHelpers/predefinedStyles.js'
 import { classNames, saveCNStyle } from './stylesHelpers/classNameStyles.js'
 import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 import { lockBtn } from './helpers/lockBtn.js'
-import { createConfigureBox } from './stylesHelpers/configStyling.js'
+import {
+  addMediaQueriesToStylesString,
+  createConfigureBox,
+} from './stylesHelpers/configStyling.js'
+import startWorker from './startWorker.js'
 
 const stylesBoxChooser = _.getNodeById('styles_box_chooser')
 const stylesBoxHolder = _.getNode('.stylers')
@@ -103,26 +101,28 @@ _.on('change', stylesBoxChooser, handleBoxChange)
 
 // styler box end
 
-async function appliedLatestStyles() {
-  if (isAnimationChanged) {
-    animationStyleTag.textContent = await buildAnimationCssString(animations)
+async function appliedLatestStyles(data) {
+  if (data.animations) {
+    animationStyleTag.textContent = data.animations
     isAnimationChanged = false // flag not to update
   }
 
-  if (isPredefinedStylesChanged) {
-    predefinedStyleTag.textContent = await buildPredefinedStylesString(
-      predefinedStyles
-    )
+  if (data.predefinedStyles) {
+    predefinedStyleTag.textContent = data.predefinedStyles
     isPredefinedStylesChanged = false // flag not to update
   }
 
-  if (isCustomStylesChanged) {
-    customStyleTag.textContent = await buildCustomStylesString(customStyles)
+  if (data.customStyles) {
+    customStyleTag.textContent = addMediaQueriesToStylesString(
+      data.customStyles
+    )
     isCustomStylesChanged = false // flag not to update
   }
 
-  if (isClassNamesChanged) {
-    classNameStyleTag.textContent = await buildClassNamesString(classNames)
+  if (data.classNames) {
+    classNameStyleTag.textContent = addMediaQueriesToStylesString(
+      data.classNames
+    )
     isClassNamesChanged = false // flag not to update
   }
 
@@ -144,7 +144,13 @@ _.on('click', apply_styles_btn, (e) => {
   apply_styles_btn.disabled = true
   isStyleChanged = false
   apply_styles_btn.textContent = 'Applying .'
-  appliedLatestStyles()
+  // data for worker
+  const data = {}
+  if (isAnimationChanged) data.animations = animations
+  if (isPredefinedStylesChanged) data.predefinedStyles = predefinedStyles
+  if (isCustomStylesChanged) data.customStyles = customStyles
+  if (isClassNamesChanged) data.classNames = classNames
+  startWorker('', data, appliedLatestStyles) // calculate in worker
 })
 
 _.on('change', switch_css_mode_chooser, (e) => {
@@ -162,6 +168,7 @@ _.on('change', switch_css_mode_chooser, (e) => {
 })
 // ----------- styling mode end
 
+// ----------- saving styles start
 function changeAppliedStyes(key, value) {
   const mode = switch_css_mode_chooser.value
   const media = media_chooser.value

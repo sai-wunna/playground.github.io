@@ -25,8 +25,8 @@ const selectElementBtn = _.getNode('.elements-selection')
 const add_element_btn = _.getNodeById('add_element_btn')
 const formHolder = _.getNode('.element-form')
 
-const forms = CEF(_)
-const deploy = DeployElement(
+const forms = new CEF(_)
+const deploy = new DeployElement(
   _,
   addNewStack,
   addTableStack,

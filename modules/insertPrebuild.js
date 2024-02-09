@@ -1,4 +1,5 @@
 'use strict'
+
 import notifier from './notify.js'
 import _ from './dom/index.js'
 import { lockBtn } from './helpers/lockBtn.js'
@@ -14,13 +15,9 @@ import { insertClassNames } from './stylesHelpers/classNameStyles.js'
 import { insertPredefinedStyles } from './stylesHelpers/predefinedStyles.js'
 import createStyleInfoBox from './stylesHelpers/styleInfoBoxes.js'
 import { buildApp, buildElementTree } from './ipbHelpers/createTree.js'
-import {
-  buildAnimationCssString,
-  buildClassNamesString,
-  buildCustomStylesString,
-  buildPredefinedStylesString,
-} from './stylesHelpers/buildCss.js'
 import validator from './validator/index.js'
+import startWorker from './startWorker.js'
+import { addMediaQueriesToStylesString } from './stylesHelpers/configStyling.js'
 
 let app
 let styles
@@ -86,15 +83,11 @@ async function handleConfirm(e) {
   const { animations, classNames, customStyles, predefinedStyles } = styles
 
   try {
-    const animationCss = await buildAnimationCssString(animations)
-
-    const predefinedStylesCss = await buildPredefinedStylesString(
-      predefinedStyles
-    )
-
-    const customStylesCss = await buildCustomStylesString(customStyles)
-
-    const classNameStylesCss = await buildClassNamesString(classNames)
+    startWorker(
+      '',
+      { animations, classNames, predefinedStyles, customStyles },
+      applyStylesToDoc
+    ) // calculate in worker
 
     insertAnimation(animations)
     insertClassNames(classNames)
@@ -108,11 +101,6 @@ async function handleConfirm(e) {
 
     _.getNodeById('app_wrapper').replaceChild(app, oldApp)
 
-    _.getNodeById('my_animations').textContent = animationCss
-    _.getNodeById('my_predefined_styles').textContent = predefinedStylesCss
-    _.getNodeById('my_custom_styles').textContent = customStylesCss
-    _.getNodeById('my_className_styles').textContent = classNameStylesCss
-
     notifier.__end('* Ready to go *')
   } catch (err) {
     notifier.__end('Please drop valid file')
@@ -121,6 +109,16 @@ async function handleConfirm(e) {
     confirmInsertBtn.textContent = '- - - - - - - -'
     fileInfo.textContent = '-'
   }
+}
+
+function applyStylesToDoc(data) {
+  _.getNodeById('my_animations').textContent = data.animations
+  _.getNodeById('my_predefined_styles').textContent = data.predefinedStyles
+  _.getNodeById('my_custom_styles').textContent = addMediaQueriesToStylesString(
+    data.customStyles
+  )
+  _.getNodeById('my_className_styles').textContent =
+    addMediaQueriesToStylesString(data.classNames)
 }
 
 function attachEvtHandlers() {

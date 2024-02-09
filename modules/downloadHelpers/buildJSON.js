@@ -33,22 +33,22 @@ function buildVDom(Node) {
 
 async function downloadJSON(author, about, title) {
   const tree = await buildVDom(_.getNodeById('app').cloneNode(true))
-  const obj = {
+  const data = {
     tree,
     info: { author, name: about },
     styles: { customStyles, classNames, animations, predefinedStyles },
   }
-  const jsonString = JSON.stringify(obj)
+  const jsonString = JSON.stringify(data)
   const blob = new Blob([jsonString], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
 
   const downloadLink = _.createAnchor('link', '', url, '', '', title)
-  downloadLink.download = `web_${title}.json` || 'download.json'
+  downloadLink.download = `web_${title}.json`
 
-  document.body.appendChild(downloadLink)
+  _.appendChild(downloadLink)
   downloadLink.click()
 
-  document.body.removeChild(downloadLink)
+  _.removeChild(downloadLink)
   URL.revokeObjectURL(url)
 }
 
