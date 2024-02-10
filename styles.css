@@ -216,7 +216,7 @@ body {
   z-index: 3000;
   top: 0;
   right: 0;
-  transform: translate(0, -85%);
+  transform: translate(0, -80%);
   background-color: rgb(89, 89, 111);
   padding: 10px 20px;
   transition: transform 0.3s ease-in-out;
@@ -245,16 +245,17 @@ body {
 
 .create-element-form-wrapper {
   position: fixed;
-  top: 48%;
-  left: 47%;
+  top: 50%;
+  left: 50%;
   padding: 10px;
-  transform: translate(-50%, -50%);
+  transform: translate(-52%, -52%);
   width: 90%;
   height: 90%;
   display: none;
   background-color: rgb(199, 217, 218);
   border: 2px solid #ff0000;
   z-index: 999;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 /* opened condition */
@@ -281,7 +282,7 @@ body {
   overflow: auto;
   overflow-x: scroll;
   width: 100%;
-  background-color: #eeeeee;
+  background-color: #ffffff;
 }
 /* custom css for forms */
 .c-t-cell {
@@ -291,16 +292,17 @@ body {
 /* elements end --------------_____________-------------------- */
 .styler-tools-wrapper {
   position: fixed;
-  top: 52%;
-  left: 47%;
+  top: 50%;
+  left: 50%;
   display: none;
   width: 90%;
   padding: 10px;
   height: 90%;
-  transform: translate(-50%, -50%);
+  transform: translate(-54%, -48%);
   border: 2px solid rgb(119, 255, 0);
   background-color: rgb(199, 217, 218);
   z-index: 999;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 /* opened condition */
@@ -479,16 +481,17 @@ body {
 .element-stacks-wrapper {
   position: fixed;
   width: 90%;
-  left: 53%;
-  top: 48%;
+  left: 50%;
+  top: 50%;
   height: 90%;
   padding: 10px;
   display: none;
   overflow: hidden;
   background-color: rgb(199, 217, 218);
-  transform: translate(-50%, -50%);
+  transform: translate(-48%, -52%);
   border: 2px solid rgb(0, 162, 255);
   z-index: 999;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 /* opened condition */
@@ -544,15 +547,16 @@ body {
   position: fixed;
   width: 90%;
   height: 90%;
-  top: 52%;
-  left: 53%;
+  top: 50%;
+  left: 50%;
   display: none;
   overflow: hidden;
-  transform: translate(-50%, -50%);
+  transform: translate(-46%, -46%);
   background-color: rgb(199, 217, 218);
   border: 2px solid rgb(255, 234, 0);
   padding: 5px;
   z-index: 999;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.474);
 }
 .open-editor-wrapper {
@@ -604,8 +608,7 @@ body {
 
 /* here for priority-nav */
 .priority-wrapper-box {
-  top: 50%;
-  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1000;
 }
 

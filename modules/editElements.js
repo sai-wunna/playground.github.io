@@ -25,13 +25,13 @@ _.on('click', getEditFormBtn, (e) => {
   }
   let form
   if (selectedNode.startsWith('#img')) {
-    ;[form, formEvtCleaner] = editForms.imageForm(selectedNode)
+    form = editForms.imageForm(selectedNode)
   } else if (selectedNode.startsWith('#link')) {
     ;[form, formEvtCleaner] = editForms.linkForm(selectedNode)
   } else if (selectedNode.startsWith('#option')) {
-    ;[form, formEvtCleaner] = editForms.optionForm(selectedNode)
+    form = editForms.optionForm(selectedNode)
   } else if (selectedNode.startsWith('#blockquote')) {
-    ;[form, formEvtCleaner] = editForms.blockQuoteForm(selectedNode)
+    form = editForms.blockQuoteForm(selectedNode)
   } else {
     ;[form, formEvtCleaner] = editForms.textNodeForm(selectedNode)
   }

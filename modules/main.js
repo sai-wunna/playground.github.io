@@ -2,10 +2,13 @@
 import notifier from './notify.js'
 import _ from './dom/index.js'
 ;(async () => {
-  notifier.__start('Loading')
+  notifier.__start('Loading - 0')
   const cef = await import('./createElements.js')
+  notifier.__processing('Loading - 25')
   const editors = await import('./editElements.js')
+  notifier.__processing('Loading - 50')
   const navigators = await import('./nav.js')
+  notifier.__processing('Loading - 75')
   const stylers = await import('./stylers.js')
   console.log(stylers.default)
   console.log(editors.default)

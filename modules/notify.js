@@ -69,6 +69,10 @@ class Notify {
     _.appendChild(this.#progressLoader)
   }
 
+  __processing(msg = 'Almost ready') {
+    this.#progressLoader.textContent = msg
+  }
+
   __end(msg = 'Ready') {
     this.#progressLoader.textContent = msg
     let timerId = setTimeout(() => {

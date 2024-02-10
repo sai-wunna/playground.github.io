@@ -87,22 +87,22 @@ function setPriorityWrapper(wp) {
 }
 
 _.on('click', element_create_wrapper, (e) => {
-  if (e.target.type === 'button') return
+  if (e.target !== element_create_wrapper) return
   setPriorityWrapper(element_create_wrapper)
 })
 
 _.on('click', style_tools_wrapper, (e) => {
-  if (e.target.type === 'button') return
+  if (e.target !== style_tools_wrapper) return
   setPriorityWrapper(style_tools_wrapper)
 })
 
 _.on('click', stacks_wrapper, (e) => {
-  if (e.target.type === 'button') return
+  if (e.target !== stacks_wrapper) return
   setPriorityWrapper(stacks_wrapper)
 })
 
 _.on('click', editor_wrapper, (e) => {
-  if (e.target.type === 'button') return
+  if (e.target !== editor_wrapper) return
   setPriorityWrapper(editor_wrapper)
 })
 
@@ -133,9 +133,9 @@ _.on('click', insert_wrapper_btn, async (e) => {
     existed.remove()
     insertEvtCleaner = null
   } else {
-    notifier.on('fileInsertCaution')
     const loadedFile = await import('./insertPrebuild.js')
     const [box, cleaner] = loadedFile.default()
+    notifier.on('fileInsertCaution')
     _.appendChild(box)
     insertEvtCleaner = cleaner
   }

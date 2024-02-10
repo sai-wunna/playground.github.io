@@ -1,4 +1,5 @@
 'use strict'
+
 import _ from './dom/index.js'
 import validator from './validator/index.js'
 import notifier from './notify.js'
@@ -123,7 +124,7 @@ function addTableStack(tableId, thData, tbData, tfData) {
       tableStacks,
     ]
   )
-  pushToDoc(tableNode)
+  addToStackTree(tableNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -137,7 +138,7 @@ function addListStack(type, id, lists) {
     type === 'ol' ? 'Ordered List' : 'Unordered List',
     listItemNode
   )
-  pushToDoc(listNode)
+  addToStackTree(listNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -163,7 +164,7 @@ function addSelectionStack(selectId, options) {
   })
   const selectionNode = createTreeNode(selectId, 'Select', optionFragment)
 
-  pushToDoc(selectionNode)
+  addToStackTree(selectionNode)
   pointOutTheEle(selectedNode)
 }
 
@@ -173,17 +174,17 @@ function addFigureStack(stacksArr) {
     fragment.appendChild(createTreeNode(stacksArr[i], stacksArr[i + 1]))
   }
   const newStack = createTreeNode(stacksArr[0], stacksArr[1], fragment)
-  pushToDoc(newStack)
+  addToStackTree(newStack)
   pointOutTheEle(selectedNode)
 }
 
 function addNewStack(id, name) {
   const newStack = createTreeNode(id, name)
-  pushToDoc(newStack)
+  addToStackTree(newStack)
   pointOutTheEle(selectedNode)
 }
 
-function pushToDoc(ele) {
+function addToStackTree(ele) {
   if (isInsertBefore.checked && selectedNode !== '#app') {
     _.getNode(`${selectedTreeNode}_c`).parentElement.parentElement.insertBefore(
       ele,
@@ -220,10 +221,9 @@ function selectNode(controllerNode, id) {
   if (id === selectedNode) return
   pointOutTheEle(id)
   selectedNode = selectedTreeNode = id
-  setTargetEleShowers(id)
+  showTargetEleId(id)
   createStyleInfoBox.targetStyleInfoBox(id)
   setSelectedNodeStyle(controllerNode)
-  _.getNodeById('edit_form')?.remove()
 }
 
 function removeNode(controllerNode, id) {
@@ -247,14 +247,13 @@ function selectAppNode() {
   removePointOutTheEle()
   if ('#app' === selectedNode) return
   _.getNode('.app-node').classList.add('selected-node')
-  setTargetEleShowers('#app')
+  showTargetEleId('#app')
   selectedNode = '#app'
   selectedTreeNode = '#children'
   createStyleInfoBox.targetStyleInfoBox('#app')
-  _.getNodeById('edit_form')?.remove()
 }
 
-function setTargetEleShowers(target) {
+function showTargetEleId(target) {
   _.getNodeById('selected_ele_shower').textContent = target
   _.getNodeById('styling_ele_shower').textContent = target
   _.getNodeById('edit_ele_shower').textContent = target

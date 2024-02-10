@@ -35,8 +35,8 @@ class Doc {
   appendChild(node) {
     this._.body.appendChild(node)
   }
-  on(event, ele, fn, capture = false) {
-    ele.addEventListener(event, fn, capture)
+  on(event, ele, fn, option = false) {
+    ele.addEventListener(event, fn, option)
   }
   addClassList(ele, cl) {
     ele.className = cl

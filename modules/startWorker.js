@@ -34,11 +34,9 @@ function handleError(error) {
 }
 
 function startWorker(type = '', data, callback, taskId = null) {
-  if (!taskId) {
-    taskId = random.string()
-    taskQueue[taskId] = { data, type, callback }
-  }
-  worker.postMessage({ taskId, type, data })
+  const id = taskId || random.string()
+  taskQueue[id] = { data, type, callback }
+  worker.postMessage({ taskId: id, type, data })
 }
 
 export default startWorker

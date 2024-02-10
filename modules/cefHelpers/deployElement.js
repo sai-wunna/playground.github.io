@@ -76,7 +76,7 @@ class DeployElement {
     const id = `span_${new Date().getTime()}`
     const span = this._.createSpan(text, [], id)
     this.#pushToDoc(target, span)
-    this.addNewStack(id, `span ${text}, .....`)
+    this.addNewStack(id, `span ${text?.slice(0, 5)}...`)
   }
 
   table(thData, tbData, tfData, target) {
@@ -117,21 +117,21 @@ class DeployElement {
     const id = `option_${new Date().getTime()}`
     const option = this._.createOption('', value, text, id)
     this.#pushToDoc(target, option)
-    this.addNewStack(id, `option ${text}, .....`)
+    this.addNewStack(id, `option ${text?.slice(0, 5)}...`)
   }
 
   button(text, target) {
     const id = `button_${new Date().getTime()}`
     const button = this._.createButton(text, [], id)
     this.#pushToDoc(target, button)
-    this.addNewStack(id, `button ${text}, .....`)
+    this.addNewStack(id, `button ${text?.slice(0, 5)}...`)
   }
 
   lineBreaker(type, target) {
     const id = `${type}_${new Date().getTime()}`
     const breaker = this._.createElement(type, '', [], [], id)
     this.#pushToDoc(target, breaker)
-    this.addNewStack(id, `breaker ${type}, .....`)
+    this.addNewStack(id, `breaker ${type}...`)
   }
 
   imageFigure(data, captionFirstOrNot, target) {
@@ -195,7 +195,7 @@ class DeployElement {
     const id = `blockquote_${new Date().getTime()}`
     const bq = this._.createBlockQuote(cite, text, [], id)
     this.#pushToDoc(target, bq)
-    this.addNewStack(id, `blockquote ${text}, .....`)
+    this.addNewStack(id, `blockquote ${text?.slice(0, 5)}...`)
   }
 }
 

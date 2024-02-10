@@ -17,7 +17,7 @@ class EditForms {
     const altIp = this._.createInput('', ['form-control'], 'edit_alt', {
       value: target.alt,
     })
-    const [updateBtn, btnEvtCleaner] = this._.createButton(
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -25,15 +25,13 @@ class EditForms {
         e.preventDefault()
         target.src = srcIp.value
         target.alt = altIp.value
-      },
-      true
+      }
     )
-    const form = this._.createForm(
+    return this._.createForm(
       [],
       [srcLb, srcIp, altLb, altIp, updateBtn],
       'edit_form'
     )
-    return [form, btnEvtCleaner]
   }
 
   linkForm(node) {
@@ -114,9 +112,9 @@ class EditForms {
         }
         this._.getNodeById('edit_link').placeholder = newPlaceholder
       },
-      ''
+      true
     )
-    const [updateBtn, btnEvtCleaner] = this._.createButton(
+    const updateBtn = this._.createButton(
       'update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -140,12 +138,7 @@ class EditForms {
       [select, LinkLb, linkIp, nameLb, nameIp, titleLb, titleIp, updateBtn],
       'edit_form'
     )
-    return [
-      form,
-      () => {
-        selectEvtCleaner(), btnEvtCleaner()
-      },
-    ]
+    return [form, selectEvtCleaner]
   }
 
   optionForm(node) {
@@ -174,7 +167,7 @@ class EditForms {
       ['cs-ip-gp'],
       [optionLb, optionIp]
     )
-    const [updateBtn, btnEvtCleaner] = this._.createButton(
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
@@ -183,12 +176,8 @@ class EditForms {
         target.textContent = optionIp.value
       }
     )
-    const form = this._.createForm(
-      [],
-      [valueBox, textBox, updateBtn],
-      'edit_form'
-    )
-    return [form, btnEvtCleaner]
+
+    return this._.createForm([], [valueBox, textBox, updateBtn], 'edit_form')
   }
 
   textNodeForm(node) {
@@ -288,23 +277,22 @@ class EditForms {
     const contentIp = this._.createInput('', ['form-control'], 'edit_content', {
       value: target.textContent,
     })
-    const [updateBtn, btnEvtCleaner] = this._.createButton(
+    const updateBtn = this._.createButton(
       'Update',
       ['btn', 'btn-sm', 'text-primary'],
       '',
       () => {
         target.cite = citeIp.value
         target.textContent = contentIp.value
-      },
-      true
+      }
     )
-    const form = this._.createForm(
+    return this._.createForm(
       [],
       [citeLb, citeIp, contentLb, contentIp, updateBtn],
       'edit_form'
     )
-    return [form, btnEvtCleaner]
   }
 }
 
 export default EditForms
+// Need to reconsider
