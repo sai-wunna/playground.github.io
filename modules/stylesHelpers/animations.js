@@ -55,7 +55,7 @@ function createListenerWrapper(name) {
     e.stopPropagation()
     if (e.target.type !== 'button') return
     e.target.parentElement.remove()
-    const [kfs, key] = e.target.dataset.props.split('-')
+    const [kfs, key] = e.target.dataset.props.split('_')
     if (!key) {
       removeAnimationKFS(name, parseInt(kfs))
       return
@@ -83,7 +83,7 @@ function createAnimationInfoFrag(name) {
       'float-end',
       'text-danger',
     ])
-    delBtn.dataset.props = `${keyFrame}-`
+    delBtn.dataset.props = `${keyFrame}_`
     const kfsBox = _.createElement(
       'div',
       '',
@@ -104,7 +104,7 @@ function createAnimationInfo(kfs, key, value) {
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${kfs}-${key}`
+  delBtn.dataset.props = `${kfs}_${key}`
   return _.createElement(
     'div',
     '',
@@ -127,7 +127,7 @@ function createNewAnimationKFSBox(kfs, key, value) {
     'float-end',
     'text-danger',
   ])
-  delBtn.dataset.props = `${kfs}-`
+  delBtn.dataset.props = `${kfs}_`
   return _.createElement(
     'div',
     '',

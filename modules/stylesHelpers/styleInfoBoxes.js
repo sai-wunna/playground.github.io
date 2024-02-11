@@ -97,9 +97,9 @@ class StyleInfoBox {
         }
         if (target.classList.contains(name)) return
         target.classList.add(name)
-        this._.getNode('.applied-classlist').appendChild(
-          createClassNameInfo(name)
-        )
+        const [info, cleaner] = createClassNameInfo(name)
+        infoEvtCleaners.push(cleaner)
+        this._.getNode('.applied-classlist').appendChild(info)
       },
       true
     )

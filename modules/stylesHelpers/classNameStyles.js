@@ -66,29 +66,22 @@ function saveCNStyle(name, media, condition, consumer = 'self', key, value) {
   // state data manipulation done
 
   const existedNode = _.getNodeById(
-    `${media}_${condition}_${consumer}_${key.trim()}_value`
+    `${media}_${condition}_${consumer.trim()}_${key.trim()}_value`
   )
   if (existedNode) {
     existedNode.textContent = value
   } else {
     const existedInfoBox = _.getNode(
-      `.${media}-${condition}-${consumer}-styles`
+      `.${media}-${condition}-${consumer.trim()}-styles`
     )
-    const styleInfo = createStyleInfo(
-      name,
-      media,
-      condition,
-      consumer,
-      key,
-      value
-    )
+    const styleInfo = createStyleInfo(media, condition, consumer, key, value)
     if (existedInfoBox) {
-      _.getNode(`.${media}-${condition}-${consumer}-styles`).appendChild(
+      _.getNode(`.${media}-${condition}-${consumer.trim()}-styles`).appendChild(
         styleInfo
       )
     } else {
       _.getNode(`.${media}-screen-styles`).appendChild(
-        createNewConditionStyleBox(name, media, condition, consumer, styleInfo)
+        createNewConditionStyleBox(media, condition, consumer, styleInfo)
       )
     }
   }
@@ -129,13 +122,13 @@ function removeSingleStyle(name, media, condition, consumer, key) {
   delete classNames[name][media][condition].consumers[consumerIdx].styles[key]
 }
 
-function createStyleInfo(name, media, condition, consumer, key, value) {
+function createStyleInfo(media, condition, consumer, key, value) {
   const delBtn = _.createButton('Del', [
     'inline-btn',
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${media}-${condition}-${consumer}-${key}`
+  delBtn.dataset.props = `${media}_${condition}_${consumer}_${key}`
 
   return _.createElement(
     '',
@@ -146,7 +139,7 @@ function createStyleInfo(name, media, condition, consumer, key, value) {
       _.createSpan(
         value,
         ['mx-1', 'css-value'],
-        `${media}_${condition}_${consumer}_${key.trim()}_value`
+        `${media}_${condition}_${consumer.trim()}_${key.trim()}_value`
       ),
       delBtn,
     ]
@@ -154,7 +147,6 @@ function createStyleInfo(name, media, condition, consumer, key, value) {
 }
 
 function createNewConditionStyleBox(
-  name,
   media,
   condition,
   consumer,
@@ -170,12 +162,12 @@ function createNewConditionStyleBox(
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${media}-${condition}-${consumer}`
+  delBtn.dataset.props = `${media}_${condition}_${consumer}`
 
   return _.createElement(
     '',
     '',
-    [`${media}-${condition}-${consumer}-styles`],
+    [`${media}-${condition}-${consumer.trim()}-styles`],
     [
       delBtn,
       _.createElement('', styleTypeLabel, ['style-type-label']),
@@ -191,7 +183,7 @@ function createListenerWrapper(name) {
     e.stopPropagation()
     if (e.target.type !== 'button') return
     e.target.parentElement.remove()
-    const [media, condition, consumer, key] = e.target.dataset.props.split('-')
+    const [media, condition, consumer, key] = e.target.dataset.props.split('_')
     if (!key) {
       removeConditionStyles(name, media, condition, consumer)
       return
@@ -231,7 +223,7 @@ function createCNInfoShower(cn) {
 
     for (const [key, value] of Object.entries(styles)) {
       fragment.appendChild(
-        createStyleInfo(name, media, condition, consumer, key, value)
+        createStyleInfo(media, condition, consumer, key, value)
       )
     }
 
@@ -245,12 +237,12 @@ function createCNInfoShower(cn) {
       'text-danger',
       'float-end',
     ])
-    delBtn.dataset.props = `${media}-${condition}-${consumer}`
+    delBtn.dataset.props = `${media}_${condition}_${consumer}`
 
     return _.createElement(
       '',
       '',
-      [`${media}-${condition}-${consumer}-styles`],
+      [`${media}-${condition}-${consumer.trim()}-styles`],
       [
         delBtn,
         _.createElement('', styleTypeLabel, ['style-type-label']),

@@ -1,6 +1,6 @@
 # Playground
 
-**This app is built to build website with simple html and css**
+**This app is to build website with simple html and css**
 
 ## About
 

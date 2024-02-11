@@ -102,7 +102,7 @@ function createPredStyleInfo(condition, key, value) {
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${condition}-${key}`
+  delBtn.dataset.props = `${condition}_${key}`
   return _.createElement(
     '',
     '',
@@ -126,7 +126,7 @@ function createListenerWrapper(ele) {
     e.stopPropagation()
     if (e.target.type !== 'button') return
     e.target.parentElement.remove()
-    const [condition, key] = e.target.dataset.props.split('-')
+    const [condition, key] = e.target.dataset.props.split('_')
     removePredefinedStyle(ele, condition, key)
   }
   return [wrapper, () => wrapper.removeEventListener('click', handleClick)]

@@ -71,7 +71,7 @@ function createStyleInfo(media, condition, key, value) {
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${media}-${condition}-${key}`
+  delBtn.dataset.props = `${media}_${condition}_${key}`
   return _.createElement(
     '',
     '',
@@ -94,7 +94,7 @@ function createConditionBox(media, condition, styleInfoFragment) {
     'text-danger',
     'float-end',
   ])
-  delBtn.dataset.props = `${media}-${condition}-`
+  delBtn.dataset.props = `${media}_${condition}_`
   return _.createElement(
     '',
     '',
@@ -114,7 +114,7 @@ function createListenerWrapper(node) {
     e.stopPropagation()
     if (e.target.type !== 'button') return
     e.target.parentElement.remove()
-    const [media, condition, key] = e.target.dataset.props.split('-')
+    const [media, condition, key] = e.target.dataset.props.split('_')
     if (!key) {
       removeConditionStyles(node, media, condition)
       return

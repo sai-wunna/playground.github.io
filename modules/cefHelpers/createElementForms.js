@@ -168,7 +168,7 @@ class CreateElementForms {
 
   createListForm() {
     const listTypeSelect = this._.createSelect(
-      ['form-select'],
+      ['form-select', 'my-1'],
       '',
       [
         { value: 'ol', text: 'Ordered List', selected: true },
@@ -178,9 +178,14 @@ class CreateElementForms {
     )
     const fragment = this._.createFragment()
     const createListItem = () => {
-      return this._.createInput('', ['form-control', 'list-value'], '', {
-        placeholder: 'list item',
-      })
+      return this._.createInput(
+        '',
+        ['form-control', 'list-value', 'my-1'],
+        '',
+        {
+          placeholder: 'list item',
+        }
+      )
     }
     for (let i = 0; i < 3; i++) {
       fragment.appendChild(createListItem())

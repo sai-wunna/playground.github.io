@@ -101,7 +101,7 @@ _.on('change', stylesBoxChooser, handleBoxChange)
 
 // styler box end
 
-async function appliedLatestStyles(data) {
+function appliedLatestStyles(data) {
   if (data.animations) {
     animationStyleTag.textContent = data.animations
     isAnimationChanged = false // flag not to update
@@ -130,9 +130,9 @@ async function appliedLatestStyles(data) {
   let timerId = setTimeout(() => {
     apply_styles_btn.textContent = 'apply all'
     apply_styles_btn.disabled = false
+    clearTimeout(timerId)
   }, 1000)
   pointOutTheEle(selectedNode)
-  return () => clearTimeout(timerId)
 }
 
 _.on('click', apply_styles_btn, (e) => {
@@ -150,7 +150,7 @@ _.on('click', apply_styles_btn, (e) => {
   if (isPredefinedStylesChanged) data.predefinedStyles = predefinedStyles
   if (isCustomStylesChanged) data.customStyles = customStyles
   if (isClassNamesChanged) data.classNames = classNames
-  startWorker('', data, appliedLatestStyles) // calculate in worker
+  startWorker('', data, appliedLatestStyles) // calculate in worker / apply with callback
 })
 
 _.on('change', switch_css_mode_chooser, (e) => {
