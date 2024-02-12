@@ -20,7 +20,7 @@ class Doc {
   getAllNodes(node) {
     return this._.querySelectorAll(node)
   }
-  getAllNodesOn(node) {
+  getAllNodesOn(parent, node) {
     return parent.querySelectorAll(node)
   }
   createNode(node) {

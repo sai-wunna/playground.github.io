@@ -3,11 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="theme-color" content="black" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
     <meta name="description" content="Create Web with html and css" />
     <meta name="keywords" content="basic knowledge of html and css" />
     <meta name="author" content="sai wunna" />
-    <!-- <link rel="manifest" href="manifest.json" /> -->
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
     <style id="my_predefined_styles"></style>
     <style id="my_animations"></style>
     <style id="my_custom_styles"></style>
@@ -17,11 +20,65 @@
   <body>
     <article id="wrapper">
       <nav id="main_nav_box">
-        <button type="button" class="btn elements_opener">A</button>
-        <button type="button" class="btn tools_opener">S</button>
-        <button type="button" class="btn stacks_opener">T</button>
-        <button type="button" class="btn editor_opener">E</button>
-        <button type="button" class="btn download_form_opener">D</button>
+        <button type="button" class="btn elements_opener">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 56 56">
+            <path
+              fill="currentColor"
+              d="M6.168 11.36h43.64c1.008 0 1.805-.774 1.805-1.782c0-.984-.797-1.758-1.804-1.758H6.168c-1.008 0-1.781.774-1.781 1.758a1.75 1.75 0 0 0 1.78 1.781m0 12.28h43.64c1.008 0 1.805-.773 1.805-1.78c0-.985-.797-1.758-1.804-1.758H6.168c-1.008 0-1.781.773-1.781 1.757c0 1.008.773 1.782 1.78 1.782M10.058 43h6.891v2.438c0 1.921 1.828 2.624 3.281 1.453l6.352-5.086c.96-.774.96-2.11 0-2.86l-6.352-5.062c-1.406-1.149-3.28-.422-3.28 1.406v2.344h-6.376c-.562 0-.797-.305-.797-.797v-4.5c0-1.898-.984-3.07-2.695-3.07c-1.71 0-2.695 1.172-2.695 3.07v5.32c0 3.305 2.367 5.344 5.672 5.344m23.743-7.078H49.81a1.786 1.786 0 0 0 1.804-1.781c0-.985-.797-1.758-1.804-1.758H33.8c-1.008 0-1.782.773-1.782 1.758c0 .984.774 1.78 1.782 1.78m0 12.258h16.008c1.008 0 1.804-.774 1.804-1.758s-.797-1.781-1.804-1.781H33.8a1.766 1.766 0 0 0-1.782 1.78c0 .985.774 1.759 1.782 1.759" />
+          </svg>
+        </button>
+        <button type="button" class="btn tools_opener">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 16 16">
+            <path
+              fill="currentColor"
+              d="m5.6 11.6l-1.2-1.2c-.8-.2-2-.1-2.7 1c-.8 1.1-.3 2.8-1.7 4.6c0 0 3.5 0 4.8-1.3c1.2-1.2 1.2-2.2 1-3zm.2-3.5c-.2.3-.5.7-.7 1c0 .2-.1.3-.2.4L6.4 11c.1-.1.3-.2.4-.3c.3-.2.7-.4 1-.7c.4 0 .6-.2.8-.4L6.4 7.4c-.2.2-.4.4-.6.7m10-7.9c-.3-.3-.7-.3-1-.1c0 0-3 2.5-5.9 5.1c-.4.4-.7.7-1.1 1c-.2.2-.4.4-.6.5l2.1 2.1c.2-.2.4-.4.5-.7c.3-.4.6-.7.9-1.1c2.5-3 5.1-5.9 5.1-5.9c.3-.2.3-.6 0-.9" />
+          </svg>
+        </button>
+        <button type="button" class="btn stacks_opener">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 16 16">
+            <path
+              fill="currentColor"
+              d="M2.25 5a1.25 1.25 0 1 0 0-2.5a1.25 1.25 0 0 0 0 2.5m0 4.25a1.25 1.25 0 1 0 0-2.5a1.25 1.25 0 0 0 0 2.5m4.75 3a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0M5.75 3a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5zM5 8a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 5 8m4.25 3.5a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5z" />
+          </svg>
+        </button>
+        <button type="button" class="btn editor_opener">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24">
+            <g fill="none">
+              <path
+                d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+              <path
+                fill="currentColor"
+                d="M13 3a1 1 0 0 1 .117 1.993L13 5H5v14h14v-8a1 1 0 0 1 1.993-.117L21 11v8a2 2 0 0 1-1.85 1.995L19 21H5a2 2 0 0 1-1.995-1.85L3 19V5a2 2 0 0 1 1.85-1.995L5 3zm6.243.343a1 1 0 0 1 1.497 1.32l-.083.095l-9.9 9.899a1 1 0 0 1-1.497-1.32l.083-.094z" />
+            </g>
+          </svg>
+        </button>
+        <button type="button" class="btn download_form_opener">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+          </svg>
+        </button>
         <button type="button" class="btn add_prebuilt_web_opener">+</button>
       </nav>
       <div class="create-element-form-wrapper">

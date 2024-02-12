@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "version": "0.0.5",
+  "name": "playground",
+  "short_name": "playground",
+  "start_url": ".",
+  "background_color": "white",
+  "theme_color": "black",
+  "display": "standalone",
+  "orientation": "landscape",
+  "author": "sai wunna",
+  "description": "HTML and CSS only web-creator (not available in mobile phones)",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
